@@ -1,10 +1,6 @@
 import { site } from "@/data/site";
 
-/** One quiet line for a page whose lists are still empty. */
+/** One quiet line for a part of a page whose list is still empty. */
 export default function EmptyNote() {
-  return (
-    <div className="frame pb-20">
-      <p className="prose-serif border-t border-rule pt-10 text-ink-soft">{site.labels.empty}</p>
-    </div>
-  );
+  return <p className="empty-note">{site.labels.empty}</p>;
 }

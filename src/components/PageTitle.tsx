@@ -1,14 +1,23 @@
+import type { ReactNode } from "react";
+
 interface PageTitleProps {
   title: string;
-  lead?: string;
+  /** Optional: the small spaced line above the title. */
+  kicker?: ReactNode;
+  /** Optional: a line or two under it. */
+  lead?: ReactNode;
 }
 
-/** The top of a page: its name, and one line under it when there is one. */
-export default function PageTitle({ title, lead }: PageTitleProps) {
+/** The top of an inner page: its name, ending in the cyan dot of his wordmark, and a lead. */
+export default function PageTitle({ title, kicker, lead }: PageTitleProps) {
   return (
-    <div className="frame below-ribbon pb-12 md:pb-16">
-      <h1 className="text-[clamp(2.6rem,8.2vw,5.25rem)] leading-[1.02] tracking-[-0.02em]">{title}</h1>
-      {lead ? <p className="mt-5 max-w-[36ch] font-display text-2xl italic leading-snug text-ink-soft">{lead}</p> : null}
+    <div className="frame page-title">
+      {kicker ? <div className="kicker">{kicker}</div> : null}
+      <h1 className="display">
+        {title}
+        <span className="dot" aria-hidden="true" />
+      </h1>
+      {lead ? <div className="page-lead">{lead}</div> : null}
     </div>
   );
 }

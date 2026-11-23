@@ -3,35 +3,27 @@ import type { ReactNode } from "react";
 interface SectionProps {
   id: string;
   title: string;
-  /** True on a page whose own name already says this heading, so it is not said twice. */
-  titleHidden?: boolean;
+  /** Optional: a sentence under the heading. */
+  intro?: ReactNode;
+  className?: string;
   children: ReactNode;
 }
 
 /**
- * One part of a page: its heading in a narrow column on the left, its content
- * on the right. On a phone the heading sits above the content.
+ * One part of a page: its heading and a sentence in a narrow column on the
+ * left, its content on the right. On a phone the heading sits above.
  */
-export default function Section({ id, title, titleHidden = false, children }: SectionProps) {
-  const grid = "grid gap-x-10 gap-y-5 border-t border-rule py-12 md:grid-cols-[11rem_minmax(0,1fr)] md:py-16";
-
-  if (titleHidden) {
-    return (
-      <div className="frame">
-        <div className={grid}>
-          <div className="min-w-0 md:col-start-2">{children}</div>
-        </div>
-      </div>
-    );
-  }
-
+export default function Section({ id, title, intro, className = "", children }: SectionProps) {
   return (
-    <section aria-labelledby={`${id}-title`} className="frame">
-      <div className={grid}>
-        <h2 id={`${id}-title`} className="text-2xl leading-tight md:pt-1">
-          {title}
-        </h2>
-        <div className="min-w-0">{children}</div>
+    <section aria-labelledby={`${id}-title`} id={id} className={`frame section ${className}`}>
+      <div className="section-grid">
+        <div className="section-side">
+          <h2 id={`${id}-title`} className="section-title">
+            {title}
+          </h2>
+          {intro ? <div className="section-intro">{intro}</div> : null}
+        </div>
+        <div className="section-body">{children}</div>
       </div>
     </section>
   );

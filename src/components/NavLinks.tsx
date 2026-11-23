@@ -10,29 +10,21 @@ interface NavLinksProps {
 }
 
 /**
- * The menu. The page someone is on is underlined, and said so to a screen reader.
- * Its words come in as props, so the browser is sent only these, not the whole of site.ts.
+ * The menu. The page someone is on carries the cyan dot, and is said so to a
+ * screen reader. Its words come in as props, so the browser is sent only these.
  */
 export default function NavLinks({ links, label }: NavLinksProps) {
   const pathname = usePathname();
   const here = pathname.endsWith("/") ? pathname : `${pathname}/`;
 
   return (
-    <nav aria-label={label}>
-      <ul className="flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem]">
+    <nav aria-label={label} className="nav">
+      <ul>
         {links.map((link) => {
           const current = here === link.href;
           return (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                aria-current={current ? "page" : undefined}
-                className={
-                  current
-                    ? "underline decoration-accent decoration-2 underline-offset-[0.35em]"
-                    : "text-ink-soft hover:text-ink"
-                }
-              >
+              <Link href={link.href} aria-current={current ? "page" : undefined} className="nav-link">
                 {link.label}
               </Link>
             </li>

@@ -188,6 +188,13 @@ export default function Lightbox({ items, index, words, onClose, onGoTo }: Light
           <div className="lightbox-caption">
             <h2 className="lightbox-title">{item.title}</h2>
             {item.caption ? <p className="lightbox-words">{item.caption}</p> : null}
+            {item.credit ? (
+              <p className="lightbox-credit">
+                <a href={item.credit.href} rel="noopener noreferrer">
+                  {item.credit.text}
+                </a>
+              </p>
+            ) : null}
           </div>
         </div>
       ) : null}
