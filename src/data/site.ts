@@ -1,40 +1,25 @@
 /*
  * Every word and every setting of this site lives in this folder (src/data).
- * To change what the site says, change the text between the quote marks below
- * and save. Nothing else needs touching.
+ * To change what the site says, change the text between the quote marks and
+ * save. Nothing else needs touching.
  *
- *   site.ts     the name, the words, the links, the colours, and three switches
- *               (ready, indexable, supportAddress)
- *   work.ts     the list of work (empty until someone fills it)
- *   gallery.ts  the list of pictures (empty until someone fills it)
- *
- * The about, offer and links lists below each hold an example line that starts
- * with two slashes (//). A line that starts with // is a note and does not show
- * on the site. To use an example, remove the two slashes at its start, then
- * change the words between the quote marks.
+ *   site.ts         the name, the gift line, the menu, the colours, three switches
+ *   home.ts         the front page
+ *   schedule.ts     when he streams (shown in each visitor's own time)
+ *   trading.ts      the trading page
+ *   photography.ts  the photography page
+ *   gallery.ts      the pictures on the photography page (empty on main)
+ *   contact.ts      the contact page: links only
+ *   sources.ts      where every figure and quotation was read
  */
 
-export interface SiteLink {
-  /** The words people read, for example "Write to me". */
-  label: string;
-  /** Where the link goes: a web address, or a mailto: address. */
-  href: string;
-  /** Optional: one short line under the link. */
-  note?: string;
-}
-
-export interface Offer {
-  title: string;
-  text: string;
-}
-
 export interface Tone {
-  /** The four shades of this home's colour family. */
+  /** The four shades of his TRADERMADE art. */
   primary: string;
   deep: string;
   mid: string;
   tint: string;
-  /** The two lighter shades used when a device is in dark mode. */
+  /** The two lighter shades used on the dark ground. */
   onDark: string;
   onDarkSoft: string;
 }
@@ -43,36 +28,28 @@ export interface Site {
   name: string;
   organisation: string;
   language: string;
-  tagline: string;
-  about: string[];
-  offer: Offer[];
-  links: SiteLink[];
+  description: string;
   tone: Tone;
   indexable: boolean;
   ready: boolean;
   supportAddress: string;
   supportNetwork: string;
   supportNote: string;
-  labels: {
-    about: string;
-    work: string;
-    gallery: string;
-    offer: string;
-    contact: string;
-    support: string;
-    empty: string;
-  };
+  /** The one line near the top of every page saying who set the site up. */
+  gift: { line: string; by: { name: string; handle: string; href: string } };
+  nav: { href: string; label: string }[];
+  labels: { support: string; empty: string };
   holding: {
     title: string;
     lines: string[];
-    /** Who set the place up. {name} in the line is filled with a link to `by`. */
     gift: { line: string; by: { name: string; href: string } };
   };
-  notFound: { title: string; line: string; back: string };
-  footer: string;
+  notFound: { kicker: string; title: string; line: string; back: string; box: string };
+  footer: { lines: string[] };
   ui: {
     skip: string;
     menu: string;
+    home: string;
     seeIt: string;
     openPicture: string;
     pictureCount: string;
@@ -93,25 +70,11 @@ export const site: Site = {
   organisation: "TMadeAlex",
   language: "en-GB",
 
-  /* One line under the name. Empty until its owner writes it. */
-  tagline: "",
+  /* What a search result or a shared link would say. */
+  description:
+    "TMade Alex: futures trader, live streamer and host of TMade, and a fashion photographer in New York. Set up as a gift by a member of his community.",
 
-  /* The about section: one entry per paragraph. Remove the two slashes to use the example. */
-  about: [
-    // "A first paragraph, in the owner's own words.",
-  ],
-
-  /* What is offered: a short title and a sentence or two for each. Remove the two slashes to use the example. */
-  offer: [
-    // { title: "A thing on offer", text: "What it is, said plainly." },
-  ],
-
-  /* The contact page is these links and nothing else. There is no form. Remove the two slashes to use the example. */
-  links: [
-    // { label: "A place to find me", href: "https://example.org/", note: "Optional: one short line." },
-  ],
-
-  /* The colour family. The whole site is drawn from these six values. */
+  /* His colours, sampled from his TRADERMADE art. The whole site is drawn from these six values. */
   tone: {
     primary: "#34d4d8",
     deep: "#0c1719",
@@ -121,57 +84,66 @@ export const site: Site = {
     onDarkSoft: "#9eeef0",
   },
 
-  /* false = search engines are told not to list the site. Change to true when it should be found. */
+  /* false = search engines are told not to list the site. It stays false until Alex says otherwise. */
   indexable: false,
 
-  /* false = every address shows the one quiet holding page. Change to true to show the real sections. */
-  ready: false,
+  /* true = the pages show. false = every address shows the one quiet holding page. */
+  ready: true,
 
   /*
-   * The owner's own wallet address, and the network it is on. The support panel
-   * appears only when both are filled in, so nobody sends to the wrong network.
-   * While either one is empty, the panel is not on the site at all.
+   * A wallet address, and the network it is on. Only Alex can supply these, and
+   * no helper ever does. While either is empty, the support panel is not on the site.
    */
   supportAddress: "",
   supportNetwork: "",
-  /* Optional: one plain line of the owner's own, shown above the address. */
   supportNote: "",
 
-  /* The headings of the sections, and the words in the menu. */
+  /* The gift line, near the top of every page. {name} becomes a link to `by`. */
+  gift: {
+    line: "{name}, a member of TMade Alex's community, set this site up as a gift. Alex decides what stays.",
+    by: { name: "Christopher W", handle: "@drasticstatic", href: "https://github.com/drasticstatic" },
+  },
+
+  /* The menu. The name at the top left always goes to the front page. */
+  nav: [
+    { href: "/trading/", label: "Trading" },
+    { href: "/photography/", label: "Photography" },
+    { href: "/contact/", label: "Contact" },
+  ],
+
   labels: {
-    about: "About",
-    work: "Work",
-    gallery: "Gallery",
-    offer: "What I offer",
-    contact: "Contact",
     support: "Support",
-    /* Shown on a page that has nothing on it yet. */
     empty: "Nothing is here yet.",
   },
 
-  /* The holding page, shown while ready is false. */
+  /* The holding page, shown only if ready is set back to false. */
   holding: {
     title: "A place is being kept here.",
-    lines: [
-      "A website should sound like the person it speaks for, so this one waits for TMade Alex.",
-      "Nothing is asked of anyone, and nothing is expected.",
-    ],
-    /* Leave {name} as it is: the site puts the link there. */
+    lines: ["This site waits for TMade Alex.", "Nothing is asked of anyone, and nothing is expected."],
     gift: {
-      line: "{name}, a friend, set this place up as a gift. Nothing here speaks for TMade Alex yet, and TMade Alex decides what stays.",
+      line: "{name}, a member of his community, set this place up as a gift. TMade Alex decides what stays.",
       by: { name: "Christopher W", href: "https://github.com/drasticstatic" },
     },
   },
 
   /* The page shown for an address that does not exist. */
   notFound: {
-    title: "This page is not here.",
-    line: "The address may have changed, or it may never have been one.",
+    kicker: "404",
+    title: "No session at this address",
+    line: "The page may have moved, or it was never here.",
     back: "Go to the front page",
+    /* The label over the empty session box drawn under it. */
+    box: "Out of hours",
   },
 
-  /* The one line at the foot of every page once the site is ready. (The holding page says it in its own words.) */
-  footer: "This place was set up as a gift. The person it is for decides what stays.",
+  /* The foot of every page. */
+  footer: {
+    lines: [
+      "Every figure and quotation here is TMade Alex's own, from his public pages, read on 23 November 2026, and links to where it was read. Quotations from videos are as YouTube's automatic captions print them.",
+      "Nothing on this site is financial advice. Trading futures involves substantial risk of loss.",
+      "No cookies, no forms, no tracking. Search engines are asked not to list it.",
+    ],
+  },
 
   /*
    * The small words on buttons and for screen readers. They rarely need changing.
@@ -180,6 +152,7 @@ export const site: Site = {
   ui: {
     skip: "Skip to the page",
     menu: "Pages",
+    home: "TMade Alex, front page",
     seeIt: "See it",
     openPicture: "Open the picture",
     pictureCount: "Picture {n} of {total}",
@@ -190,7 +163,6 @@ export const site: Site = {
     network: "Network",
     copyAddress: "Copy address",
     addressCopied: "Address copied",
-    /* The plain note under the address. It says what the panel does and does not do. */
     supportHow:
       "To send something, paste this address into your own wallet. This page does not connect to a wallet, hold anything or take a payment. Read the address back before you send, because a transfer cannot be undone.",
   },

@@ -1,17 +1,38 @@
 import Section from "@/components/Section";
-import { site } from "@/data/site";
+import Cite, { Quote } from "@/components/Cite";
+import { photography } from "@/data/photography";
 
-/** The about paragraphs. Appears only when there is at least one. */
-export default function About({ titleHidden = false }: { titleHidden?: boolean }) {
-  if (site.about.length === 0) return null;
+/** The photography story: his own words from the interview, then the biography on his own site. */
+export default function PhotoStory() {
+  const { story, bio } = photography;
 
   return (
-    <Section id="about" title={site.labels.about} titleHidden={titleHidden}>
-      <div className="prose-serif">
-        {site.about.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
-      </div>
-    </Section>
+    <>
+      <Section id="story" title={story.title} intro={<p>{story.text}</p>}>
+        <ol className="story">
+          {story.quotes.map((quote) => (
+            <li key={quote.text}>
+              <Quote quote={quote} size="large" />
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section id="bio" title={bio.title}>
+        <div className="prose">
+          {bio.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+        <p className="cite-line">
+          <Cite {...bio.cite} dated />
+        </p>
+        <p className="muted mt-4">
+          <a href="https://www.alexandersaladrigas.com/contact" rel="noopener noreferrer" className="text-link">
+            {bio.clients}
+          </a>
+        </p>
+      </Section>
+    </>
   );
 }

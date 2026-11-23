@@ -1,32 +1,38 @@
-import { Link2, Mail } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Section from "@/components/Section";
-import { site } from "@/data/site";
+import { contact } from "@/data/contact";
 
 /**
- * Contact is a list of links, and only that: no form, nothing to fill in,
- * nothing sent anywhere by this site. Appears only when there is a link.
+ * Contact is a list of links, and only that: no form, no email address, nothing
+ * sent anywhere by this site. Each link goes to a page of his own.
  */
-export default function Contact({ titleHidden = false }: { titleHidden?: boolean }) {
-  if (site.links.length === 0) return null;
-
+export default function Contact() {
   return (
-    <Section id="contact" title={site.labels.contact} titleHidden={titleHidden}>
-      <ul className="space-y-5">
-        {site.links.map((link) => {
-          const Icon = link.href.startsWith("mailto:") ? Mail : Link2;
-          return (
-            <li key={link.href} className="flex gap-3">
-              <Icon aria-hidden="true" className="mt-[0.45rem] h-5 w-5 shrink-0 text-accent" strokeWidth={1.75} />
-              <div className="min-w-0">
-                <a href={link.href} rel="noopener noreferrer" className="text-link font-display text-[1.375rem] leading-snug [overflow-wrap:anywhere]">
-                  {link.label}
+    <>
+      {contact.groups.map((group) => (
+        <Section key={group.id} id={group.id} title={group.title}>
+          <ul className="links">
+            {group.links.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} rel="noopener noreferrer" className="link-row">
+                  <span className="link-place">{link.place}</span>
+                  <span className="link-handle">{link.handle}</span>
+                  <ArrowUpRight aria-hidden="true" className="link-icon" strokeWidth={1.5} />
                 </a>
-                {link.note ? <p className="mt-1 text-sm text-ink-soft [overflow-wrap:anywhere]">{link.note}</p> : null}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </Section>
+                {link.note ? <p className="link-note">{link.note}</p> : null}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ))}
+
+      <Section id="colophon" title={contact.colophon.title} className="colophon">
+        <div className="prose prose-small">
+          {contact.colophon.paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </Section>
+    </>
   );
 }

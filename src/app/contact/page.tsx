@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
 import Holding from "@/components/Holding";
 import PageTitle from "@/components/PageTitle";
-import EmptyNote from "@/components/EmptyNote";
 import Contact from "@/components/sections/Contact";
-import Support, { supportShown } from "@/components/sections/Support";
+import Support from "@/components/sections/Support";
 import { site } from "@/data/site";
+import { contact } from "@/data/contact";
 
-export const metadata: Metadata = site.ready ? { title: site.labels.contact } : {};
+export const metadata: Metadata = site.ready ? { title: contact.title } : {};
 
-/* Links only. There is no form on this page, or anywhere on the site. */
+/* Links only. There is no form on this page, or anywhere on the site, and no email address. */
 export default function ContactPage() {
   if (!site.ready) return <Holding />;
 
   return (
     <>
-      <PageTitle title={site.labels.contact} />
-      <Contact titleHidden />
+      <PageTitle title={contact.title} lead={<p className="page-lead-big">{contact.lead}</p>} />
+      <Contact />
       <Support />
-      {site.links.length === 0 && !supportShown ? <EmptyNote /> : null}
     </>
   );
 }

@@ -1,20 +1,30 @@
 import Section from "@/components/Section";
-import { site } from "@/data/site";
+import Cite from "@/components/Cite";
+import { trading } from "@/data/trading";
 
-/** What is offered. Appears only when there is at least one entry. */
-export default function Offer() {
-  if (site.offer.length === 0) return null;
+/**
+ * The names used on his streams, as a tease: each name, where it is heard, and
+ * the line it comes from. How any of it works is taught where he teaches.
+ */
+export default function Names() {
+  const { names } = trading;
 
   return (
-    <Section id="offer" title={site.labels.offer}>
-      <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
-        {site.offer.map((entry) => (
-          <div key={entry.title}>
-            <dt className="font-display text-[1.375rem] leading-snug">{entry.title}</dt>
-            <dd className="mt-2 text-ink-soft">{entry.text}</dd>
-          </div>
+    <Section id="names" title={names.title} intro={<p>{names.text}</p>}>
+      <ul className="names">
+        {names.list.map((entry) => (
+          <li key={entry.id} className="name-card">
+            <p className="name-heard">{entry.heard}</p>
+            <p className="name-word">{entry.name}</p>
+            <p className="name-line">
+              “{entry.line}”
+            </p>
+            <p className="name-cite">
+              <Cite {...entry.cite} />
+            </p>
+          </li>
         ))}
-      </dl>
+      </ul>
     </Section>
   );
 }
