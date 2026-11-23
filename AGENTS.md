@@ -8,18 +8,23 @@ This repository is a person's own small website. It is served by GitHub Pages. T
 ## The owner decides
 
 - The owner decides what this site says and what stays on it. You carry out what you are asked, and nothing more.
-- Never write about the owner's life, work, beliefs or plans unless the owner gave you those words. If a section is
-  empty, leave it empty. An empty section does not appear on the site, and that is by design.
+- Never write about the owner's life, work, beliefs or plans unless the owner gave you those words, or published them
+  on a page of his own. Every figure and quotation names where it was read, in `src/data/sources.ts`, and nothing is
+  rounded up, inferred or promised. If a section is empty, leave it empty.
+- A figure, a code or a partner is one line, lower down, with the risk note beside it. Nothing on the site sells.
 - Never turn the site on for the owner. `ready` and `indexable` in `src/data/site.ts` change only when the owner asks.
 - If you are unsure what the owner wants, say so and stop. Do not guess, and do not fill the gap.
 
 ## Change words only in `src/data`
 
-- Every word and every setting lives in `src/data/`: `site.ts`, `work.ts` and `gallery.ts`. A change to what the site
-  says is a change to those files and nothing else.
+- Every word and every setting lives in `src/data/`: `site.ts`, `home.ts`, `schedule.ts`, `trading.ts`,
+  `photography.ts`, `gallery.ts`, `contact.ts` and `sources.ts`. A change to what the site says is a change to those
+  files and nothing else.
 - Leave the pages, the components, the styles, the workflow and the scripts alone unless you are asked to change them
   by name. If a request seems to need it, say what you would change and why, before you change it.
 - Pictures are files in `public/gallery/`. Never link a picture from another website.
+- On `main` there is no image of the owner's. His photographs and art live on the local branch `with-his-art`, which
+  is never pushed until he says yes.
 
 ## Never add these
 

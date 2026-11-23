@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260" role="img" aria-labelledby="t d">
   <title id="t">tmadealex.github.io</title>
-  <desc id="d">A place is being kept here. It asks for nothing. The picture: an arch of 13 stones lights from both sides inward until the keystone is reached. With reduced motion, the finished picture shows at once.</desc>
+  <desc id="d">TMade Alex: futures trader, streamer, photographer. The picture: an arch of 13 stones lights from both sides inward until the keystone is reached. With reduced motion, the finished picture shows at once.</desc>
   <style>
     /* Motion only for readers who have not asked for less. Outside this block everything is in its finished state. */
     @media (prefers-reduced-motion: no-preference) {
@@ -16,34 +16,34 @@
     .halo { opacity: 0 }
   </style>
   <defs>
-    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#31133d"/><stop offset="1" stop-color="#181127"/></linearGradient>
-    <linearGradient id="line" gradientUnits="userSpaceOnUse" x1="668" y1="0" x2="1160" y2="0"><stop offset="0.00" stop-color="#249094"/><stop offset="0.50" stop-color="#34d4d8"/><stop offset="1.00" stop-color="#e091eb"/></linearGradient>
-    <linearGradient id="fade" gradientUnits="userSpaceOnUse" x1="620" y1="0" x2="1200" y2="0"><stop offset="0" stop-color="#34d4d8" stop-opacity="0"/><stop offset=".35" stop-color="#34d4d8"/><stop offset="1" stop-color="#e091eb"/></linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b121a"/><stop offset="1" stop-color="#0a101a"/></linearGradient>
+    <linearGradient id="line" gradientUnits="userSpaceOnUse" x1="668" y1="0" x2="1160" y2="0"><stop offset="0.00" stop-color="#249094"/><stop offset="0.50" stop-color="#34d4d8"/><stop offset="1.00" stop-color="#96e9eb"/></linearGradient>
+    <linearGradient id="fade" gradientUnits="userSpaceOnUse" x1="620" y1="0" x2="1200" y2="0"><stop offset="0" stop-color="#34d4d8" stop-opacity="0"/><stop offset=".35" stop-color="#34d4d8"/><stop offset="1" stop-color="#96e9eb"/></linearGradient>
     <clipPath id="card"><rect width="1200" height="260" rx="18"/></clipPath>
   </defs>
   <g clip-path="url(#card)">
     <!-- an opaque ground: the same picture on GitHub's light and dark themes -->
     <rect width="1200" height="260" fill="url(#ground)"/>
-    <path d="M873.1 220A120 120 0 0 1 1113.1 220Z" fill="#4e175b" fill-opacity=".28"/>
-    <path class="arrive" style="animation-delay:0.30s" d="M851.2 217.4A142 142 0 0 1 854.7 188.5" fill="none" stroke="#711c80" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:0.58s" d="M855.9 183.5A142 142 0 0 1 866.2 156.3" fill="none" stroke="#7e1e8e" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:0.86s" d="M868.6 151.8A142 142 0 0 1 885.2 127.8" fill="none" stroke="#8b1f9c" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:1.14s" d="M888.6 123.9A142 142 0 0 1 910.4 104.6" fill="none" stroke="#9821aa" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:1.42s" d="M914.6 101.7A142 142 0 0 1 940.4 88.2" fill="none" stroke="#a623b7" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:1.70s" d="M945.2 86.3A142 142 0 0 1 973.5 79.4" fill="none" stroke="#b324c5" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:1.98s" d="M978.6 78.8A142 142 0 0 1 1007.7 78.8" fill="none" stroke="#e091eb" stroke-width="34"/>
-    <path class="arrive" style="animation-delay:1.70s" d="M1012.8 79.4A142 142 0 0 1 1041.1 86.3" fill="none" stroke="#b324c5" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:1.42s" d="M1045.9 88.2A142 142 0 0 1 1071.7 101.7" fill="none" stroke="#a623b7" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:1.14s" d="M1075.9 104.6A142 142 0 0 1 1097.7 123.9" fill="none" stroke="#9821aa" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:0.86s" d="M1101.1 127.8A142 142 0 0 1 1117.7 151.8" fill="none" stroke="#8b1f9c" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:0.58s" d="M1120.0 156.3A142 142 0 0 1 1130.4 183.5" fill="none" stroke="#7e1e8e" stroke-width="28"/>
-    <path class="arrive" style="animation-delay:0.30s" d="M1131.6 188.5A142 142 0 0 1 1135.1 217.4" fill="none" stroke="#711c80" stroke-width="28"/>
-    <circle class="halo" cx="993.1" cy="78.0" r="22" fill="none" stroke="#e091eb" stroke-width="2"/>
-    <circle cx="1064.7" cy="144.3" r="2.1" fill="#e091eb" opacity=".7"/>
-    <circle cx="926.0" cy="139.6" r="2.0" fill="#e091eb" opacity=".7"/>
-    <circle cx="948.5" cy="167.5" r="1.9" fill="#e091eb" opacity=".7"/>
-    <circle cx="1030.0" cy="178.5" r="3.0" fill="#e091eb" opacity=".7"/>
+    <path d="M834.0 220A120 120 0 0 1 1074.0 220Z" fill="#133940" fill-opacity=".28"/>
+    <path class="arrive" style="animation-delay:0.30s" d="M812.1 217.4A142 142 0 0 1 815.6 188.5" fill="none" stroke="#1d696f" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:0.58s" d="M816.8 183.5A142 142 0 0 1 827.1 156.3" fill="none" stroke="#217b80" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:0.86s" d="M829.5 151.8A142 142 0 0 1 846.1 127.8" fill="none" stroke="#258d92" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:1.14s" d="M849.5 123.9A142 142 0 0 1 871.3 104.6" fill="none" stroke="#289ea4" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:1.42s" d="M875.5 101.7A142 142 0 0 1 901.3 88.2" fill="none" stroke="#2cb0b5" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:1.70s" d="M906.1 86.3A142 142 0 0 1 934.4 79.4" fill="none" stroke="#30c2c6" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:1.98s" d="M939.5 78.8A142 142 0 0 1 968.6 78.8" fill="none" stroke="#96e9eb" stroke-width="34"/>
+    <path class="arrive" style="animation-delay:1.70s" d="M973.7 79.4A142 142 0 0 1 1002.0 86.3" fill="none" stroke="#30c2c6" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:1.42s" d="M1006.8 88.2A142 142 0 0 1 1032.6 101.7" fill="none" stroke="#2cb0b5" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:1.14s" d="M1036.8 104.6A142 142 0 0 1 1058.6 123.9" fill="none" stroke="#289ea4" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:0.86s" d="M1062.0 127.8A142 142 0 0 1 1078.6 151.8" fill="none" stroke="#258d92" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:0.58s" d="M1080.9 156.3A142 142 0 0 1 1091.3 183.5" fill="none" stroke="#217b80" stroke-width="28"/>
+    <path class="arrive" style="animation-delay:0.30s" d="M1092.5 188.5A142 142 0 0 1 1096.0 217.4" fill="none" stroke="#1d696f" stroke-width="28"/>
+    <circle class="halo" cx="954.0" cy="78.0" r="22" fill="none" stroke="#96e9eb" stroke-width="2"/>
+    <circle cx="943.4" cy="180.3" r="2.7" fill="#96e9eb" opacity=".7"/>
+    <circle cx="897.8" cy="153.0" r="2.3" fill="#96e9eb" opacity=".7"/>
+    <circle cx="1013.9" cy="176.8" r="2.0" fill="#96e9eb" opacity=".7"/>
+    <circle cx="943.3" cy="161.4" r="2.9" fill="#96e9eb" opacity=".7"/>
     <rect x="0.0" y="248" width="300.5" height="12" fill="#0c1719"/><rect x="300.0" y="248" width="300.5" height="12" fill="#249094"/><rect x="600.0" y="248" width="300.5" height="12" fill="#34d4d8"/><rect x="900.0" y="248" width="300.5" height="12" fill="#e6fafa"/>
-    <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif"><text x="56" y="76.5" fill="#ce56dd" font-size="15" font-weight="700" letter-spacing=".6">TMadeAlex</text><text x="56" y="134.4" fill="#e6fafa" font-size="52" font-weight="700" letter-spacing="-.5">tmadealex.github.io</text><text x="56" y="176.9" fill="#decae4" font-size="23">A place is being kept here. It asks for nothing.</text></g>
+    <g font-family="Helvetica Neue, Helvetica, Arial, sans-serif"><text x="56" y="73.1" fill="#34d4d8" font-size="15" font-weight="700" letter-spacing=".6">TMadeAlex</text><text x="56" y="136.8" fill="#e6fafa" font-size="58" font-weight="700" letter-spacing="-.5">tmadealex.github.io</text><text x="56" y="180.3" fill="#c7dadb" font-size="23">TMade Alex: futures trader, streamer, photographer.</text></g>
   </g>
 </svg>
