@@ -1,0 +1,442 @@
+@import "tailwindcss";
+
+/*
+ * Colour. No colour value is written in this file. The six --tone-* values
+ * come from src/data/site.ts (layout.tsx puts them on the <html> element), and
+ * everything below is mixed from them, once for light and once for dark.
+ */
+:root {
+  color-scheme: light dark;
+
+  --ground: color-mix(in oklab, var(--tone-tint) 28%, white);
+  --surface: color-mix(in oklab, var(--tone-tint) 80%, white);
+  --ink: color-mix(in oklab, var(--tone-deep) 36%, black);
+  --ink-soft: color-mix(in oklab, var(--ink) 72%, var(--ground));
+  --accent: var(--tone-primary);
+  --accent-ink: var(--tone-mid);
+  --accent-shade: var(--tone-mid);
+  --rule: color-mix(in oklab, var(--tone-mid) 22%, var(--ground));
+  --night: color-mix(in oklab, var(--tone-deep) 50%, black);
+
+  /* How far the bookmark hangs down the page. */
+  --ribbon-w: 2.25rem;
+  --ribbon-h: clamp(6.5rem, 19svh, 11rem);
+  --header-h: 4.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: var(--night);
+    --surface: color-mix(in oklab, var(--tone-deep) 64%, black);
+    --ink: color-mix(in oklab, var(--tone-tint) 90%, white);
+    --ink-soft: color-mix(in oklab, var(--ink) 66%, var(--ground));
+    --accent: var(--tone-on-dark);
+    --accent-ink: var(--tone-on-dark-soft);
+    --accent-shade: var(--tone-primary);
+    --rule: color-mix(in oklab, var(--tone-on-dark) 24%, var(--ground));
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --ribbon-w: 1.75rem;
+    --ribbon-h: clamp(5.5rem, 15svh, 8rem);
+  }
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-rule: var(--rule);
+  --color-night: var(--night);
+  --font-display: var(--font-display-face), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-text-face), system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--ground);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--ground);
+  }
+}
+
+@layer components {
+  /* One column of page, the same width on every route. */
+  .frame {
+    width: 100%;
+    max-width: 68rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 6vw, 5rem);
+  }
+
+  /*
+   * The bookmark: a ribbon hanging from the top edge of the page, holding the
+   * place. It is the one drawn thing on the site. It hangs still, except for
+   * one drop when the page first opens (see the motion block at the foot).
+   */
+  .ribbon-rail {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .ribbon {
+    display: block;
+    width: var(--ribbon-w);
+    height: var(--ribbon-h);
+    background: linear-gradient(
+      to right,
+      var(--accent-shade) 0 22%,
+      var(--accent) 22% 100%
+    );
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% calc(100% - 0.85rem), 0 100%);
+    transform-origin: top;
+  }
+
+  /* The header row sits to the right of the ribbon. */
+  .beside-ribbon {
+    padding-left: calc(var(--ribbon-w) + 1.25rem);
+  }
+
+  /* The first block of every page starts just under the ribbon's tail. */
+  .below-ribbon {
+    padding-top: calc(var(--ribbon-h) - var(--header-h) + 2.75rem);
+  }
+
+  /* Running words: the serif, a little larger, with room between the lines. */
+  .prose-serif {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    max-width: 34em;
+  }
+
+  .prose-serif > * + * {
+    margin-top: 1em;
+  }
+
+  .text-link {
+    color: var(--accent-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .text-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /*
+   * The gallery: rows of pictures that keep their own shapes. Each cell starts
+   * as wide as its picture would be at the row height (--row), and the cells in
+   * a row then share the spare width in proportion to their shapes, so every
+   * picture in a row ends up the same height. The ::after takes the spare width
+   * of the last row, so a short last row is not stretched.
+   */
+  .gallery-rows {
+    --row: 8rem;
+    --gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap);
+  }
+
+  .gallery-rows::after {
+    content: "";
+    flex: 999 1 0;
+  }
+
+  .gallery-cell {
+    flex: var(--ratio) 1 calc(var(--row) * var(--ratio));
+    min-width: 0;
+  }
+
+  .gallery-open {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: var(--surface);
+    cursor: zoom-in;
+  }
+
+  .gallery-open:focus-visible {
+    outline-offset: 2px;
+  }
+
+  .gallery-thumb {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .gallery-open:hover .gallery-thumb {
+    opacity: 0.88;
+  }
+
+  @media (min-width: 40rem) {
+    .gallery-rows {
+      --row: 13rem;
+      --gap: 0.75rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .gallery-rows {
+      --row: 15.5rem;
+    }
+  }
+
+  /*
+   * The picture viewer covers the whole screen, dark in both schemes. Three
+   * rows: the count and close button, the picture, the caption. The caption
+   * row has a fixed height, so the picture's row never changes size, and the
+   * previous and next buttons, pinned to its middle, never move.
+   */
+  .lightbox {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--night) 96%, transparent);
+    color: var(--tone-tint);
+  }
+
+  .lightbox::backdrop {
+    background: var(--night);
+  }
+
+  .lightbox-frame {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    height: 100%;
+  }
+
+  .lightbox-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem 0.5rem;
+  }
+
+  .lightbox-count {
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    color: color-mix(in oklab, var(--tone-tint) 78%, transparent);
+  }
+
+  .lightbox-stage {
+    position: relative;
+    min-height: 0;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  /* The ground is pinned to the stage, so the picture inside it can be sized to fit. */
+  .lightbox-ground {
+    position: absolute;
+    inset: 0.5rem 5.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-picture {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .lightbox-caption {
+    height: 6.75rem;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 62ch;
+    margin-inline: auto;
+    padding: 0.75rem 1.5rem 1.25rem;
+    text-align: center;
+  }
+
+  .lightbox-title {
+    font-size: 1.375rem;
+    line-height: 1.25;
+  }
+
+  .lightbox-words {
+    margin-top: 0.25rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--tone-tint) 80%, transparent);
+  }
+
+  .lightbox-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid color-mix(in oklab, var(--tone-tint) 35%, transparent);
+    border-radius: 999px;
+    color: var(--tone-tint);
+    background: color-mix(in oklab, var(--night) 70%, transparent);
+    cursor: pointer;
+  }
+
+  .lightbox-button:hover {
+    border-color: var(--tone-on-dark);
+    color: var(--tone-on-dark-soft);
+  }
+
+  .lightbox-button:focus-visible {
+    outline-color: var(--tone-on-dark);
+  }
+
+  /* Pinned to the middle of the picture's row, at the two edges of the screen. */
+  .lightbox-step {
+    position: absolute;
+    top: 50%;
+    width: 3rem;
+    height: 3rem;
+    transform: translateY(-50%);
+  }
+
+  .lightbox-step-previous {
+    left: 1.25rem;
+  }
+
+  .lightbox-step-next {
+    right: 1.25rem;
+  }
+
+  /*
+   * On a phone the picture takes the whole width and nearly all the height.
+   * The count and close button float over its top edge, the step buttons over
+   * its sides, and the caption below is kept to a few short lines.
+   */
+  @media (max-width: 40rem) {
+    .lightbox-frame {
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    .lightbox-top {
+      position: absolute;
+      inset: 0 0 auto 0;
+      z-index: 1;
+      padding: 0.625rem 0.625rem 1.5rem 1rem;
+      background: linear-gradient(color-mix(in oklab, var(--night) 75%, transparent), transparent);
+    }
+
+    .lightbox-ground {
+      inset: 0;
+    }
+
+    .lightbox-step {
+      width: 2.75rem;
+      height: 2.75rem;
+      background: color-mix(in oklab, var(--night) 55%, transparent);
+    }
+
+    .lightbox-step-previous {
+      left: 0.5rem;
+    }
+
+    .lightbox-step-next {
+      right: 0.5rem;
+    }
+
+    .lightbox-caption {
+      height: 6rem;
+      padding: 0.5rem 1rem 0.75rem;
+    }
+
+    .lightbox-title {
+      font-size: 1.0625rem;
+    }
+
+    .lightbox-words {
+      margin-top: 0.125rem;
+      font-size: 0.8125rem;
+      line-height: 1.4;
+    }
+  }
+}
+
+/* While the picture viewer is open, the page behind it holds still. */
+html:has(dialog.lightbox[open]) {
+  overflow: hidden;
+}
+
+/*
+ * Motion: one moment, once. The ribbon drops into place when the page opens.
+ * Anyone who has asked their device for less motion sees it already hanging.
+ * Apart from that, only the picture viewer moves, and only when asked to.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .ribbon {
+    animation: ribbon-drop 900ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  @keyframes ribbon-drop {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* Motion that answers a person: a new picture in the viewer fades in. */
+  .lightbox-picture {
+    animation: picture-in 200ms ease-out both;
+  }
+
+  @keyframes picture-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
