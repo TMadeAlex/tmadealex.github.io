@@ -374,28 +374,34 @@
   /* ---------------------------------------------------------------- the panel for phones */
 
   /*
-   * The panel for phones. The dialog covers the screen exactly (inset 0, never 100vw, which
-   * can be wider than a phone's screen and leave the panel half off it); the panel is pinned to
-   * the right edge and slides in with a transform only, quickly, so it never has to be dragged.
+   * The panel for phones: always in place, parked just off the right edge, and slid in from there
+   * with a transform. The scrim behind it fades in; nothing behind it is blurred.
    */
   .drawer {
     position: fixed;
     inset: 0;
-    width: auto;
-    height: auto;
-    max-width: none;
-    max-height: none;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: var(--ink);
-    overflow: hidden;
-    overscroll-behavior: contain;
+    z-index: 100;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear 260ms;
   }
 
-  .drawer::backdrop {
+  .drawer-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s;
+  }
+
+  .drawer-scrim {
+    position: absolute;
+    inset: 0;
     background: color-mix(in oklab, var(--night) 70%, transparent);
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+
+  .drawer-open .drawer-scrim {
+    opacity: 1;
   }
 
   .drawer-panel {
@@ -416,7 +422,22 @@
     border-radius: 18px 0 0 18px;
     background: color-mix(in oklab, var(--ground) 95%, transparent);
     box-shadow: var(--shadow-2);
+    color: var(--ink);
+    transform: translate3d(100%, 0, 0);
+    transition: transform 260ms cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
+  }
+
+  .drawer-open .drawer-panel {
+    transform: translate3d(0, 0, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer,
+    .drawer-scrim,
+    .drawer-panel {
+      transition: none;
+    }
   }
 
   .drawer-head {

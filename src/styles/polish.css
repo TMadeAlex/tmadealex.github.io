@@ -13,7 +13,7 @@
   -webkit-backdrop-filter: none;
 }
 
-html:has(dialog.drawer[open]),
+html.drawer-open,
 html:has(dialog.risk-window[open]) {
   overflow: hidden;
 }
@@ -274,8 +274,7 @@ html:has(dialog.risk-window[open]) {
   .button-glass,
   .nav-menu,
   .support::backdrop,
-  .arrival::backdrop,
-  .drawer::backdrop {
+  .arrival::backdrop {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -328,4 +327,65 @@ html:has(dialog.risk-window[open]) {
   margin-inline: -1rem;
   padding-inline: 1rem;
   background: color-mix(in oklab, var(--ground) 98%, transparent);
+}
+
+/* ---------------------------------------------------------------- the red pill */
+
+/* The market's own colours on his desk and in the rain of numbers: green up, red down, an amber average. */
+:root[data-pill="red"] .terminal,
+:root[data-pill="red"] .trading-title {
+  --candle-up: #26d07c;
+  --candle-down: #ff4d5e;
+  --candle-line: #f0b429;
+  --chart-window: rgba(255, 77, 94, 0.035);
+  --dot: #26d07c;
+}
+
+:root[data-pill="red"] .terminal {
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 10%, transparent),
+    0 30px 60px -30px color-mix(in oklab, black 80%, transparent),
+    0 90px 140px -60px rgba(239, 68, 68, 0.28);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .terminal.glitching {
+    animation: pill-glitch 500ms steps(7, end);
+  }
+
+  @keyframes pill-glitch {
+    0% {
+      clip-path: inset(0 0 0 0);
+      transform: none;
+      filter: none;
+    }
+    15% {
+      clip-path: inset(12% 0 58% 0);
+      transform: translateX(-6px);
+      filter: hue-rotate(90deg) saturate(1.6);
+    }
+    30% {
+      clip-path: inset(48% 0 22% 0);
+      transform: translateX(5px);
+    }
+    45% {
+      clip-path: inset(70% 0 4% 0);
+      transform: translateX(-3px);
+      filter: hue-rotate(-60deg);
+    }
+    60% {
+      clip-path: inset(4% 0 80% 0);
+      transform: translateX(4px);
+    }
+    80% {
+      clip-path: inset(0 0 0 0);
+      transform: translateX(-1px);
+      filter: brightness(1.4);
+    }
+    100% {
+      clip-path: inset(0 0 0 0);
+      transform: none;
+      filter: none;
+    }
+  }
 }

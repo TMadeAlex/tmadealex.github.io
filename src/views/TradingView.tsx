@@ -17,6 +17,7 @@ import CopyCode from "@/components/support/CopyCode";
 import RollingText from "@/components/fx/RollingText";
 import DeskClock from "@/components/trading/DeskClock";
 import DeskRise from "@/components/trading/DeskRise";
+import PillSwitch from "@/components/trading/PillSwitch";
 import TerminalChart from "@/components/trading/TerminalChart";
 import { content } from "@/data";
 import type { Locale } from "@/i18n/config";
@@ -53,13 +54,14 @@ export default function TradingView({ locale }: { locale: Locale }) {
       />
 
       <section className="frame desk" aria-label={desk.label}>
-        <DeskRise>
+        <DeskRise approach={desk.approach}>
           <div className="terminal on-dark">
             <div className="term-bar">
               <span className="term-brand">
                 {desk.brand}
                 <span className="dot dot-breathe" aria-hidden="true" />
               </span>
+              <PillSwitch words={desk.pills} />
               <DeskClock zone={schedule.zone} words={{ eastern: desk.eastern, yours: desk.yours }} />
             </div>
 

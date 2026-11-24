@@ -63,6 +63,20 @@ export const trading = {
     sessionsTitle: "Sessions",
     riskTitle: "Risk",
     tape: "His words",
+    /* The boot lines that type in above the desk while it rises into place. "Pull up" is his. */
+    approach: {
+      title: "Pulling up to the desk",
+      lines: ["NQ + ES", "NY AM 9:30–11:30 ET · Asia 8–10pm ET", "Charts, names, figures"],
+      ready: "Ready",
+    },
+    /* The red pill and the blue pill: how the made-up chart and the rain of numbers are coloured. */
+    pills: {
+      label: "Choose a pill",
+      blue: "Blue pill",
+      red: "Red pill",
+      blueLine: "His colours: cyan on night",
+      redLine: "The market's own: green and red",
+    },
   },
 
   intro: {

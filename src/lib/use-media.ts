@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { readLook, readParty, subscribeLook } from "@/lib/look";
+import { readLook, readParty, readPill, subscribeLook } from "@/lib/look";
 
 /** Whether a media query matches, kept up to date. False before the page reaches the browser. */
 export function useMedia(query: string): boolean {
@@ -34,4 +34,9 @@ export function useParty(): boolean {
 /** The look, kept up to date. Night before the page reaches the browser. */
 export function useLook() {
   return useSyncExternalStore(subscribeLook, readLook, () => "night" as const);
+}
+
+/** The red pill or the blue pill, kept up to date. Blue before the page reaches the browser. */
+export function usePill() {
+  return useSyncExternalStore(subscribeLook, readPill, () => "blue" as const);
 }
