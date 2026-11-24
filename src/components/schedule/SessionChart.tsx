@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import type { Session } from "@/data/schedule";
 import { dayFraction, occurrences } from "@/lib/sessions";
+import { useLocale } from "@/i18n/client";
 
 export interface SessionWords {
   weekdays: string;
@@ -67,6 +68,8 @@ function segments(from: number, to: number): [number, number][] {
 
 export default function SessionChart({ sessions, days, zone, words, children }: SessionChartProps) {
   const now = useSyncExternalStore(subscribe, clientNow, serverNow);
+  /* Days and times in the page's language: Spanish on /es/, the visitor's own otherwise. */
+  const dateLocale = useLocale() === "es" ? "es" : undefined;
 
   let rows: Row[];
   let zoneLabel = words.eastern;
@@ -81,8 +84,8 @@ export default function SessionChart({ sessions, days, zone, words, children }: 
       days: words.weekdays,
     }));
   } else {
-    const time = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" });
-    const weekday = new Intl.DateTimeFormat(undefined, { weekday: "short" });
+    const time = new Intl.DateTimeFormat(dateLocale, { hour: "2-digit", minute: "2-digit" });
+    const weekday = new Intl.DateTimeFormat(dateLocale, { weekday: "short" });
     const all = occurrences(now, sessions, days, zone);
     zoneLabel = `${words.yourTime} · ${Intl.DateTimeFormat().resolvedOptions().timeZone.replaceAll("_", " ")}`;
 

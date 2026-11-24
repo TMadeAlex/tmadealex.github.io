@@ -52,7 +52,7 @@ export const schedule = {
   posted: {
     text: "Live trading Monday-Friday NY AM 9:30-11:30am + Asia 8-10pm EST",
     source: "xBio",
-  } as Cited & { text: string },
+  } as Cited & { text: string; translation?: string },
 
   words: {
     heading: "When he trades live",

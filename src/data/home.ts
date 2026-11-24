@@ -9,6 +9,15 @@ import type { Cited, Quote } from "./sources";
 export const home = {
   /* The small line above his name: the words of his YouTube About. */
   kicker: { text: "Live streams Monday-Friday.", source: "youtube" } as Cited & { text: string },
+  kickerTitle: "In his words, from his YouTube channel",
+
+  /* Names of the page's parts, for screen readers. */
+  labels: {
+    where: "Where to watch and where the community is",
+    band: "In his words",
+    doors: "The two crafts",
+    illustration: "illustration",
+  },
 
   /* The lines under his name: the first is his Instagram bio ("Futures Trader | Streamer and Host of TMade"),
      the second what he says in the ALPHAS interview ("I'm a fashion photographer based in New York."). */

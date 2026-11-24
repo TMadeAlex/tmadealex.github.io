@@ -9,7 +9,8 @@ import {
   YoutubeLogoIcon,
 } from "@phosphor-icons/react/ssr";
 import Section from "@/components/Section";
-import { contact } from "@/data/contact";
+import { content } from "@/data";
+import type { Locale } from "@/i18n/config";
 
 /* The picture beside each link, by the place it goes to (`place` in contact.ts). */
 const icons: Record<string, typeof LinkIcon> = {
@@ -18,6 +19,7 @@ const icons: Record<string, typeof LinkIcon> = {
   Instagram: InstagramLogoIcon,
   Whop: StorefrontIcon,
   Website: GlobeIcon,
+  "Sitio web": GlobeIcon,
   LinkedIn: LinkedinLogoIcon,
 };
 
@@ -25,7 +27,8 @@ const icons: Record<string, typeof LinkIcon> = {
  * Contact is a list of links, and only that: no form, no email address, nothing
  * sent anywhere by this site. Each link goes to a page of his own.
  */
-export default function Contact() {
+export default function Contact({ locale = "en" }: { locale?: Locale }) {
+  const { contact } = content(locale);
   return (
     <>
       {contact.groups.map((group) => (

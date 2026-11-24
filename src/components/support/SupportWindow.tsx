@@ -1,17 +1,17 @@
 import { ArrowUpRightIcon, CoinsIcon, MonitorPlayIcon, ShieldCheckIcon, TagIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
-import Cite from "@/components/Cite";
+import Cite, { Translation } from "@/components/Cite";
 import SupportPanel from "@/components/SupportPanel";
 import CopyCode from "@/components/support/CopyCode";
-import { site } from "@/data/site";
-import { support } from "@/data/support";
+import { content } from "@/data";
 import type { SupportWay } from "@/data/support";
+import type { Locale } from "@/i18n/config";
 
 /** The id the window's title carries, so the dialog is named by it. */
 export const supportTitleId = "support-title";
 
 const icons = { watch: MonitorPlayIcon, join: UsersThreeIcon, code: TagIcon };
 
-function Way({ way }: { way: SupportWay }) {
+function Way({ way, ui }: { way: SupportWay; ui: { copyCode: string; codeCopied: string } }) {
   const Icon = icons[way.icon];
   const { action } = way;
 
@@ -26,9 +26,10 @@ function Way({ way }: { way: SupportWay }) {
         <p className="support-text">{way.text}</p>
         {way.quote ? (
           <figure className="support-quote">
-            <blockquote>
+            <blockquote lang="en">
               <p>“{way.quote.text}”</p>
             </blockquote>
+            <Translation text={way.quote.translation} />
             <figcaption>
               <Cite source={way.quote.source} at={way.quote.at} />
             </figcaption>
@@ -40,7 +41,7 @@ function Way({ way }: { way: SupportWay }) {
             <ArrowUpRightIcon aria-hidden="true" className="button-icon" />
           </a>
         ) : (
-          <CopyCode code={action.code} copyLabel={support.ui.copyCode} copiedLabel={support.ui.codeCopied} />
+          <CopyCode code={action.code} copyLabel={ui.copyCode} copiedLabel={ui.codeCopied} />
         )}
       </div>
     </li>
@@ -52,7 +53,8 @@ function Way({ way }: { way: SupportWay }) {
  * page of his own, and the crypto part, which shows an address only once Alex
  * has given one in site.ts. Nothing here takes a payment.
  */
-export default function SupportWindow() {
+export default function SupportWindow({ locale = "en" }: { locale?: Locale }) {
+  const { site, support } = content(locale);
   const address = site.supportAddress.trim();
   const network = site.supportNetwork.trim();
   const { ownAddress, network: networkWord, copyAddress, addressCopied, supportHow } = site.ui;
@@ -68,7 +70,7 @@ export default function SupportWindow() {
 
       <ul className="support-ways">
         {support.ways.map((way) => (
-          <Way key={way.id} way={way} />
+          <Way key={way.id} way={way} ui={support.ui} />
         ))}
         <li className="support-way support-way-crypto">
           <span className="support-icon" aria-hidden="true">

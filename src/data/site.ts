@@ -37,6 +37,27 @@ export interface ExternalLink {
   icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github" | "code";
 }
 
+/** The welcome on a first visit: three short steps, every choice kept in the visitor's own browser. */
+export interface Arrival {
+  label: string;
+  step: string;
+  welcome: { title: string; sub: string };
+  look: { title: string; sub: string };
+  go: { title: string; sub: string };
+  english: { name: string; line: string };
+  spanish: { name: string; line: string };
+  night: string;
+  morning: string;
+  party: string;
+  doors: { id: "trading" | "photography" | "watch" | "stay"; title: string; line: string; href: string }[];
+  next: string;
+  back: string;
+  done: string;
+  skip: string;
+  small: string;
+  again: string;
+}
+
 /** One page's preview when its link is shared (drawn by scripts/make-share-cards.py). */
 export interface ShareCard {
   path: string;
@@ -71,6 +92,9 @@ export interface Site {
   status: { label: string; next: string; until: string; scheduled: string; risk: string; riskHref: string };
   look: { night: string; morning: string; toNight: string; toMorning: string; heading: string };
   party: { name: string; on: string; off: string; hint: string; heading: string };
+  /** The language switch in the menu (it names the other language), and the welcome on a first visit. */
+  languages: { heading: string; other: string; otherShort: string; otherLabel: string; otherLang: string; note: string };
+  arrival: Arrival;
   holding: {
     title: string;
     lines: string[];
@@ -241,6 +265,50 @@ export const site: Site = {
     on: "PARTY_MODE is on",
     off: "PARTY_MODE is off",
     hint: "Shift + P",
+  },
+
+  /*
+   * The language switch in the menu names the other language: on an English page it offers
+   * Spanish. `note` is shown at the top of pages in Spanish only (empty here).
+   */
+  languages: {
+    heading: "Language",
+    other: "Español",
+    otherShort: "ES",
+    otherLabel: "Leer esta página en español",
+    otherLang: "es",
+    note: "",
+  },
+
+  /*
+   * The welcome on a first visit, one question at a time: language first (English is the
+   * default), then the look, then where to go. Every choice stays in the visitor's own browser.
+   * "Pull up" is his: "Pull up, ask questions in the chat" (his stream descriptions).
+   * It opens again from the menu ("again"), or with ?arrival=again on any address.
+   */
+  arrival: {
+    label: "Welcome",
+    step: "Step {n} of {total}",
+    welcome: { title: "Pull up", sub: "TMade Alex's corner of the internet: the trading, the streams, the photography. First, your language." },
+    look: { title: "Pick your screen", sub: "Night or morning, and PARTY_MODE if you feel like it. Both change any time from the menu." },
+    go: { title: "Where to first?", sub: "Choose a door. Everything else is one tap away in the menu." },
+    english: { name: "English", line: "Continue in English" },
+    spanish: { name: "Español", line: "Continuar en español" },
+    night: "Night",
+    morning: "Morning",
+    party: "PARTY_MODE",
+    doors: [
+      { id: "trading", title: "The trading desk", line: "His sessions, the names from his streams, his figures.", href: "/trading/" },
+      { id: "photography", title: "The photography", line: "His story in his own words, and his personal work.", href: "/photography/" },
+      { id: "watch", title: "Watch him live", line: "His YouTube channel, Monday to Friday.", href: "https://www.youtube.com/@TMadeAlex" },
+      { id: "stay", title: "Stay here", line: "The front page, from the top.", href: "/" },
+    ],
+    next: "Next",
+    back: "Back",
+    done: "Let's go",
+    skip: "Skip",
+    small: "Set up as a gift by a member of his community. Nothing here is financial advice. Your choices stay in this browser.",
+    again: "Welcome again",
   },
 
   /* The holding page, shown only if ready is set back to false. */

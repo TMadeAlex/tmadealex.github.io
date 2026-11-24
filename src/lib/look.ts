@@ -5,7 +5,8 @@
  * data-party="on". A small script in the page's <head> (lookScript, below) sets
  * them before anything is drawn, from what this browser chose last time or,
  * the first time, from the device's own light or dark setting. So the page
- * never flashes the wrong look while it loads.
+ * never flashes the wrong look while it loads. It also marks a page under /es/
+ * as Spanish (lang="es") from the first moment.
  *
  * The choice is kept in this browser only (localStorage). Nothing is sent anywhere.
  */
@@ -16,7 +17,7 @@ const LOOK_KEY = "tmadealex-look";
 const PARTY_KEY = "tmadealex-party";
 
 /** Runs in <head>, before the page is drawn. Kept small and dependency-free on purpose. */
-export const lookScript = `(function(){var d=document.documentElement;try{var s=localStorage.getItem("${LOOK_KEY}");d.dataset.theme=s==="morning"||s==="night"?s:(window.matchMedia("(prefers-color-scheme: light)").matches?"morning":"night");if(localStorage.getItem("${PARTY_KEY}")==="on")d.dataset.party="on";}catch(e){d.dataset.theme="night";}})();`;
+export const lookScript = `(function(){var d=document.documentElement;var p=location.pathname;if(p==="/es"||p.indexOf("/es/")===0)d.lang="es";try{var s=localStorage.getItem("${LOOK_KEY}");d.dataset.theme=s==="morning"||s==="night"?s:(window.matchMedia("(prefers-color-scheme: light)").matches?"morning":"night");if(localStorage.getItem("${PARTY_KEY}")==="on")d.dataset.party="on";}catch(e){d.dataset.theme="night";}})();`;
 
 function remember(key: string, value: string | null) {
   try {

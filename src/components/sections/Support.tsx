@@ -1,16 +1,19 @@
 import Section from "@/components/Section";
 import SupportPanel from "@/components/SupportPanel";
-import { site } from "@/data/site";
+import { site as siteEn } from "@/data/site";
+import { content } from "@/data";
+import type { Locale } from "@/i18n/config";
 
 /**
  * True when the support panel is on the site: only when both supportAddress
  * and supportNetwork are filled in, so nobody sends to the wrong network.
  */
-export const supportShown = site.supportAddress.trim() !== "" && site.supportNetwork.trim() !== "";
+export const supportShown = siteEn.supportAddress.trim() !== "" && siteEn.supportNetwork.trim() !== "";
 
 /** The support section. Until both the address and its network are given, it is not on the page at all. */
-export default function Support() {
+export default function Support({ locale = "en" }: { locale?: Locale }) {
   if (!supportShown) return null;
+  const { site } = content(locale);
 
   const { ownAddress, network, copyAddress, addressCopied, supportHow } = site.ui;
 

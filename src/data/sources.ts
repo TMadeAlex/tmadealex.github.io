@@ -16,8 +16,11 @@ export interface Source {
   href: string;
 }
 
-/** The day these pages were read. Change it when a page is read again. */
+/** The day these pages were read. Change it when a page is read again (and in es/sources.ts). */
 export const readOn = "23 November 2026";
+
+/** The word before that date: "ALPHAS interview, read 23 November 2026". */
+export const readWord = "read";
 
 export const sources = {
   xBio: { label: "His X bio", href: "https://x.com/tmadealex" },
@@ -58,4 +61,6 @@ export interface Cited {
 /** A quotation in his own words, with where it was read. */
 export interface Quote extends Cited {
   text: string;
+  /** On the Spanish pages: the quotation stays in his own English, and this translation is shown under it. */
+  translation?: string;
 }

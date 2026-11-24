@@ -1,19 +1,17 @@
+"use client";
+
 import type { Cited, Quote as QuoteData } from "@/data/sources";
-import { readOn, sources } from "@/data/sources";
+import { readOn, readWord, sources } from "@/data/sources";
+import { labels as labelsEs, readOn as readOnEs, readWord as readWordEs, translationLabel } from "@/data/es/sources";
+import { citeHref, timecode } from "@/lib/cite";
+import { useLocale } from "@/i18n/client";
 
-/** "1:00:16" or "16:24", from seconds. */
-export function timecode(seconds: number) {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  const mm = h > 0 ? String(m).padStart(2, "0") : String(m);
-  return `${h > 0 ? `${h}:` : ""}${mm}:${String(s).padStart(2, "0")}`;
-}
-
-/** The address of a source, opened at the right moment when it is a video. */
-export function citeHref({ source, at }: Cited) {
-  const { href } = sources[source];
-  return at !== undefined && href.includes("youtube.com/watch") ? `${href}&t=${at}s` : href;
+/** How a source reads in the page's language: "ALPHAS interview, 16:24, read 23 November 2026". */
+function useLabel({ source, at }: Cited, dated: boolean) {
+  const es = useLocale() === "es";
+  const label = es ? labelsEs[source] : sources[source].label;
+  const when = dated ? `, ${es ? readWordEs : readWord} ${es ? readOnEs : readOn}` : "";
+  return `${label}${at !== undefined ? `, ${timecode(at)}` : ""}${when}`;
 }
 
 interface CiteProps extends Cited {
@@ -23,22 +21,30 @@ interface CiteProps extends Cited {
 
 /** A small link to where something was read: "ALPHAS interview, 16:24". */
 export default function Cite({ source, at, dated = false }: CiteProps) {
+  const label = useLabel({ source, at }, dated);
   return (
     <a href={citeHref({ source, at })} rel="noopener noreferrer" className="cite">
-      {sources[source].label}
-      {at !== undefined ? `, ${timecode(at)}` : ""}
-      {dated ? `, read ${readOn}` : ""}
+      {label}
     </a>
   );
 }
 
 /** The same words as Cite, without the link: for a quotation inside something that is already a link. */
 export function CiteLabel({ source, at }: Cited) {
+  return <span className="cite cite-plain">{useLabel({ source, at }, false)}</span>;
+}
+
+/**
+ * A translation under his own words, on the Spanish pages. His words stay as he
+ * said them; this says what they mean, marked as a translation.
+ */
+export function Translation({ text }: { text?: string }) {
+  if (!text) return null;
   return (
-    <span className="cite cite-plain">
-      {sources[source].label}
-      {at !== undefined ? `, ${timecode(at)}` : ""}
-    </span>
+    <p className="translation" lang="es">
+      <span className="translation-label">{translationLabel}</span>
+      {text}
+    </p>
   );
 }
 
@@ -51,11 +57,11 @@ interface QuoteProps {
   plain?: boolean;
 }
 
-/** His words, in curly quotation marks, with where they were said under them. */
+/** His words, in curly quotation marks, with where they were said under them, and on a Spanish page their translation. */
 export function Quote({ quote, size = "normal", className = "", plain = false }: QuoteProps) {
   return (
     <figure className={`quote quote-${size} ${className}`}>
-      <blockquote>
+      <blockquote lang="en">
         <p>
           <span className="quote-mark" aria-hidden="true">
             “
@@ -64,9 +70,8 @@ export function Quote({ quote, size = "normal", className = "", plain = false }:
           <span aria-hidden="true">”</span>
         </p>
       </blockquote>
-      <figcaption>
-        {plain ? <CiteLabel source={quote.source} at={quote.at} /> : <Cite source={quote.source} at={quote.at} />}
-      </figcaption>
+      <Translation text={quote.translation} />
+      <figcaption>{plain ? <CiteLabel source={quote.source} at={quote.at} /> : <Cite source={quote.source} at={quote.at} />}</figcaption>
     </figure>
   );
 }

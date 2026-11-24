@@ -27,6 +27,15 @@ This repository is a person's own small website. It is served by GitHub Pages. T
   in `public/gallery/`. The front page's video cards show YouTube's own thumbnails (`i.ytimg.com`), also as `<img>`
   only, listed in `PROVENANCE.md`. Never link a picture from any other website. His TRADERMADE art stays off `main` until he says yes.
 
+## Two languages
+
+- English first; every page has a Spanish twin under `/es/`, drawn from the same view with `src/data/es/`.
+- His own words (anything in quotation marks, his figures, his strategy names) stay in his English on the Spanish
+  pages, with a `translation` under them, marked as one. Never present a translation as his words.
+- After changing English words in `src/data`, change the same words in `src/data/es` in the same commit, and redraw
+  the share pictures (`npm run build`, then `npm run share-cards`).
+- The Spanish pages carry a note that the translation is unreviewed until Alex says otherwise.
+
 ## Never add these
 
 - No tracking of any kind: no analytics, no pixels, no fingerprinting, no cookies. The one thing kept in a visitor's

@@ -3,12 +3,12 @@
 import { useRef } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { HandHeartIcon, XIcon } from "@phosphor-icons/react";
+import { useLocale } from "@/i18n/client";
+import type { Locale } from "@/i18n/config";
 
 interface SupportButtonProps {
-  /** The button's word ("Support"). */
-  label: string;
-  /** The close button's word, for a screen reader. */
-  closeLabel: string;
+  /** The button's word ("Support") and the close button's word, in each language. */
+  labels: Record<Locale, { label: string; close: string }>;
   /** The id of the window's title, so a screen reader names the window by it. */
   titleId: string;
   /** What the window holds (SupportWindow), drawn on the server. */
@@ -21,7 +21,8 @@ interface SupportButtonProps {
  * cannot be reached, Tab stays inside it, and Escape closes it. A click on the
  * dimmed page around it closes it too.
  */
-export default function SupportButton({ label, closeLabel, titleId, children }: SupportButtonProps) {
+export default function SupportButton({ labels, titleId, children }: SupportButtonProps) {
+  const { label, close: closeLabel } = labels[useLocale()];
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const open = () => dialogRef.current?.showModal();

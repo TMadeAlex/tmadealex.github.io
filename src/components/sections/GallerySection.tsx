@@ -1,16 +1,16 @@
 import Section from "@/components/Section";
 import Cite from "@/components/Cite";
 import GalleryGrid from "@/components/gallery/GalleryGrid";
-import { site } from "@/data/site";
-import { gallery } from "@/data/gallery";
-import { photography } from "@/data/photography";
+import { content } from "@/data";
+import type { Locale } from "@/i18n/config";
 
 /**
  * His personal work. With pictures in gallery.ts, the picture grid and its
  * credit. Without them (as on main), the titles as his site captions them,
  * each pointing to the page of his site where the photographs are.
  */
-export default function GallerySection() {
+export default function GallerySection({ locale = "en" }: { locale?: Locale }) {
+  const { site, gallery, photography } = content(locale);
   const { personal } = photography;
 
   return (

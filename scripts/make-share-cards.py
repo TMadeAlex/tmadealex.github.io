@@ -5,7 +5,7 @@
 
 When a link to the site is pasted into a message, a chat or a post, the app shows a picture
 with it (an Open Graph card). This draws one card for each page, 1200 by 630 pixels, in his
-TRADERMADE colours, and writes them to public/social/. It also draws the round mark as PNG
+TRADERMADE colours, in English and in Spanish (og-*-es.png), and writes them to public/social/. It also draws the round mark as PNG
 icons for phones (public/apple-touch-icon.png, public/icon-512.png).
 
 The words come from src/data (the same files as the site), the colours from src/data/site.ts,
@@ -66,6 +66,36 @@ BYLINE = field(photo_ts, r'byline: "([^"]+)"', "the photography byline")
 CONTACT_LEAD = field(contact_ts, r'lead: "([^".]+\.)', "the contact page's lead")
 POSTED = re.findall(r'short: "([^"]+)",.*?posted: "([^"]+)"', schedule_ts, re.S)
 HANDLES = re.findall(r'place: "([^"]+)",\s*handle: "([^"]+)"', contact_ts)[:4]
+
+# The same cards in Spanish, from src/data/es. His own words on the cards are shown in their
+# Spanish translation there, since a picture cannot carry the English with a translation under it.
+home_es, trading_es, photo_es, contact_es = (read(f"es/{n}") for n in ("home.ts", "trading.ts", "photography.ts", "contact.ts"))
+WORDS = {
+    "en": {
+        "suffix": "",
+        "prefix": "",
+        "kicker": KICKER,
+        "roles": TURNING,
+        "trading": "Trading",
+        "trading_lead": TRADING_LEAD,
+        "photography": "Photography",
+        "photo_lead": PHOTO_LEAD,
+        "contact": "Contact",
+        "illustration": "illustration",
+    },
+    "es": {
+        "suffix": "-es",
+        "prefix": "/es",
+        "kicker": field(home_es, r'kicker: \{ \.\.\.en\.kicker, text: "([^"]+)"', "the Spanish kicker"),
+        "roles": re.findall(r'"([^"]+)"', field(home_es, r"turning: \[([^\]]+)\]", "the Spanish roles")),
+        "trading": "Trading",
+        "trading_lead": field(trading_es, r'lead: \{ \.\.\.en\.lead, translation: "([^"]+)"', "the Spanish trading lead"),
+        "photography": field(photo_es, r'title: "([^"]+)"', "the Spanish photography title"),
+        "photo_lead": field(photo_es, r'lead: \{ \.\.\.en\.lead, translation: "([^"]+)"', "the Spanish photography lead"),
+        "contact": field(contact_es, r'title: "([^"]+)"', "the Spanish contact title"),
+        "illustration": "ilustración",
+    },
+}
 
 
 # ------------------------------------------------------------------ the site's own fonts, from the build
@@ -203,42 +233,43 @@ def iris() -> str:
     return f'<span class="aperture"><svg viewBox="-100 -100 200 200">{blades}</svg></span>'
 
 
-def cards() -> dict[str, str]:
+def cards(w: dict) -> dict[str, str]:
     t = esc
-    roles = "".join(f"<li>{t(r)}</li>" for r in TURNING)
+    roles = "".join(f"<li>{t(r)}</li>" for r in w["roles"])
+    sx, px = w["suffix"], w["prefix"]
     return {
-        "og-home": f"""
+        f"og-home{sx}": f"""
 <div class="field">{candles(23, 64, 1100, 300)}</div>
 <div class="words">
-  <p class="kicker"><span class="kdot"></span>{t(KICKER)}</p>
+  <p class="kicker"><span class="kdot"></span>{t(w["kicker"])}</p>
   <h1 style="font-size:150px">{t(NAME)}<span class="dot"></span></h1>
   <ul class="roles">{roles}</ul>
-</div>{foot("")}""",
-        "og-trading": f"""
+</div>{foot(px + "/" if px else "")}""",
+        f"og-trading{sx}": f"""
 <div class="pane">
-  <p class="tabs"><span class="on">{t(POSTED[0][0])}</span><span>{t(POSTED[1][0]) if len(POSTED) > 1 else ""}</span><span class="note">illustration</span></p>
+  <p class="tabs"><span class="on">{t(POSTED[0][0])}</span><span>{t(POSTED[1][0]) if len(POSTED) > 1 else ""}</span><span class="note">{t(w["illustration"])}</span></p>
   {candles(17, 40, 434, 286)}
   <span class="tag">+0.42%</span>
 </div>
 <div class="words">
   <p class="kicker"><span class="kdot"></span>{t(NAME)}</p>
-  <h1 style="font-size:132px">Trading<span class="dot"></span></h1>
-  <p class="lead">{t(TRADING_LEAD)}</p>
-</div>{foot("/trading/")}""",
-        "og-photography": f"""
+  <h1 style="font-size:132px">{t(w["trading"])}<span class="dot"></span></h1>
+  <p class="lead">{t(w["trading_lead"])}</p>
+</div>{foot(px + "/trading/")}""",
+        f"og-photography{sx}": f"""
 <div class="lens"><span class="ring"></span>{iris()}<span class="af"></span></div>
 <div class="words">
   <p class="kicker"><span class="kdot"></span>{t(BYLINE)}</p>
-  <h1 style="font-size:100px">Photography<span class="dot"></span></h1>
-  <p class="lead" style="max-width:520px">{t(PHOTO_LEAD)}</p>
-</div>{foot("/photography/")}""",
-        "og-contact": f"""
+  <h1 style="font-size:100px">{t(w["photography"])}<span class="dot"></span></h1>
+  <p class="lead" style="max-width:520px">{t(w["photo_lead"])}</p>
+</div>{foot(px + "/photography/")}""",
+        f"og-contact{sx}": f"""
 <div class="field">{candles(41, 64, 1100, 300)}</div>
 <div class="words">
   <p class="kicker"><span class="kdot"></span>{t(NAME)}</p>
-  <h1 style="font-size:132px">Contact<span class="dot"></span></h1>
+  <h1 style="font-size:132px">{t(w["contact"])}<span class="dot"></span></h1>
   <ul class="links">{"".join(f"<li><span>{t(p)}</span>{t(h)}</li>" for p, h in HANDLES)}</ul>
-</div>{foot("/contact/")}""",
+</div>{foot(px + "/contact/")}""",
     }
 
 
@@ -274,8 +305,9 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     work = pathlib.Path(tempfile.mkdtemp(prefix="share-cards-"))
     try:
-        for name, body in cards().items():
-            shoot(page(body, faces), OUT / f"{name}.png", W, H, work)
+        for words in WORDS.values():
+            for name, body in cards(words).items():
+                shoot(page(body, faces), OUT / f"{name}.png", W, H, work)
         shoot(mark(180), ROOT / "public" / "apple-touch-icon.png", 180, 180, work)
         shoot(mark(512), ROOT / "public" / "icon-512.png", 512, 512, work)
     finally:

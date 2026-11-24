@@ -1,5 +1,6 @@
 import { GiftIcon } from "@phosphor-icons/react/ssr";
-import { site } from "@/data/site";
+import { content } from "@/data";
+import type { Locale } from "@/i18n/config";
 
 interface GiftWordsProps {
   line: string;
@@ -30,9 +31,10 @@ export function GiftWords({ line, by, linkClass }: GiftWordsProps) {
  * The one line near the top of every page: that the site was set up as a gift,
  * and that Alex decides what stays. Said once, quietly.
  */
-export default function GiftLine() {
+export default function GiftLine({ locale = "en" }: { locale?: Locale }) {
+  const { site } = content(locale);
   return (
-    <aside className="gift-line" aria-label="About this site">
+    <aside className="gift-line" aria-label={locale === "es" ? "Sobre este sitio" : "About this site"}>
       <div className="frame gift-line-inner">
         <GiftIcon weight="duotone" aria-hidden="true" className="gift-icon" />
         <p>
