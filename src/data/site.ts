@@ -37,8 +37,19 @@ export interface ExternalLink {
   icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github" | "code";
 }
 
+/** One page's preview when its link is shared (drawn by scripts/make-share-cards.py). */
+export interface ShareCard {
+  path: string;
+  image: string;
+  description: string;
+  alt: string;
+}
+
 export interface Site {
   name: string;
+  /** The site's own address, so a shared link's preview can name its picture in full. */
+  url: string;
+  share: { home: ShareCard; trading: ShareCard; photography: ShareCard; contact: ShareCard };
   organisation: string;
   language: string;
   description: string;
@@ -96,6 +107,42 @@ export const site: Site = {
   /* Who the site speaks for, and the organisation that holds it. */
   name: "TMade Alex",
   organisation: "TMadeAlex",
+  url: "https://tmadealex.github.io",
+
+  /*
+   * What a link shows when it is pasted into a message or a post: a picture for each page and
+   * a sentence. The pictures are in public/social/, drawn by scripts/make-share-cards.py from
+   * the words and colours in this folder; run it again (after npm run build) when they change.
+   */
+  share: {
+    home: {
+      path: "/",
+      image: "/social/og-home.png",
+      description:
+        "Futures trader, live streamer and host of TMade, and a fashion photographer in New York. Live streams Monday-Friday. Set up as a gift by a member of his community.",
+      alt: "TMade Alex, in his TRADERMADE colours: futures trader, live streamer, entertainer, host of TMade and fashion photographer, over a line of candles.",
+    },
+    trading: {
+      path: "/trading/",
+      image: "/social/og-trading.png",
+      description:
+        "Trade futures with confidence. His sessions in your own time, the names you will hear on stream, and his figures as he states them.",
+      alt: "Trading, with his words “Trade futures with confidence.” beside a chart drawn as an illustration.",
+    },
+    photography: {
+      path: "/photography/",
+      image: "/social/og-photography.png",
+      description:
+        "I'm a fashion photographer based in New York. Alexander Saladrigas: his story in his own words, and his personal work, shown from his own site.",
+      alt: "Photography, by Alexander Saladrigas, with his words “I'm a fashion photographer based in New York.” beside a camera lens.",
+    },
+    contact: {
+      path: "/contact/",
+      image: "/social/og-contact.png",
+      description: "Every link goes to a page of his own: YouTube, X, Instagram, TRADERMADE on Whop, and his photography.",
+      alt: "Contact: TMade Alex on YouTube, X, Instagram and Whop.",
+    },
+  },
   language: "en-GB",
 
   /* What a search result or a shared link would say. */
