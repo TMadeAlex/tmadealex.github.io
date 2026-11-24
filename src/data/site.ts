@@ -267,7 +267,7 @@ export const site: Site = {
     lines: [
       "Every figure and quotation here is TMade Alex's own, from his public pages, read on 23 November 2026, and links to where it was read. Quotations from videos are as YouTube's automatic captions print them.",
       "Nothing on this site is financial advice. Trading futures involves substantial risk of loss.",
-      "No cookies, no forms, no tracking. The look you choose is remembered by your own browser, and nothing is sent anywhere. Search engines are asked not to list it.",
+      "No cookies, no forms, no tracking. Pictures come from this site, from his own photography site and, for the four video cards, from YouTube; those two see a visit, as any picture server does. The look you choose is remembered by your own browser only. Search engines are asked not to list it.",
     ],
   },
 

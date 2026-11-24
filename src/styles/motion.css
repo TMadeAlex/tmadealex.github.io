@@ -95,6 +95,24 @@
     animation: breathe 3s ease-in-out infinite;
   }
 
+  /* The seats' drawings: sound levels, a room that hums, a viewfinder that hunts for focus on hover. */
+  .seat-wave span {
+    animation: wave 1.4s ease-in-out infinite alternate;
+  }
+
+  .seat-rings {
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+
+  .seat-art .candle {
+    animation: candle-breathe 5s ease-in-out infinite;
+  }
+
+  .seat-photographer:hover .seat-finder,
+  .seat-photographer:focus-visible .seat-finder {
+    animation: focus-hunt 1.2s ease-in-out;
+  }
+
   /* The play buttons on the four seats breathe, slowly, out of step with each other. */
   .seat-play {
     animation: play-breathe 4.5s ease-in-out infinite;

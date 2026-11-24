@@ -102,25 +102,43 @@ export default function HomePage() {
                   className={`seat seat-${seat.id}`}
                   aria-label={`${seat.role}. ${home.roles.watch}: “${seat.quote.text}”, ${seat.video.channel}${at !== undefined ? `, ${timecode(at)}` : ""}.`}
                 >
-                  <span className="seat-video" aria-hidden="true">
-                    {/* YouTube's own thumbnail of the video, shown from YouTube and not copied here. */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={`https://i.ytimg.com/vi/${seat.video.id}/${seat.video.picture}.jpg`}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="seat-thumb"
-                    />
-                    <span className="seat-scrim" />
-                    <span className="seat-channel">
-                      <YoutubeLogoIcon weight="duotone" />
-                      {seat.video.channel}
+                  <span className="seat-media" aria-hidden="true">
+                    <span className="seat-video">
+                      {/* YouTube's own thumbnail of the video, shown from YouTube and not copied here. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`https://i.ytimg.com/vi/${seat.video.id}/${seat.video.picture}.jpg`}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="seat-thumb"
+                      />
+                      <span className="seat-scrim" />
+                      <span className="seat-channel">
+                        <YoutubeLogoIcon weight="duotone" />
+                        {seat.video.channel}
+                      </span>
+                      <span className="seat-play">
+                        <PlayIcon weight="fill" />
+                      </span>
+                      {at !== undefined ? <span className="seat-time">{timecode(at)}</span> : null}
                     </span>
-                    <span className="seat-play">
-                      <PlayIcon weight="fill" />
+                    <span className="seat-art">
+                      {seat.id === "trader" ? <CandleField seed={5} count={26} width={260} height={64} line={false} /> : null}
+                      {seat.id === "streamer" ? (
+                        <span className="seat-wave">
+                          {Array.from({ length: 18 }, (_, i) => (
+                            <span key={i} style={{ animationDelay: `${(i % 7) * 0.13}s` }} />
+                          ))}
+                        </span>
+                      ) : null}
+                      {seat.id === "host" ? <span className="seat-rings" /> : null}
+                      {seat.id === "photographer" ? (
+                        <span className="seat-finder">
+                          <span />
+                        </span>
+                      ) : null}
                     </span>
-                    {at !== undefined ? <span className="seat-time">{timecode(at)}</span> : null}
                   </span>
                   <span className="seat-icon" aria-hidden="true">
                     <Icon weight="duotone" />

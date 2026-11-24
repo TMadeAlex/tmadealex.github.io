@@ -32,7 +32,9 @@ This repository is a person's own small website. It is served by GitHub Pages. T
 - No tracking of any kind: no analytics, no pixels, no fingerprinting, no cookies. The one thing kept in a visitor's
   browser (localStorage) is their own choice of look: night or morning, and PARTY_MODE. It is never sent anywhere.
 - No forms. The contact page is a list of links.
-- No third-party scripts, fonts, pictures or frames. A visitor's browser asks this site for files and no other.
+- No third-party scripts, fonts or frames, and no pictures from elsewhere but the two hosts named above (his photography
+  site, YouTube's thumbnails). A visitor's browser asks this site for everything else. Adding a third host is a change to
+  the privacy wording too (README, the footer and the colophon in `src/data`), not only to `check-links.py`.
   Fonts are built in when the site is built. Icons come from the `@phosphor-icons/react` package (duotone), and motion
   from the `motion` package; both are part of the site's own code.
 - Nothing moves for a visitor whose device asks for less motion: no cursor candles, no parallax, no breathing, no iris.
