@@ -120,7 +120,7 @@ export const site: Site = {
       image: "/social/og-home.png",
       description:
         "Futures trader, live streamer and host of TMade, and a fashion photographer in New York. Live streams Monday-Friday. Set up as a gift by a member of his community.",
-      alt: "TMade Alex, in his TRADERMADE colours: futures trader, live streamer, entertainer, host of TMade and fashion photographer, over a line of candles.",
+      alt: "TMade Alex, in his TRADERMADE colours: futures trader, live streamer, teacher, entertainer, host of TMade and fashion photographer, over a line of candles.",
     },
     trading: {
       path: "/trading/",

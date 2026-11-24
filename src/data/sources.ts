@@ -33,10 +33,10 @@ export const sources = {
   },
   streamAsia: { label: "Asia Session, 22 Nov 2026", href: "https://www.youtube.com/watch?v=bvDY9IMxgmY" },
   alphas: {
-    label: "ALPHAS interview",
+    label: "ALPHAS interview, TradersPost",
     href: "https://www.youtube.com/watch?v=-oA2tyZEsfw",
   },
-  meetTheTrader: { label: "Meet the Trader", href: "https://www.youtube.com/watch?v=DjtViPPtE7c" },
+  meetTheTrader: { label: "Meet the Trader, FundedNext", href: "https://www.youtube.com/watch?v=DjtViPPtE7c" },
   instagramRoad: { label: "His Instagram, 9 Aug 2026", href: "https://www.instagram.com/p/Db1C49cxWXk/" },
   instagramPo3: { label: "His Instagram, 13 Nov 2026", href: "https://instagram.com/p/DfqWxOfxXGo" },
   whopFreeTier: {

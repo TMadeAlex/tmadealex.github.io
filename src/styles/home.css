@@ -344,6 +344,8 @@
   .seat {
     position: relative;
     display: flex;
+    width: 100%;
+    color: inherit;
     flex-direction: column;
     gap: 0.625rem;
     overflow: hidden;
@@ -366,77 +368,148 @@
     box-shadow: var(--shadow-2);
   }
 
-  .seat-art {
+  .seats-list > li {
+    display: flex;
+  }
+
+  /* The video's own picture, with a play button in his cyan: the card opens the video at the moment he says it. */
+  .seat-video {
     position: relative;
     display: block;
-    height: 5.5rem;
-    margin: -0.375rem -0.375rem 0.25rem;
+    aspect-ratio: 16 / 9;
+    margin: -0.375rem -0.375rem 0;
     overflow: hidden;
     border-radius: 14px;
-    background: color-mix(in oklab, var(--ink) 6%, transparent);
-    box-shadow: inset 0 0 0 1px var(--glass-line);
-  }
-
-  .seat-art .candle-field {
-    position: absolute;
-    inset: 0.5rem;
-    width: calc(100% - 1rem);
-    height: calc(100% - 1rem);
-  }
-
-  .seat-wave {
-    position: absolute;
-    inset: 1.25rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .seat-wave span {
-    width: 4px;
-    height: 30%;
-    border-radius: 2px;
-    background: var(--dot);
-    opacity: 0.85;
-  }
-
-  .seat-rings {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: -1.25rem 0 0 -1.25rem;
-    border-radius: 50%;
-    border: 1px solid color-mix(in oklab, var(--dot) 70%, transparent);
+    background: var(--night);
     box-shadow:
-      0 0 0 0.9rem color-mix(in oklab, var(--dot) 10%, transparent),
-      0 0 0 1.8rem color-mix(in oklab, var(--dot) 6%, transparent),
-      0 0 0 2.7rem color-mix(in oklab, var(--dot) 3%, transparent);
+      inset 0 0 0 1px var(--glass-line),
+      0 14px 30px -18px var(--shadow-deep);
   }
 
-  .seat-finder {
+  .seat-thumb {
     position: absolute;
-    inset: 0.875rem 25%;
-    border: 1px dashed color-mix(in oklab, var(--dot) 45%, transparent);
-    border-radius: 4px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+      transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 500ms ease;
+    filter: saturate(0.92) brightness(0.88);
   }
 
-  .seat-finder span {
+  .seat-scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 60% at 50% 50%, transparent 30%, color-mix(in oklab, var(--night) 55%, transparent)),
+      linear-gradient(to top, color-mix(in oklab, var(--night) 80%, transparent), transparent 45%);
+  }
+
+  .seat-channel {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    display: inline-flex;
+    max-width: calc(100% - 1rem);
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--night) 78%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: #e6fafa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .seat-channel svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex: none;
+    color: var(--tone-primary);
+  }
+
+  .seat-play {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 0.75rem;
-    height: 0.75rem;
-    margin: -0.375rem 0 0 -0.375rem;
-    border: 2px solid var(--dot);
+    display: grid;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin: -1.625rem 0 0 -1.625rem;
+    place-items: center;
     border-radius: 50%;
+    background: var(--dot);
+    color: var(--tone-deep);
+    box-shadow:
+      0 0 0 6px color-mix(in oklab, var(--dot) 22%, transparent),
+      0 10px 30px -6px color-mix(in oklab, var(--dot) 70%, transparent);
+    transition: transform 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+
+  .seat-play svg {
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-left: 0.15rem;
+  }
+
+  .seat-time {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 5px;
+    background: color-mix(in oklab, black 72%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: #fff;
+  }
+
+  .seat:hover .seat-thumb,
+  .seat:focus-visible .seat-thumb {
+    transform: scale(1.06);
+    filter: saturate(1.05) brightness(1);
+  }
+
+  .seat:hover .seat-play,
+  .seat:focus-visible .seat-play {
+    transform: scale(1.14);
+  }
+
+  .seat-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .seat-go svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .seat .cite-plain {
+    text-decoration: none;
   }
 
   .seat-icon {
+    position: relative;
+    z-index: 1;
     display: grid;
     width: 2.75rem;
     height: 2.75rem;
+    margin: -1.75rem 0 0 0.5rem;
+    border: 1px solid var(--glass-line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     place-items: center;
     border-radius: 12px;
     background: color-mix(in oklab, var(--dot) 14%, transparent);
@@ -450,6 +523,7 @@
   }
 
   .seat-role {
+    display: block;
     font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: -0.02em;
@@ -458,6 +532,7 @@
   }
 
   .seat-line {
+    display: block;
     font-size: 0.9375rem;
     color: var(--ink-soft);
   }

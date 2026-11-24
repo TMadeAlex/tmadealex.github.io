@@ -126,7 +126,7 @@ export const trading = {
 
   host: {
     title: "On the other side of the desk",
-    text: "He hosts too, on Meet the Trader, talking with other traders about their road.",
+    text: "He hosts too: Meet the Trader, on FundedNext's YouTube channel, where he talks with other traders about their road.",
     quote: {
       text: "All right, fam, welcome to the show. Welcome to Meet the Traders.",
       source: "meetTheTrader",

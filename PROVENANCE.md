@@ -29,6 +29,19 @@ emptying that list takes them all off this one.
 | `dads-miami` | Dads, Miami Florida, 2021 | https://www.alexandersaladrigas.com/doc | https://images.squarespace-cdn.com/content/v1/59e6dd62f9a61e35b8cbb284/1652402847042-T2K3FK3NW8BT5E73ZD24/Dads1c_final.jpg |
 | `fatherless-boy` | Fatherless Boy, Orlando Florida 2022 | https://www.alexandersaladrigas.com/doc | https://images.squarespace-cdn.com/content/v1/59e6dd62f9a61e35b8cbb284/1652401387147-35CBGVUVHYQLU12V9TAO/FL_Project_03a_FS.jpg |
 
+## The video pictures on the front page
+
+The four cards under *Four seats, one person* each open a video at the moment he says the line on the card. The
+picture on each card is YouTube's own thumbnail of that video, shown from YouTube (`i.ytimg.com`) as `<img>` and not
+copied here, like his photographs. The ids are in `src/data/home.ts` (`video`).
+
+| Card | Video | Channel | Picture |
+| --- | --- | --- | --- |
+| Futures trader | https://www.youtube.com/watch?v=-oA2tyZEsfw | TradersPost (ALPHAS) | the video's cover (`maxresdefault`) |
+| Streamer, teacher, entertainer | https://www.youtube.com/watch?v=x_UvIwCmHAA | TMade Alex | the video's cover (`maxresdefault`) |
+| Host | https://www.youtube.com/watch?v=DjtViPPtE7c | FundedNext (Meet the Trader) | the video's cover (`maxresdefault`) |
+| Fashion photographer | https://www.youtube.com/watch?v=-oA2tyZEsfw | TradersPost (ALPHAS) | a still from the video (`hq2`) |
+
 ## Not used
 
 - **His TRADERMADE art** (the wordmark, the Whop banner and avatar). The site draws on its colours and typefaces but

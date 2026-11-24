@@ -21,44 +21,61 @@ export const home = {
    * The words that turn in the line under his name, one after another. Each is
    * his own: "Futures Trader | Streamer and Host of TMade" (his Instagram bio),
    * "entertainment" (every stream description: "for educational and
-   * entertainment purposes"), and "fashion photographer" (the ALPHAS interview).
+   * entertainment purposes"; "educational" for teacher), and "fashion
+   * photographer" (the ALPHAS interview).
    */
-  turning: ["Futures trader", "Live streamer", "Entertainer", "Host of TMade", "Fashion photographer"],
+  turning: ["Futures trader", "Live streamer", "Teacher", "Entertainer", "Host of TMade", "Fashion photographer"],
   turningLabel: "What he does",
 
-  /* The four seats he sits in, each with a line of his own and where it was said. */
+  /*
+   * The four seats he sits in, each with a line of his own and where it was said. Each card opens
+   * the video at the moment he says it. `video` names the video's YouTube id, which of YouTube's
+   * own thumbnails to show ("maxresdefault" is the video's cover, "hq1" to "hq3" are stills from
+   * it), and whose channel it is on.
+   */
   roles: {
     title: "Four seats, one person",
-    text: "At the desk, on the stream, across from a guest and behind the camera. Each in his own words.",
+    text: "At the desk, on the stream, across from a guest and behind the camera. Each in his own words: choose one to hear him say it.",
+    watch: "Watch on YouTube",
     list: [
       {
         id: "trader",
         role: "Futures trader",
         line: "NQ and ES futures, live, Monday to Friday.",
         quote: { text: "I think I just love scalping.", source: "alphas", at: 1174 } as Quote,
+        video: { id: "-oA2tyZEsfw", picture: "maxresdefault", channel: "ALPHAS, on TradersPost" },
       },
       {
         id: "streamer",
-        role: "Live streamer and entertainer",
-        line: "Two sessions a day with the chat open. His streams call themselves educational and entertainment.",
+        role: "Streamer, teacher, entertainer",
+        line: "Two sessions a day with the chat open, teaching as he trades. His streams call themselves educational and entertainment.",
         quote: {
           text: "This stream is for educational and entertainment purposes only",
           source: "streamDescriptions",
         } as Quote,
+        video: { id: "x_UvIwCmHAA", picture: "maxresdefault", channel: "TMade Alex, New York AM Session" },
       },
       {
         id: "host",
-        role: "Host of TMade",
-        line: "On Meet the Trader he sits across from other traders and asks about their road.",
+        role: "Host",
+        line: "Host of TMade, and of Meet the Trader on FundedNext's YouTube channel, where he sits across from other traders and asks about their road.",
         quote: { text: "All right, fam, welcome to the show. Welcome to Meet the Traders.", source: "meetTheTrader", at: 28 } as Quote,
+        video: { id: "DjtViPPtE7c", picture: "maxresdefault", channel: "Meet the Trader, on FundedNext" },
       },
       {
         id: "photographer",
         role: "Fashion photographer",
         line: "Miami-born, in New York since 2014, shooting a first book about family and culture.",
         quote: { text: "I'm a fashion photographer based in New York.", source: "alphas", at: 95 } as Quote,
+        video: { id: "-oA2tyZEsfw", picture: "hq2", channel: "ALPHAS, on TradersPost" },
       },
-    ] as { id: "trader" | "streamer" | "host" | "photographer"; role: string; line: string; quote: Quote }[],
+    ] as {
+      id: "trader" | "streamer" | "host" | "photographer";
+      role: string;
+      line: string;
+      quote: Quote;
+      video: { id: string; picture: string; channel: string };
+    }[],
   },
 
   watch: {

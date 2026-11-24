@@ -121,7 +121,7 @@ Three ways, from the lightest to the most final. Each needs only an owner.
 ## <img src="assets/icons/shield-check.svg" width="24" height="24" alt=""> What it never does
 
 - No forms, no sign-in, no cookies, no analytics and no trackers. No email address anywhere: the contact page is a list of links to his own pages.
-- A visitor's browser asks this site for its files and asks no other site for anything. The fonts (Poppins and JetBrains Mono, the faces of his TRADERMADE banner) are downloaded when the site is built and served from the site itself, the icons are part of the code, and no picture is loaded from elsewhere apart from his own photographs, shown from his own photography site (above).
+- A visitor's browser asks this site for its files and asks no other site for anything. The fonts (Poppins and JetBrains Mono, the faces of his TRADERMADE banner) are downloaded when the site is built and served from the site itself, the icons are part of the code, and no picture is loaded from elsewhere apart from his own photographs, shown from his own photography site (above), and YouTube's own thumbnails of the four videos the front page's cards open.
 - The look a visitor picks (night, morning, PARTY_MODE) is remembered by their own browser and never sent anywhere.
 - It sells nothing. Joining TRADERMADE, its plans and payment all happen on Whop; the site links there.
 - It never says a stream is live. It shows when each session is scheduled, in the visitor's own time, and the next scheduled start.

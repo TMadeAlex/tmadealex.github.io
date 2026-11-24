@@ -17,9 +17,11 @@ What it does:
   4. Says so if a page would load anything from another website, would send
      a visitor to another website by itself (<meta http-equiv="refresh">), or
      has a form that sends to another website. This site is meant to do none
-     of these, with one exception: pictures (<img>) shown from the picture
-     host of his own photography site, listed in PICTURE_HOSTS below. Those
-     are listed for a person to read instead.
+     of these, with two exceptions, both pictures (<img>) only: his
+     photographs, shown from the picture host of his own photography site,
+     and YouTube's own thumbnails of the videos the front page opens. Both
+     hosts are in PICTURE_HOSTS below; those pictures are listed for a person
+     to read instead.
 
 It exits with 1 if something inside the site is broken, or if a page does one
 of the three things in step 4. Otherwise it exits with 0. It uses only Python's
@@ -46,10 +48,11 @@ SENDS = {("form", "action"), ("button", "formaction"), ("input", "formaction")}
 # <link rel=...> values that only point somewhere and fetch nothing.
 POINTERS = {"canonical", "alternate", "author", "license", "me", "help", "next", "prev", "search"}
 SKIP = ("data:", "blob:", "about:", "javascript:")
-# The one place pictures may be shown from without being copied here: the host
-# his own photography site (alexandersaladrigas.com) keeps its pictures on.
-# See PROVENANCE.md. Only <img> may load from it.
-PICTURE_HOSTS = {"images.squarespace-cdn.com"}
+# The two places pictures may be shown from without being copied here: the host
+# his own photography site (alexandersaladrigas.com) keeps its pictures on (see
+# PROVENANCE.md), and YouTube's thumbnail host, for the pictures of the videos
+# the front page's four seats open. Only <img> may load from either.
+PICTURE_HOSTS = {"images.squarespace-cdn.com", "i.ytimg.com"}
 CONTACT = ("mailto:", "tel:", "sms:")
 CSS_URL = re.compile(r"""url\(\s*(['"]?)(.*?)\1\s*\)""")
 # @import "file.css" (the url("file.css") form is caught by CSS_URL).
@@ -221,7 +224,7 @@ def main():
         print("\nLinks that leave the site: none.")
 
     if pictures:
-        print(f"\nPictures shown from his own photography site ({len(pictures)}), not copied here (PROVENANCE.md):")
+        print(f"\nPictures shown from his photography site and YouTube's thumbnails ({len(pictures)}), not copied here (PROVENANCE.md):")
         for ref in sorted(pictures):
             print(f"  {ref}    (on {', '.join(sorted(pictures[ref]))})")
 
@@ -243,7 +246,7 @@ def main():
 
     if broken or leaks:
         return 1
-    shown_from = " (apart from his own pictures, listed above)" if pictures else ""
+    shown_from = " (apart from the pictures listed above)" if pictures else ""
     print(f"\nok    every internal link and file resolves, and nothing loads from, moves to or sends to another website{shown_from}.")
     return 0
 

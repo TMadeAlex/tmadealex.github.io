@@ -24,7 +24,8 @@ This repository is a person's own small website. It is served by GitHub Pages. T
   by name. If a request seems to need it, say what you would change and why, before you change it.
 - His photographs are shown from his own photography site's picture host (`images.squarespace-cdn.com`), as `<img>`
   only, each listed in `PROVENANCE.md`; emptying `src/data/gallery.ts` takes them all off. Any other picture is a file
-  in `public/gallery/`. Never link a picture from any other website. His TRADERMADE art stays off `main` until he says yes.
+  in `public/gallery/`. The front page's video cards show YouTube's own thumbnails (`i.ytimg.com`), also as `<img>`
+  only, listed in `PROVENANCE.md`. Never link a picture from any other website. His TRADERMADE art stays off `main` until he says yes.
 
 ## Never add these
 
