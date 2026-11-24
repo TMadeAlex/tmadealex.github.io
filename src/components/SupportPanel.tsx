@@ -59,9 +59,9 @@ export default function SupportPanel({ address, network, note, words }: SupportP
 
   return (
     <div className="max-w-[40rem]">
-      {note ? <p className="font-display text-xl leading-relaxed">{note}</p> : null}
+      {note ? <p className="text-xl leading-relaxed">{note}</p> : null}
 
-      <div className={`rounded-md border border-rule bg-surface p-4 sm:p-5 ${note ? "mt-5" : ""}`}>
+      <div className={`rounded-md border border-line bg-ground p-4 sm:p-5 ${note ? "mt-5" : ""}`}>
         <p className="text-sm text-ink-soft">{words.ownAddress}</p>
         <code ref={addressRef} className="mt-2 block font-mono text-[0.9375rem] leading-relaxed break-all">
           {address}
@@ -72,7 +72,7 @@ export default function SupportPanel({ address, network, note, words }: SupportP
         <button
           type="button"
           onClick={copy}
-          className="mt-4 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-accent-ink px-4 text-[0.9375rem] font-medium text-accent-ink hover:bg-ground"
+          className="mt-4 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-accent px-4 text-[0.9375rem] font-medium text-accent hover:text-ink"
         >
           {copied ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
           <span aria-live="polite">{copied ? words.addressCopied : words.copyAddress}</span>

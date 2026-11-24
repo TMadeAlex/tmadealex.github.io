@@ -59,6 +59,8 @@ export const photography = {
   personal: {
     title: "Personal work",
     text: "The titles below are his, as his site captions them. The photographs live on his own site, on its Personal page.",
+    /* The line beside the gallery, when gallery.ts has pictures. */
+    galleryText: "From the Personal page of his site, titled as he titles them. Choose one to see it large.",
     /* The titles and places, as his Personal page captions them. */
     works: [
       { title: "Self Portrait", place: "Motel, New York 2020" },

@@ -64,13 +64,11 @@ Three settings in [`site.ts`](./src/data/site.ts) decide what the world sees:
 
 Only put up a picture that is fine to stay public: see *Undo a change* below.
 
-## <img src="assets/icons/git-branch.svg" width="24" height="24" alt=""> His photographs and his art: the branch `with-his-art`
+## <img src="assets/icons/layers.svg" width="24" height="24" alt=""> His photographs: shown from his own site, never copied here
 
-On `main`, this repository holds **no image of Alex's**: not his photographs, not his TRADERMADE art. The photography page tells the story and links to the Personal page of his own site, where the photographs are.
+This repository holds **no image of Alex's**: not his photographs, not his TRADERMADE art. The gallery on the photography page shows nine of his personal photographs **from his own photography site**, at the addresses its Personal page uses, each credited *Photograph: Alexander Saladrigas* and linked back. They are his: all rights reserved, and outside any licence this repository carries. [`PROVENANCE.md`](./PROVENANCE.md) lists each one and where it is.
 
-A second branch, `with-his-art`, exists only on the computer where the site was built. It adds nine of his personal photographs, at web size, to the photography page's gallery, each credited *Photograph: Alexander Saladrigas* and linked back to the page it came from, and lists them in a `PROVENANCE.md`. They are his: all rights reserved, and outside any licence this repository may carry.
-
-**Why a separate branch.** Putting someone's pictures on a public page is theirs to decide. That branch is never pushed, by anyone, until Alex says yes. If he does, it is merged into `main` with a merge commit and the gallery appears. If he would rather not, it is simply never pushed.
+**Why this way.** Anything pushed to a public repository stays in its history, even after it is deleted. Showing the pictures from his own site means nothing of his is copied into this one: if he takes a picture down there, it goes from here too, and emptying the list in [`src/data/gallery.ts`](./src/data/gallery.ts) takes them all off this site. `scripts/check-links.py` allows pictures from that one host and lists them; anything else that loads from another website still fails it.
 
 ## <img src="assets/icons/eye.svg" width="24" height="24" alt=""> See it live
 

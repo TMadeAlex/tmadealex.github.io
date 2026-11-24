@@ -14,7 +14,7 @@ export default function GallerySection() {
   const { personal } = photography;
 
   return (
-    <Section id="personal" title={personal.title} intro={<p>{personal.text}</p>}>
+    <Section id="personal" title={personal.title} intro={<p>{gallery.length > 0 ? personal.galleryText : personal.text}</p>}>
       {gallery.length > 0 ? (
         <>
           <GalleryGrid

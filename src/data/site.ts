@@ -36,13 +36,13 @@ export interface Site {
   supportNetwork: string;
   supportNote: string;
   /** The one line near the top of every page saying who set the site up. */
-  gift: { line: string; by: { name: string; handle: string; href: string } };
+  gift: { line: string; by?: { name: string; handle?: string; href: string } };
   nav: { href: string; label: string }[];
   labels: { support: string; empty: string };
   holding: {
     title: string;
     lines: string[];
-    gift: { line: string; by: { name: string; href: string } };
+    gift: { line: string; by?: { name: string; href: string } };
   };
   notFound: { kicker: string; title: string; line: string; back: string; box: string };
   footer: { lines: string[] };
@@ -98,10 +98,13 @@ export const site: Site = {
   supportNetwork: "",
   supportNote: "",
 
-  /* The gift line, near the top of every page. {name} becomes a link to `by`. */
+  /*
+   * The gift line, near the top of every page. The person who set the site up
+   * is not named. To name someone, write {name} in the line and add
+   * by: { name: "...", href: "https://..." }; {name} becomes a link to it.
+   */
   gift: {
-    line: "{name}, a member of TMade Alex's community, set this site up as a gift. Alex decides what stays.",
-    by: { name: "Christopher W", handle: "@drasticstatic", href: "https://github.com/drasticstatic" },
+    line: "A member of TMade Alex's community set this site up as a gift. Alex decides what stays.",
   },
 
   /* The menu. The name at the top left always goes to the front page. */
@@ -121,8 +124,7 @@ export const site: Site = {
     title: "A place is being kept here.",
     lines: ["This site waits for TMade Alex.", "Nothing is asked of anyone, and nothing is expected."],
     gift: {
-      line: "{name}, a member of his community, set this place up as a gift. TMade Alex decides what stays.",
-      by: { name: "Christopher W", href: "https://github.com/drasticstatic" },
+      line: "A member of his community set this place up as a gift. TMade Alex decides what stays.",
     },
   },
 

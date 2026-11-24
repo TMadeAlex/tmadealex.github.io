@@ -166,7 +166,7 @@ export const trading = {
       source: "streamDescriptions",
     } as Quote,
     plain:
-      "The figures above are his own, as he published them. They are not a promise of anyone's results. No link on this site earns Christopher, who set it up, anything.",
+      "The figures above are his own, as he published them. They are not a promise of anyone's results. No link on this site earns the person who set it up anything.",
     rule: {
       text: "every trader when they enter a position should know where their stop has to go.",
       source: "alphas",

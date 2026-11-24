@@ -1,14 +1,13 @@
+import { GiftWords } from "@/components/GiftLine";
 import { site } from "@/data/site";
 
 /**
  * The holding page: what every address shows if `ready` is set to false in
- * src/data/site.ts. It says a place is being kept, who set it up, and that
- * TMade Alex decides what stays. It asks for nothing.
+ * src/data/site.ts. It says a place is being kept, that it was set up as a
+ * gift, and that TMade Alex decides what stays. It asks for nothing.
  */
 export default function Holding() {
   const { title, lines, gift } = site.holding;
-  const [before, after = ""] = gift.line.split("{name}");
-
   return (
     <div className="frame page-title">
       <h1 className="display display-quiet">{title}</h1>
@@ -18,11 +17,7 @@ export default function Holding() {
         ))}
       </div>
       <p className="holding-gift">
-        {before}
-        <a href={gift.by.href} rel="noopener noreferrer" className="text-link">
-          {gift.by.name}
-        </a>
-        {after}
+        <GiftWords line={gift.line} by={gift.by} linkClass="text-link" />
       </p>
     </div>
   );

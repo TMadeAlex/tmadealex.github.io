@@ -17,7 +17,9 @@ What it does:
   4. Says so if a page would load anything from another website, would send
      a visitor to another website by itself (<meta http-equiv="refresh">), or
      has a form that sends to another website. This site is meant to do none
-     of these.
+     of these, with one exception: pictures (<img>) shown from the picture
+     host of his own photography site, listed in PICTURE_HOSTS below. Those
+     are listed for a person to read instead.
 
 It exits with 1 if something inside the site is broken, or if a page does one
 of the three things in step 4. Otherwise it exits with 0. It uses only Python's
@@ -44,6 +46,10 @@ SENDS = {("form", "action"), ("button", "formaction"), ("input", "formaction")}
 # <link rel=...> values that only point somewhere and fetch nothing.
 POINTERS = {"canonical", "alternate", "author", "license", "me", "help", "next", "prev", "search"}
 SKIP = ("data:", "blob:", "about:", "javascript:")
+# The one place pictures may be shown from without being copied here: the host
+# his own photography site (alexandersaladrigas.com) keeps its pictures on.
+# See PROVENANCE.md. Only <img> may load from it.
+PICTURE_HOSTS = {"images.squarespace-cdn.com"}
 CONTACT = ("mailto:", "tel:", "sms:")
 CSS_URL = re.compile(r"""url\(\s*(['"]?)(.*?)\1\s*\)""")
 # @import "file.css" (the url("file.css") form is caught by CSS_URL).
@@ -165,9 +171,10 @@ def main():
     outside = {}     # external link -> pages that carry it
     contact = {}     # mailto: and the like -> pages that carry it
     leaks = []       # (where, what, why): loads from, moves to or sends to another website
+    pictures = {}    # pictures shown from his own site's picture host -> pages that show them
     checked = 0
 
-    def look(file, kind, ref):
+    def look(file, kind, ref, tag=None):
         nonlocal checked
         low = ref.lower()
         if low.startswith(SKIP):
@@ -178,7 +185,9 @@ def main():
             return
         parts = urlsplit(ref)
         if parts.scheme or parts.netloc:
-            if kind in WHY:
+            if kind == "load" and tag == "img" and parts.scheme == "https" and parts.netloc in PICTURE_HOSTS:
+                pictures.setdefault(ref, set()).add(shown)
+            elif kind in WHY:
                 leaks.append((shown, ref, WHY[kind]))
             else:
                 outside.setdefault(ref, set()).add(shown)
@@ -194,8 +203,8 @@ def main():
     for file, parser in pages.items():
         if parser.base:
             broken.append((file.relative_to(root).as_posix(), parser.base, "a <base> tag changes every link; remove it"))
-        for kind, _tag, ref in parser.refs:
-            look(file, kind, ref)
+        for kind, tag, ref in parser.refs:
+            look(file, kind, ref, tag)
 
     sheets = sorted(root.rglob("*.css"))
     for sheet in sheets:
@@ -210,6 +219,11 @@ def main():
             print(f"  {ref}    (on {', '.join(sorted(outside[ref]))})")
     else:
         print("\nLinks that leave the site: none.")
+
+    if pictures:
+        print(f"\nPictures shown from his own photography site ({len(pictures)}), not copied here (PROVENANCE.md):")
+        for ref in sorted(pictures):
+            print(f"  {ref}    (on {', '.join(sorted(pictures[ref]))})")
 
     if contact:
         print(f"\nContact links ({len(contact)}), for a person to read:")
@@ -229,7 +243,8 @@ def main():
 
     if broken or leaks:
         return 1
-    print("\nok    every internal link and file resolves, and nothing loads from, moves to or sends to another website.")
+    shown_from = " (apart from his own pictures, listed above)" if pictures else ""
+    print(f"\nok    every internal link and file resolves, and nothing loads from, moves to or sends to another website{shown_from}.")
     return 0
 
 
