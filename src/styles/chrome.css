@@ -575,6 +575,60 @@
     color: var(--dot);
   }
 
+  /* The cue at the bottom centre while a page is at its top: a mouse whose wheel rolls, "Scroll", and a caret. */
+  .scroll-cue {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--status-h) + env(safe-area-inset-bottom, 0px) + 1rem);
+    z-index: 55;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.875rem 0.5rem 0.625rem;
+    border: 1px solid var(--glass-line);
+    border-radius: 999px;
+    background: var(--glass-strong);
+    box-shadow: var(--shadow-2);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .scroll-cue:hover {
+    color: var(--ink);
+    border-color: color-mix(in oklab, var(--dot) 50%, transparent);
+  }
+
+  .scroll-cue-mouse {
+    position: relative;
+    display: block;
+    width: 1rem;
+    height: 1.5rem;
+    border: 1.5px solid var(--dot);
+    border-radius: 0.6rem;
+  }
+
+  .scroll-cue-wheel {
+    position: absolute;
+    left: 50%;
+    top: 0.25rem;
+    width: 2px;
+    height: 0.35rem;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: var(--dot);
+  }
+
+  .scroll-cue-caret {
+    width: 0.9rem;
+    height: 0.9rem;
+    color: var(--dot);
+  }
+
   /* ---------------------------------------------------------------- the status bar at the foot */
 
   .status-bar {

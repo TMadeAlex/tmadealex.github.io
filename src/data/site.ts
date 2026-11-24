@@ -74,6 +74,9 @@ export interface Site {
     openMenu: string;
     closeMenu: string;
     toTop: string;
+    /** The cue at the bottom of the screen while a page is at its top. */
+    scrollCue: string;
+    scrollCueLabel: string;
     home: string;
     seeIt: string;
     openPicture: string;
@@ -231,6 +234,8 @@ export const site: Site = {
     openMenu: "Open the menu",
     closeMenu: "Close the menu",
     toTop: "Back to the top",
+    scrollCue: "Scroll",
+    scrollCueLabel: "Scroll down the page",
     home: "TMade Alex, front page",
     seeIt: "See it",
     openPicture: "Open the picture",

@@ -93,7 +93,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         </div>
         <Providers partyWords={{ on: site.party.on, off: site.party.off }}>
           <SiteHeader />
-          {site.ready ? <ScrollProgress label={site.ui.toTop} /> : null}
+          {site.ready ? <ScrollProgress label={site.ui.toTop} cue={{ word: site.ui.scrollCue, label: site.ui.scrollCueLabel }} /> : null}
           <main id="main" className="site-main" tabIndex={-1}>
             {site.ready ? <GiftLine /> : null}
             {children}

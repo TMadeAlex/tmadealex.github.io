@@ -161,7 +161,7 @@
   .finder-meter {
     position: absolute;
     left: 50%;
-    bottom: 0.75rem;
+    top: 0.5rem;
     width: min(20rem, 60%);
     transform: translateX(-50%);
     font-family: var(--font-mono);
@@ -176,7 +176,7 @@
 
   .finder-needle {
     position: absolute;
-    top: -0.625rem;
+    top: 1rem;
     width: 2px;
     height: 0.5rem;
     margin-left: -1px;
