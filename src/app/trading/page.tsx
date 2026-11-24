@@ -19,11 +19,14 @@ import DeskClock from "@/components/trading/DeskClock";
 import DeskRise from "@/components/trading/DeskRise";
 import TerminalChart from "@/components/trading/TerminalChart";
 import { site } from "@/data/site";
+import { shareMetadata } from "@/lib/share";
 import { schedule } from "@/data/schedule";
 import { trading } from "@/data/trading";
 import { support } from "@/data/support";
 
-export const metadata: Metadata = site.ready ? { title: trading.title } : {};
+export const metadata: Metadata = site.ready
+  ? { title: trading.title, ...shareMetadata("trading", `${trading.title} | ${site.name}`) }
+  : {};
 
 /*
  * Trading: his desk first, drawn as a trading screen (a made-up chart over his

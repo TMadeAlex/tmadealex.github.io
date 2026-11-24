@@ -148,6 +148,7 @@ python3 -I scripts/check-links.py   # every link and file in out/ resolves; noth
 | [`src/styles/`](./src/styles) | The menu, the front page, the trading desk, the photography page, and what moves (`motion.css`, PARTY_MODE included) |
 | [`src/lib/look.ts`](./src/lib/look.ts) | Night, morning and PARTY_MODE: set before the page is drawn, so it never flashes the wrong look |
 | [`scripts/check-links.py`](./scripts/check-links.py) | The link check, in plain Python |
+| [`scripts/make-share-cards.py`](./scripts/make-share-cards.py) | Draws the picture each page shows when its link is shared, and the phone icons, into [`public/social/`](./public/social) (`npm run build`, then `npm run share-cards`, then commit them) |
 | [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) | Builds and publishes on every change to `main` |
 | [`AGENTS.md`](./AGENTS.md) | How any AI helper behaves here |
 

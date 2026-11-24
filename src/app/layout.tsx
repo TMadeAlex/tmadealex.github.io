@@ -8,6 +8,7 @@ import Providers from "@/components/chrome/Providers";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
 import CursorCandles from "@/components/fx/CursorCandles";
 import { lookScript } from "@/lib/look";
+import { shareMetadata } from "@/lib/share";
 import { site } from "@/data/site";
 import "./globals.css";
 
@@ -40,12 +41,21 @@ const mark =
   `<circle cx="16" cy="16" r="5" fill="${site.tone.primary}"/></svg>`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: site.ready ? { default: site.name, template: `%s | ${site.name}` } : site.organisation,
   description: site.ready ? site.description : site.holding.title,
-  /* Search engines: the switch is `indexable` in src/data/site.ts. */
+  /* Search engines: the switch is `indexable` in src/data/site.ts. A shared link still shows its preview. */
   robots: site.indexable ? { index: true, follow: true } : { index: false, follow: false },
-  icons: { icon: [{ url: `data:image/svg+xml,${encodeURIComponent(mark)}`, type: "image/svg+xml" }] },
+  /* The ring and dot: drawn into the page for browsers, and as pictures for phones and apps (scripts/make-share-cards.py). */
+  icons: {
+    icon: [
+      { url: `data:image/svg+xml,${encodeURIComponent(mark)}`, type: "image/svg+xml" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   referrer: "no-referrer",
+  ...(site.ready ? shareMetadata("home", site.name) : {}),
 };
 
 export const viewport: Viewport = {

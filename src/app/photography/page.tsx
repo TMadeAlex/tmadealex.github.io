@@ -8,12 +8,15 @@ import GallerySection from "@/components/sections/GallerySection";
 import IrisHero from "@/components/photo/IrisHero";
 import FilmRoll from "@/components/photo/FilmRoll";
 import { site } from "@/data/site";
+import { shareMetadata } from "@/lib/share";
 import { photography } from "@/data/photography";
 import { gallery } from "@/data/gallery";
 import type { GalleryItem } from "@/data/gallery";
 import type { Quote as QuoteData } from "@/data/sources";
 
-export const metadata: Metadata = site.ready ? { title: photography.title } : {};
+export const metadata: Metadata = site.ready
+  ? { title: photography.title, ...shareMetadata("photography", `${photography.title} | ${site.name}`) }
+  : {};
 
 type Frame = { kind: "picture"; item: GalleryItem; n: number } | { kind: "words"; quote: QuoteData; n: number };
 

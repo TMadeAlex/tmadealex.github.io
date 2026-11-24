@@ -10,7 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint",
-    "check-links": "python3 -I scripts/check-links.py"
+    "check-links": "python3 -I scripts/check-links.py",
+    "share-cards": "python3 -I scripts/make-share-cards.py"
   },
   "dependencies": {
     "@phosphor-icons/react": "2.1.10",
