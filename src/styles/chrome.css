@@ -153,6 +153,11 @@
     position: relative;
   }
 
+  .nav-menu.glass {
+    background: color-mix(in oklab, var(--ground) 94%, transparent);
+    box-shadow: var(--shadow-2);
+  }
+
   .nav-menu {
     position: absolute;
     right: 0;
@@ -385,6 +390,13 @@
     background: color-mix(in oklab, var(--night) 62%, transparent);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+  }
+
+  /* Solid enough to read over any page: the shared .glass rule comes later in the stylesheet, hence two classes. */
+  .drawer-panel.glass {
+    background: color-mix(in oklab, var(--ground) 97%, transparent);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
   }
 
   .drawer-panel {

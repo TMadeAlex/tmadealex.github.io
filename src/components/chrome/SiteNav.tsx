@@ -11,6 +11,7 @@ import {
   CameraIcon,
   CaretDownIcon,
   ChartLineUpIcon,
+  CodeIcon,
   ChatsCircleIcon,
   CompassIcon,
   GithubLogoIcon,
@@ -36,6 +37,7 @@ const placeIcons = {
   camera: CameraIcon,
   linkedin: LinkedinLogoIcon,
   github: GithubLogoIcon,
+  code: CodeIcon,
 };
 
 interface SiteNavProps {
@@ -43,7 +45,7 @@ interface SiteNavProps {
   homeLabel: string;
   links: NavLink[];
   explore: { label: string; links: ExternalLink[] };
-  source: { label: string; short: string; href: string; home: ExternalLink };
+  source: { menu: string; label: string; short: string; href: string; home: ExternalLink & { short: string } };
   look: { heading: string; night: string; morning: string; toNight: string; toMorning: string };
   party: { heading: string; name: string; hint: string };
   words: { menu: string; openMenu: string; closeMenu: string; home: string };
@@ -56,12 +58,93 @@ function PlaceIcon({ icon }: { icon?: ExternalLink["icon"] }) {
   return <Icon weight="duotone" aria-hidden="true" className="nav-icon" />;
 }
 
+interface NavDropdownProps {
+  id: string;
+  label: string;
+  icon: typeof CompassIcon;
+  links: ExternalLink[];
+  /** Hide the word on narrower desktops, keeping the picture. */
+  labelClass?: string;
+}
+
+/**
+ * A pill that opens a small menu of links to his pages elsewhere (Explore, GitHub).
+ * It closes on a click elsewhere, on Escape (the keyboard goes back to the pill),
+ * and when the keyboard leaves it.
+ */
+function NavDropdown({ id, label, icon: Icon, links, labelClass }: NavDropdownProps) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (event: PointerEvent) => {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        ref.current?.querySelector("button")?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="nav-explore">
+      <button
+        type="button"
+        className="nav-pill"
+        aria-expanded={open}
+        aria-controls={id}
+        aria-label={labelClass ? label : undefined}
+        title={label}
+        onClick={() => setOpen((was) => !was)}
+      >
+        <Icon weight="duotone" aria-hidden="true" className="nav-icon" />
+        <span className={labelClass}>{label}</span>
+        <CaretDownIcon weight="bold" aria-hidden="true" className={open ? "nav-caret nav-caret-open" : "nav-caret"} />
+      </button>
+      <AnimatePresence>
+        {open ? (
+          <motion.ul
+            id={id}
+            className="nav-menu glass"
+            initial={{ opacity: 0, y: -8, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.2, 0.8, 0.2, 1] }}
+            onBlur={(event) => {
+              if (!ref.current?.contains(event.relatedTarget as Node)) setOpen(false);
+            }}
+          >
+            {links.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} rel="noopener noreferrer" className="nav-menu-link" onClick={() => setOpen(false)}>
+                  <PlaceIcon icon={link.icon} />
+                  <span>{link.label}</span>
+                  <ArrowUpRightIcon aria-hidden="true" className="nav-menu-out" />
+                </a>
+              </li>
+            ))}
+          </motion.ul>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /**
  * The menu, fixed at the top of the screen on frosted glass, in the way the
  * Find Your Feathers and iamoneself sites lay theirs out: his name and the home
  * mark, the three pages as pills with their pictures (a glowing pill slides to
- * the page you are on), Explore for his own pages elsewhere, the site's source
- * on GitHub, the night and morning looks, PARTY_MODE, and Support.
+ * the page you are on), Explore for his own pages elsewhere, GitHub (his home
+ * there and this site's source), the night and morning looks, PARTY_MODE, and Support.
  *
  * On a narrow screen the pages fold into a menu button that opens a panel from
  * the right. That panel is the browser's own modal dialog, so Tab stays inside
@@ -71,37 +154,15 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
   const pathname = usePathname();
   const here = pathname.endsWith("/") ? pathname : `${pathname}/`;
   const [scrolled, setScrolled] = useState(false);
-  const [exploreOpen, setExploreOpen] = useState(false);
-  const exploreRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDialogElement>(null);
 
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
-  /* A new page closes the panel and the Explore menu. */
+  /* A new page closes the panel. */
   useEffect(() => {
     drawerRef.current?.close();
   }, [pathname]);
-
-  /* Explore closes on a click elsewhere, on Escape, and when the keyboard leaves it. */
-  useEffect(() => {
-    if (!exploreOpen) return;
-    const onDown = (event: PointerEvent) => {
-      if (!exploreRef.current?.contains(event.target as Node)) setExploreOpen(false);
-    };
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setExploreOpen(false);
-        exploreRef.current?.querySelector("button")?.focus();
-      }
-    };
-    document.addEventListener("pointerdown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("pointerdown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [exploreOpen]);
 
   const onHome = (event: MouseEvent) => {
     if (here === "/") {
@@ -149,49 +210,14 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
 
           <span className="nav-rule" aria-hidden="true" />
 
-          <div ref={exploreRef} className="nav-explore">
-            <button
-              type="button"
-              className="nav-pill"
-              aria-expanded={exploreOpen}
-              aria-controls="nav-explore-menu"
-              onClick={() => setExploreOpen((open) => !open)}
-            >
-              <CompassIcon weight="duotone" aria-hidden="true" className="nav-icon" />
-              <span>{explore.label}</span>
-              <CaretDownIcon weight="bold" aria-hidden="true" className={exploreOpen ? "nav-caret nav-caret-open" : "nav-caret"} />
-            </button>
-            <AnimatePresence>
-              {exploreOpen ? (
-                <motion.ul
-                  id="nav-explore-menu"
-                  className="nav-menu glass"
-                  initial={{ opacity: 0, y: -8, scale: 0.97 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                  transition={{ duration: 0.18, ease: [0.2, 0.8, 0.2, 1] }}
-                  onBlur={(event) => {
-                    if (!exploreRef.current?.contains(event.relatedTarget as Node)) setExploreOpen(false);
-                  }}
-                >
-                  {explore.links.map((link) => (
-                    <li key={link.href}>
-                      <a href={link.href} rel="noopener noreferrer" className="nav-menu-link" onClick={() => setExploreOpen(false)}>
-                        <PlaceIcon icon={link.icon} />
-                        <span>{link.label}</span>
-                        <ArrowUpRightIcon aria-hidden="true" className="nav-menu-out" />
-                      </a>
-                    </li>
-                  ))}
-                </motion.ul>
-              ) : null}
-            </AnimatePresence>
-          </div>
-
-          <a href={source.href} rel="noopener noreferrer" className="nav-pill nav-source" title={source.label}>
-            <GithubLogoIcon weight="duotone" aria-hidden="true" className="nav-icon" />
-            <span className="nav-source-word">{source.short}</span>
-          </a>
+          <NavDropdown id="nav-explore-menu" label={explore.label} icon={CompassIcon} links={explore.links} />
+          <NavDropdown
+            id="nav-github-menu"
+            label={source.menu}
+            icon={GithubLogoIcon}
+            labelClass="nav-source-word"
+            links={[source.home, { label: source.label, href: source.href, icon: "code" }]}
+          />
         </nav>
 
         <div className="nav-tools">
@@ -269,15 +295,15 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
 
           <ul className="drawer-list drawer-foot">
             <li>
-              <a href={source.href} rel="noopener noreferrer" className="drawer-link">
-                <GithubLogoIcon weight="duotone" aria-hidden="true" className="nav-icon" />
-                <span>{source.label}</span>
-              </a>
-            </li>
-            <li>
               <a href={source.home.href} rel="noopener noreferrer" className="drawer-link">
                 <GithubLogoIcon weight="duotone" aria-hidden="true" className="nav-icon" />
                 <span>{source.home.label}</span>
+              </a>
+            </li>
+            <li>
+              <a href={source.href} rel="noopener noreferrer" className="drawer-link">
+                <CodeIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                <span>{source.label}</span>
               </a>
             </li>
           </ul>

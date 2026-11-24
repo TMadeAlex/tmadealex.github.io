@@ -2,7 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { GithubLogoIcon, ShieldCheckIcon } from "@phosphor-icons/react";
+import { CodeIcon, GithubLogoIcon, ShieldCheckIcon } from "@phosphor-icons/react";
 import type { Session } from "@/data/schedule";
 import { occurrences } from "@/lib/sessions";
 
@@ -13,7 +13,7 @@ interface StatusBarProps {
   /** His times as he posts them, shown until the browser knows the visitor's own time. */
   posted: string;
   words: { label: string; next: string; until: string; scheduled: string; risk: string; riskHref: string; in: string; h: string; min: string };
-  source: { label: string; short: string; href: string };
+  source: { label: string; short: string; href: string; home: { label: string; short: string; href: string } };
 }
 
 const TICK = 30_000;
@@ -27,8 +27,8 @@ const serverNow = () => null;
 /**
  * The thin bar fixed at the foot of every page, like the status line of a
  * trading screen: the next scheduled session in the visitor's own time (or the
- * one scheduled now, and until when), the risk line, and the site's source on
- * GitHub. It says what is scheduled, never that a stream is live.
+ * one scheduled now, and until when), the risk line, his home on GitHub and
+ * this site's source there. It says what is scheduled, never that a stream is live.
  */
 export default function StatusBar({ sessions, days, zone, posted, words, source }: StatusBarProps) {
   const now = useSyncExternalStore(subscribe, clientNow, serverNow);
@@ -63,8 +63,12 @@ export default function StatusBar({ sessions, days, zone, posted, words, source 
         <ShieldCheckIcon weight="duotone" aria-hidden="true" />
         <span>{words.risk}</span>
       </Link>
-      <a href={source.href} rel="noopener noreferrer" className="status-link" title={source.label}>
+      <a href={source.home.href} rel="noopener noreferrer" className="status-link" title={source.home.label} aria-label={source.home.label}>
         <GithubLogoIcon weight="duotone" aria-hidden="true" />
+        <span className="status-source-word">{source.home.short}</span>
+      </a>
+      <a href={source.href} rel="noopener noreferrer" className="status-link" title={source.label} aria-label={source.label}>
+        <CodeIcon weight="duotone" aria-hidden="true" />
         <span className="status-source-word">{source.short}</span>
       </a>
     </aside>

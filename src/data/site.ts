@@ -34,7 +34,7 @@ export interface NavLink {
 export interface ExternalLink {
   label: string;
   href: string;
-  icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github";
+  icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github" | "code";
 }
 
 export interface Site {
@@ -54,7 +54,7 @@ export interface Site {
   /** The Explore menu: his own pages elsewhere. */
   explore: { label: string; links: ExternalLink[] };
   /** Where this site's own source lives on GitHub. */
-  source: { label: string; short: string; href: string; home: ExternalLink };
+  source: { menu: string; label: string; short: string; href: string; home: ExternalLink & { short: string } };
   labels: { support: string; empty: string };
   /** The fixed bar at the foot of every page. */
   status: { label: string; next: string; until: string; scheduled: string; risk: string; riskHref: string };
@@ -154,12 +154,13 @@ export const site: Site = {
     ],
   },
 
-  /* This site's own source, on GitHub, where Alex can change any word of it. */
+  /* His home on GitHub, and this site's own source there, where Alex can change any word of it. */
   source: {
+    menu: "GitHub",
     label: "Source on GitHub",
     short: "Source",
     href: "https://github.com/TMadeAlex/tmadealex.github.io",
-    home: { label: "TMadeAlex on GitHub", href: "https://github.com/TMadeAlex", icon: "github" },
+    home: { label: "TMadeAlex on GitHub", short: "TMadeAlex", href: "https://github.com/TMadeAlex", icon: "github" },
   },
 
   labels: {
