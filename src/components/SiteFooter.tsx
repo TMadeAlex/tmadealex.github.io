@@ -21,7 +21,11 @@ function EndNote({ locale }: { locale: Locale }) {
             locale={locale}
             homeLabel={site.ui.homeWord}
             links={site.nav}
-            github={{ home: site.source.home, source: { label: site.source.label, href: site.source.href } }}
+            github={{
+              home: site.source.home,
+              source: { label: site.source.label, href: site.source.href },
+              log: { short: site.source.log.short, href: site.source.log.href },
+            }}
             risk={site.status.risk}
             welcome={site.arrival.again}
           />

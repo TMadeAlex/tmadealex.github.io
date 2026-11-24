@@ -22,6 +22,7 @@ import {
   InstagramLogoIcon,
   LinkedinLogoIcon,
   ListIcon,
+  PlanetIcon,
   ShieldCheckIcon,
   StorefrontIcon,
   TranslateIcon,
@@ -48,6 +49,7 @@ const placeIcons = {
   linkedin: LinkedinLogoIcon,
   github: GithubLogoIcon,
   code: CodeIcon,
+  log: PlanetIcon,
 };
 
 /** The menu's words in one language. */
@@ -56,7 +58,14 @@ export interface NavBundle {
   homeLabel: string;
   links: NavLink[];
   explore: { label: string; links: ExternalLink[] };
-  source: { menu: string; label: string; short: string; href: string; home: ExternalLink & { short: string } };
+  source: {
+    menu: string;
+    label: string;
+    short: string;
+    href: string;
+    home: ExternalLink & { short: string };
+    log: ExternalLink & { short: string };
+  };
   look: { heading: string; night: string; morning: string; toNight: string; toMorning: string };
   party: { heading: string; name: string; hint: string };
   languages: { heading: string; other: string; otherShort: string; otherLabel: string; otherLang: string };
@@ -286,7 +295,7 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
             label={source.menu}
             icon={GithubLogoIcon}
             labelClass="nav-source-word"
-            links={[source.home, { label: source.label, href: source.href, icon: "code" }]}
+            links={[source.home, { label: source.label, href: source.href, icon: "code" }, source.log]}
           />
         </nav>
 
@@ -450,6 +459,12 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
               <a href={source.href} rel="noopener noreferrer" className="drawer-link">
                 <CodeIcon weight="duotone" aria-hidden="true" className="nav-icon" />
                 <span>{source.label}</span>
+              </a>
+            </li>
+            <li>
+              <a href={source.log.href} rel="noopener noreferrer" className="drawer-link">
+                <PlanetIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                <span>{source.log.label}</span>
               </a>
             </li>
           </ul>
