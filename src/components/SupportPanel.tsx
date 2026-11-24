@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 
 /** The panel's small words, from ui in site.ts. */
 export interface SupportWords {
@@ -74,7 +74,7 @@ export default function SupportPanel({ address, network, note, words }: SupportP
           onClick={copy}
           className="mt-4 inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-accent px-4 text-[0.9375rem] font-medium text-accent hover:text-ink"
         >
-          {copied ? <Check aria-hidden="true" className="h-4 w-4" /> : <Copy aria-hidden="true" className="h-4 w-4" />}
+          {copied ? <CheckIcon weight="bold" aria-hidden="true" className="h-4 w-4" /> : <CopyIcon weight="duotone" aria-hidden="true" className="h-4 w-4" />}
           <span aria-live="polite">{copied ? words.addressCopied : words.copyAddress}</span>
         </button>
       </div>

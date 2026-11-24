@@ -1,14 +1,39 @@
 import Link from "next/link";
-import { Play, UsersRound } from "lucide-react";
+import {
+  ApertureIcon,
+  ArrowRightIcon,
+  BroadcastIcon,
+  ChartLineUpIcon,
+  MicrophoneStageIcon,
+  PlayIcon,
+  UsersThreeIcon,
+} from "@phosphor-icons/react/ssr";
 import Holding from "@/components/Holding";
 import Cite, { Quote, citeHref } from "@/components/Cite";
 import SessionChart from "@/components/schedule/SessionChart";
+import CandleField from "@/components/fx/CandleField";
+import Crosshair from "@/components/fx/Crosshair";
+import TiltPane from "@/components/fx/TiltPane";
+import WordReveal from "@/components/fx/WordReveal";
+import HeroStage from "@/components/home/HeroStage";
+import RoleTicker from "@/components/home/RoleTicker";
 import { site } from "@/data/site";
 import { home } from "@/data/home";
 import { schedule } from "@/data/schedule";
 import { gallery } from "@/data/gallery";
 
-/* The front page: who he is and what he does, when he trades live, where to watch, and the two doors. */
+const roleIcons = {
+  trader: ChartLineUpIcon,
+  streamer: BroadcastIcon,
+  host: MicrophoneStageIcon,
+  photographer: ApertureIcon,
+};
+
+/*
+ * The front page: who he is (the four seats he sits in), when he trades live,
+ * where to watch and where the community is, his line on the road, and the two
+ * doors: the desk and the lens.
+ */
 export default function HomePage() {
   if (!site.ready) return <Holding />;
 
@@ -16,98 +41,182 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="frame hero" aria-labelledby="hero-title">
+      <HeroStage
+        labelledBy="hero-title"
+        field={<CandleField seed={23} count={84} className="hero-candles" />}
+        aside={
+          <TiltPane className="hero-pane">
+            <h2 className="chart-title">{schedule.words.heading}</h2>
+            <SessionChart sessions={schedule.sessions} days={schedule.days} zone={schedule.zone} words={schedule.words}>
+              <span className="session-posted">“{schedule.posted.text}”</span> <Cite {...schedule.posted} dated />
+              <span className="session-check">{schedule.words.check}</span>
+            </SessionChart>
+          </TiltPane>
+        }
+      >
         <p className="kicker hero-kicker">
+          <span className="kicker-dot" aria-hidden="true" />
           <a href={citeHref(home.kicker)} rel="noopener noreferrer" title="In his words, from his YouTube channel">
             {home.kicker.text}
           </a>
         </p>
         <h1 id="hero-title" className="display hero-title">
-          {site.name}
+          <span className="hero-name">{site.name}</span>
           <span className="dot dot-hero" aria-hidden="true" />
         </h1>
-
-        <div className="hero-grid">
-          <div className="hero-words">
-            <p className="hero-lead">{home.lead}</p>
-            <p className="hero-second">{home.second}</p>
-            <p className="cite-line">
-              <Cite {...home.leadSource} dated /> · <Cite {...home.secondSource} dated />
-            </p>
-            <div className="hero-actions">
-              <a href={home.watch.action.href} rel="noopener noreferrer" className="button button-solid">
-                <Play aria-hidden="true" className="button-icon" strokeWidth={2} />
-                {home.watch.action.label}
-              </a>
-              <a href={home.community.action.href} rel="noopener noreferrer" className="button button-line">
-                <UsersRound aria-hidden="true" className="button-icon" strokeWidth={1.75} />
-                {home.community.action.label}
-              </a>
-            </div>
-          </div>
-
-          <div className="hero-chart">
-            <h2 className="chart-title">{schedule.words.heading}</h2>
-            <SessionChart
-              sessions={schedule.sessions}
-              days={schedule.days}
-              zone={schedule.zone}
-              words={schedule.words}
-            >
-              <span className="session-posted">“{schedule.posted.text}”</span> <Cite {...schedule.posted} dated />
-              <span className="session-check">{schedule.words.check}</span>
-            </SessionChart>
-          </div>
+        <RoleTicker words={home.turning} label={home.turningLabel} />
+        <p className="hero-lead">{home.lead}</p>
+        <p className="hero-second">{home.second}</p>
+        <p className="cite-line">
+          <Cite {...home.leadSource} dated /> · <Cite {...home.secondSource} dated />
+        </p>
+        <div className="hero-actions">
+          <a href={home.watch.action.href} rel="noopener noreferrer" className="button button-solid">
+            <PlayIcon weight="duotone" aria-hidden="true" className="button-icon" />
+            {home.watch.action.label}
+          </a>
+          <a href={home.community.action.href} rel="noopener noreferrer" className="button button-glass">
+            <UsersThreeIcon weight="duotone" aria-hidden="true" className="button-icon" />
+            {home.community.action.label}
+          </a>
         </div>
+      </HeroStage>
+
+      <section className="frame seats" aria-labelledby="seats-title">
+        <div className="seats-head">
+          <h2 id="seats-title" className="section-title seats-title">
+            {home.roles.title}
+          </h2>
+          <p className="section-intro">{home.roles.text}</p>
+        </div>
+        <ul className="seats-list">
+          {home.roles.list.map((seat) => {
+            const Icon = roleIcons[seat.id];
+            return (
+              <li key={seat.id} className={`seat seat-${seat.id}`}>
+                <span className="seat-art" aria-hidden="true">
+                  {seat.id === "trader" ? <CandleField seed={5} count={22} width={240} height={90} line={false} /> : null}
+                  {seat.id === "streamer" ? (
+                    <span className="seat-wave">
+                      {Array.from({ length: 14 }, (_, i) => (
+                        <span key={i} style={{ animationDelay: `${(i % 7) * 0.13}s` }} />
+                      ))}
+                    </span>
+                  ) : null}
+                  {seat.id === "host" ? <span className="seat-rings" /> : null}
+                  {seat.id === "photographer" ? (
+                    <span className="seat-finder">
+                      <span />
+                    </span>
+                  ) : null}
+                </span>
+                <span className="seat-icon" aria-hidden="true">
+                  <Icon weight="duotone" />
+                </span>
+                <h3 className="seat-role">{seat.role}</h3>
+                <p className="seat-line">{seat.line}</p>
+                <Quote quote={seat.quote} className="seat-quote" />
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <section className="frame where" aria-label="Where to watch and where the community is">
         <div className="where-grid">
-          <div className="where-block">
+          <div className="where-block glass">
+            <span className="where-icon" aria-hidden="true">
+              <PlayIcon weight="duotone" />
+            </span>
             <h2 className="where-title">{home.watch.title}</h2>
             <p className="where-text">{home.watch.text}</p>
             <Quote quote={home.watch.quote} />
             <a href={home.watch.action.href} rel="noopener noreferrer" className="where-link">
               {home.watch.action.label}
+              <ArrowRightIcon aria-hidden="true" className="where-link-icon" />
             </a>
           </div>
-          <div className="where-block">
+          <div className="where-block glass">
+            <span className="where-icon" aria-hidden="true">
+              <UsersThreeIcon weight="duotone" />
+            </span>
             <h2 className="where-title">{home.community.title}</h2>
             <p className="where-text">{home.community.text}</p>
             <Quote quote={home.community.quote} />
             <a href={home.community.action.href} rel="noopener noreferrer" className="where-link">
               {home.community.action.label}
+              <ArrowRightIcon aria-hidden="true" className="where-link-icon" />
             </a>
           </div>
         </div>
       </section>
 
       <section className="band on-dark" aria-label="In his words">
+        <CandleField seed={41} count={60} className="band-candles" />
         <div className="frame">
-          <Quote quote={home.band} size="band" />
+          <figure className="quote quote-band">
+            <blockquote>
+              <p>
+                <span className="quote-mark" aria-hidden="true">
+                  “
+                </span>
+                <WordReveal text={home.band.text} />
+                <span aria-hidden="true">”</span>
+              </p>
+            </blockquote>
+            <figcaption>
+              <Cite source={home.band.source} at={home.band.at} />
+            </figcaption>
+          </figure>
         </div>
       </section>
 
       <nav className="frame doors" aria-label="The two crafts">
-        <Link href={home.doors.trading.href} className="door door-trading">
+        <Link href={home.doors.trading.href} className="door door-trading on-dark">
+          <span className="door-screen" aria-hidden="true">
+            <span className="door-tabs">
+              <span className="door-tab door-tab-on">NQ</span>
+              <span className="door-tab">ES</span>
+              <span className="door-tab-note">illustration</span>
+            </span>
+            <CandleField seed={7} count={40} width={600} height={240} className="door-candles" />
+            <Crosshair />
+          </span>
           <span className="door-title">
             {home.doors.trading.title}
             <span className="dot" aria-hidden="true" />
           </span>
           <span className="door-text">{home.doors.trading.text}</span>
-          <span className="door-go">{home.doors.trading.label}</span>
+          <span className="door-go">
+            <ChartLineUpIcon weight="duotone" aria-hidden="true" />
+            {home.doors.trading.label}
+          </span>
         </Link>
-        <Link href={home.doors.photography.href} className={`door door-photography ${cover ? "door-has-cover" : ""}`}>
-          {cover ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img src={cover.thumb ?? cover.src} alt="" className="door-cover" loading="lazy" decoding="async" />
-          ) : null}
+
+        <Link href={home.doors.photography.href} className="door door-photography on-dark">
+          <span className="door-lens" aria-hidden="true">
+            {cover ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={cover.thumb ?? cover.src} alt="" className="door-cover" loading="lazy" decoding="async" />
+            ) : null}
+            <span className="finder-corner finder-tl" />
+            <span className="finder-corner finder-tr" />
+            <span className="finder-corner finder-bl" />
+            <span className="finder-corner finder-br" />
+            <span className="door-af">
+              <span className="door-af-dot" />
+              AF
+            </span>
+          </span>
           <span className="door-title">
             {home.doors.photography.title}
             <span className="dot" aria-hidden="true" />
           </span>
           <span className="door-text">{home.doors.photography.text}</span>
-          <span className="door-go">{home.doors.photography.label}</span>
+          <span className="door-go">
+            <ApertureIcon weight="duotone" aria-hidden="true" />
+            {home.doors.photography.label}
+          </span>
         </Link>
       </nav>
     </>

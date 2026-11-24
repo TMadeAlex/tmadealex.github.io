@@ -4,14 +4,18 @@ import { JetBrains_Mono, Poppins } from "next/font/google";
 import GiftLine from "@/components/GiftLine";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import Providers from "@/components/chrome/Providers";
+import ScrollProgress from "@/components/chrome/ScrollProgress";
+import CursorCandles from "@/components/fx/CursorCandles";
+import { lookScript } from "@/lib/look";
 import { site } from "@/data/site";
 import "./globals.css";
 
 /*
  * The two typefaces of his TRADERMADE art: a round geometric sans for words, and
- * a monospace for the small spaced lines. Both are downloaded once, when the
- * site is built, and then served from this site itself. A visitor's browser
- * never asks another server for them.
+ * a monospace for the small spaced lines and the trading screens. Both are
+ * downloaded once, when the site is built, and then served from this site
+ * itself. A visitor's browser never asks another server for them.
  */
 const sans = Poppins({
   variable: "--font-sans-face",
@@ -47,10 +51,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   colorScheme: "dark light",
   themeColor: [
     { media: "(prefers-color-scheme: dark)", color: site.tone.deep },
-    { media: "(prefers-color-scheme: light)", color: "#f6fcfc" },
+    { media: "(prefers-color-scheme: light)", color: "#d5eaec" },
   ],
 };
 
@@ -66,18 +71,36 @@ const tone = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang={site.language} className={`${sans.variable} ${mono.variable} antialiased`} style={tone}>
+    /* The look (night or morning) is set on <html> by the script below before the page is drawn, so React is told not to mind it. */
+    <html
+      lang={site.language}
+      data-theme="night"
+      className={`${sans.variable} ${mono.variable} antialiased`}
+      style={tone}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: lookScript }} />
+      </head>
       <body className="site">
         <a href="#main" className="skip-link">
           {site.ui.skip}
         </a>
-        <div className="backdrop" aria-hidden="true" />
-        {site.ready ? <GiftLine /> : null}
-        <SiteHeader />
-        <main id="main" className="site-main">
-          {children}
-        </main>
-        <SiteFooter />
+        <div className="backdrop" aria-hidden="true">
+          <span className="backdrop-glow backdrop-glow-a" />
+          <span className="backdrop-glow backdrop-glow-b" />
+          <span className="backdrop-grain" />
+        </div>
+        <Providers partyWords={{ on: site.party.on, off: site.party.off }}>
+          <SiteHeader />
+          {site.ready ? <ScrollProgress label={site.ui.toTop} cue={{ word: site.ui.scrollCue, label: site.ui.scrollCueLabel }} /> : null}
+          <main id="main" className="site-main" tabIndex={-1}>
+            {site.ready ? <GiftLine /> : null}
+            {children}
+          </main>
+          <SiteFooter />
+          {site.ready ? <CursorCandles /> : null}
+        </Providers>
       </body>
     </html>
   );

@@ -17,6 +17,50 @@ export const home = {
   leadSource: { source: "instagramBio" } as Cited,
   secondSource: { source: "alphas", at: 95 } as Cited,
 
+  /*
+   * The words that turn in the line under his name, one after another. Each is
+   * his own: "Futures Trader | Streamer and Host of TMade" (his Instagram bio),
+   * "entertainment" (every stream description: "for educational and
+   * entertainment purposes"), and "fashion photographer" (the ALPHAS interview).
+   */
+  turning: ["Futures trader", "Live streamer", "Entertainer", "Host of TMade", "Fashion photographer"],
+  turningLabel: "What he does",
+
+  /* The four seats he sits in, each with a line of his own and where it was said. */
+  roles: {
+    title: "Four seats, one person",
+    text: "At the desk, on the stream, across from a guest and behind the camera. Each in his own words.",
+    list: [
+      {
+        id: "trader",
+        role: "Futures trader",
+        line: "NQ and ES futures, live, Monday to Friday.",
+        quote: { text: "I think I just love scalping.", source: "alphas", at: 1174 } as Quote,
+      },
+      {
+        id: "streamer",
+        role: "Live streamer and entertainer",
+        line: "Two sessions a day with the chat open. His streams call themselves educational and entertainment.",
+        quote: {
+          text: "This stream is for educational and entertainment purposes only",
+          source: "streamDescriptions",
+        } as Quote,
+      },
+      {
+        id: "host",
+        role: "Host of TMade",
+        line: "On Meet the Trader he sits across from other traders and asks about their road.",
+        quote: { text: "All right, fam, welcome to the show. Welcome to Meet the Traders.", source: "meetTheTrader", at: 28 } as Quote,
+      },
+      {
+        id: "photographer",
+        role: "Fashion photographer",
+        line: "Miami-born, in New York since 2014, shooting a first book about family and culture.",
+        quote: { text: "I'm a fashion photographer based in New York.", source: "alphas", at: 95 } as Quote,
+      },
+    ] as { id: "trader" | "streamer" | "host" | "photographer"; role: string; line: string; quote: Quote }[],
+  },
+
   watch: {
     title: "Watch him trade, free",
     text: "He trades NQ and ES futures live on YouTube, with the chat open. His streams put it this way:",

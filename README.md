@@ -121,7 +121,8 @@ Three ways, from the lightest to the most final. Each needs only an owner.
 ## <img src="assets/icons/shield-check.svg" width="24" height="24" alt=""> What it never does
 
 - No forms, no sign-in, no cookies, no analytics and no trackers. No email address anywhere: the contact page is a list of links to his own pages.
-- A visitor's browser asks this site for its files and asks no other site for anything. The fonts (Poppins and JetBrains Mono, the faces of his TRADERMADE banner) are downloaded when the site is built and served from the site itself, the icons are part of the code, and no picture is loaded from elsewhere.
+- A visitor's browser asks this site for its files and asks no other site for anything. The fonts (Poppins and JetBrains Mono, the faces of his TRADERMADE banner) are downloaded when the site is built and served from the site itself, the icons are part of the code, and no picture is loaded from elsewhere apart from his own photographs, shown from his own photography site (above).
+- The look a visitor picks (night, morning, PARTY_MODE) is remembered by their own browser and never sent anywhere.
 - It sells nothing. Joining TRADERMADE, its plans and payment all happen on Whop; the site links there.
 - It never says a stream is live. It shows when each session is scheduled, in the visitor's own time, and the next scheduled start.
 - The support panel, if Alex ever fills it in, shows an address and copies it. It does not connect to a wallet, hold anything, take a payment or mint anything.
@@ -141,14 +142,16 @@ python3 -I scripts/check-links.py   # every link and file in out/ resolves; noth
 | --- | --- |
 | [`src/data/`](./src/data) | Every word and setting |
 | [`src/app/`](./src/app) | The pages: `/`, `/trading/`, `/photography/`, `/contact/` and the page for a wrong address |
-| [`src/components/`](./src/components) | The gift line, header and footer, the schedule chart, the sections, the picture grid and viewer, the support panel |
+| [`src/components/`](./src/components) | The menu and the status bar (`chrome/`), the front page's layers (`home/`), the trading desk (`trading/`), the lens and the film roll (`photo/`), the candles, crosshair and cursor (`fx/`), the contact sheet and viewer, the support window |
 | [`src/lib/sessions.ts`](./src/lib/sessions.ts) | Turns his posted Eastern times into each visitor's own time, with the browser's own clock |
-| [`src/app/globals.css`](./src/app/globals.css) | The look. Every colour is mixed from the six values in `site.ts`, dark first and light too |
+| [`src/app/globals.css`](./src/app/globals.css) | The look. Every colour is mixed from the six values in `site.ts`: night first, and morning, a misty teal that is never plain white |
+| [`src/styles/`](./src/styles) | The menu, the front page, the trading desk, the photography page, and what moves (`motion.css`, PARTY_MODE included) |
+| [`src/lib/look.ts`](./src/lib/look.ts) | Night, morning and PARTY_MODE: set before the page is drawn, so it never flashes the wrong look |
 | [`scripts/check-links.py`](./scripts/check-links.py) | The link check, in plain Python |
 | [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) | Builds and publishes on every change to `main` |
 | [`AGENTS.md`](./AGENTS.md) | How any AI helper behaves here |
 
-The picture viewer works from the keyboard: Escape closes it, the left and right arrows step through, Home and End go to the first and last, and closing it puts the keyboard back on the picture last shown. On a touch screen, swipe left or right. Motion is one moment when a page opens (the cyan dot lands and the session boxes rise); a device set to reduce motion sees them already in place.
+The picture viewer works from the keyboard: Escape closes it, the left and right arrows step through, Home and End go to the first and last, and closing it puts the keyboard back on the picture last shown. On a touch screen, swipe left or right. Motion, from the `motion` package: layers that move at their own speeds as the page scrolls (parallax), panes that lean toward the mouse, a cursor that leaves a wave of little candles, an iris that opens on the photography page, prints that develop, a desk that straightens as it comes up, and glows that breathe. PARTY_MODE (the button at the top, or Shift + P) turns his cyan slowly through every colour and throws a burst of candles. A device set to reduce motion sees all of it standing still, and PARTY_MODE then changes colour only.
 
 ## <img src="assets/icons/git-pull-request.svg" width="24" height="24" alt=""> Suggest a change
 

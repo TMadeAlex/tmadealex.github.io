@@ -64,10 +64,11 @@ export const contact = {
   colophon: {
     title: "About this site",
     paragraphs: [
-      "A member of the TRADERMADE community built this site as a gift, with an AI helper (Claude Code). TMade Alex decides what stays, what changes, and whether it stays up at all.",
+      "A member of the TRADERMADE community built this site as a gift, with two AI helpers: Claude Code, and Littlebird (littlebird.ai). The member is one of Littlebird's ambassadors. TMade Alex decides what stays, what changes, and whether it stays up at all.",
       "Every figure and quotation comes from Alex's own public pages, read on 23 November 2026, and links to where it was read. Quotations from videos are as YouTube's automatic captions print them.",
       "The photographs on the photography page are shown from his own site, where he published them, and each links back to it. None is copied here.",
-      "No link on this site earns the person who set it up anything. There are no cookies, no forms and no tracking, and search engines are asked not to list it.",
+      "No link on this site earns the person who set it up anything. There are no cookies, no forms and no tracking; the look you choose (night, morning, PARTY_MODE) is remembered by your own browser only. Search engines are asked not to list it.",
+      "The candles drawn on these pages, the cursor's included, are decoration made up by the site. They are not market data and not anyone's trades.",
     ],
   },
 };

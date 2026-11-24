@@ -1,0 +1,420 @@
+/*
+ * The photography page: the lens at the top with its iris, the roll of film
+ * that runs sideways, and the contact sheet of prints with a loupe.
+ */
+@layer components {
+  /* ---------------------------------------------------------------- the lens */
+
+  .iris-hero {
+    position: relative;
+    padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem);
+  }
+
+  .iris-grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+
+  .iris-words .kicker {
+    margin-bottom: 1.25rem;
+  }
+
+  .iris-words .display {
+    font-size: clamp(3rem, 5.6vw, 5.25rem);
+    white-space: nowrap;
+  }
+
+  .iris-words .page-lead-big {
+    margin-top: 1.5rem;
+  }
+
+  .iris-lens {
+    position: relative;
+  }
+
+  .iris-glass {
+    position: relative;
+    display: block;
+    aspect-ratio: 2000 / 1571;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--night);
+    box-shadow:
+      inset 0 1px 0 var(--glass-edge),
+      0 30px 70px -30px var(--shadow-deep),
+      0 0 0 1px var(--line);
+  }
+
+  .iris-photo {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .iris-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .iris-shade {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% 50%, transparent 55%, color-mix(in oklab, black 55%, transparent));
+    pointer-events: none;
+  }
+
+  .iris-blades {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 160%;
+    height: auto;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) rotate(60deg) scale(2.6);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .iris-blade {
+    fill: color-mix(in oklab, var(--night) 94%, var(--tone-mid));
+    stroke: color-mix(in oklab, var(--tone-tint) 18%, transparent);
+    stroke-width: 0.6;
+  }
+
+  .iris-glass .finder-corner {
+    margin: 1rem;
+  }
+
+  .iris-af {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 3.5rem;
+    height: 2.5rem;
+    margin: -1.25rem 0 0 -1.75rem;
+    border: 1px solid color-mix(in oklab, var(--dot) 70%, transparent);
+    border-radius: 4px;
+    opacity: 0;
+  }
+
+  .iris-caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.875rem;
+    margin-top: 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .iris-caption-title {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .iris-caption-place {
+    color: var(--ink-soft);
+  }
+
+  .iris-caption-credit {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--ink-faint);
+    text-decoration: underline dotted;
+    text-underline-offset: 0.3em;
+  }
+
+  .iris-caption-credit:hover {
+    color: var(--accent);
+  }
+
+  @media (min-width: 62rem) {
+    .iris-grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+  }
+
+  /* ---------------------------------------------------------------- the roll of film */
+
+  .roll {
+    position: relative;
+    padding-top: clamp(2rem, 5vw, 3rem);
+  }
+
+  .roll-head {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .roll-stage {
+    position: relative;
+  }
+
+  .roll-sticky {
+    overflow-x: auto;
+    padding-block: 1rem 1.5rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .roll-stage-pinned .roll-sticky {
+    position: sticky;
+    top: var(--nav-h);
+    display: flex;
+    height: calc(100vh - var(--nav-h) - var(--status-h));
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  /* The strip itself: dark film with sprocket holes along both edges. */
+  .roll-track {
+    --hole: color-mix(in oklab, var(--ground) 90%, transparent);
+    display: flex;
+    width: max-content;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding: 2.25rem clamp(1rem, 5vw, 4rem);
+    background:
+      radial-gradient(circle at 50% 50%, var(--hole) 0 3.5px, transparent 4px) 0 0.625rem / 1.25rem 1.25rem repeat-x,
+      radial-gradient(circle at 50% 50%, var(--hole) 0 3.5px, transparent 4px) 0 calc(100% - 0.625rem) / 1.25rem 1.25rem repeat-x,
+      linear-gradient(to bottom, #050a0b, #0a1416 50%, #050a0b);
+    box-shadow:
+      0 30px 60px -30px var(--shadow-deep),
+      inset 0 1px 0 color-mix(in oklab, white 6%, transparent);
+    will-change: transform;
+  }
+
+  .roll-track:focus-visible {
+    outline-offset: -4px;
+  }
+
+  .roll-frame {
+    position: relative;
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: center;
+  }
+
+  /* Each picture's frame is given its width from its own shape, so the strip knows its full length before the pictures arrive. */
+  .roll-track {
+    --frame-h: min(56vh, 30rem);
+  }
+
+  .roll-picture {
+    width: calc(var(--frame-h) * var(--ratio, 0.8));
+  }
+
+  .roll-picture img {
+    display: block;
+    width: 100%;
+    height: var(--frame-h);
+    border-radius: 3px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px color-mix(in oklab, white 6%, transparent);
+  }
+
+  .roll-words {
+    width: min(26rem, 78vw);
+    padding: 1.5rem;
+    color: #e6fafa;
+  }
+
+  .roll-words .quote-large blockquote p {
+    color: #e6fafa;
+  }
+
+  .roll-words .quote-large .quote-mark {
+    position: static;
+    margin-right: 0.1em;
+  }
+
+  /* The edge print under each frame: its number, and what it is. */
+  .roll-edge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1.75rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.12em;
+    color: color-mix(in oklab, #f2b84b 70%, transparent);
+    white-space: nowrap;
+  }
+
+  .roll-edge span:nth-child(2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 47.99rem) {
+    .roll-track {
+      --frame-h: 44vh;
+    }
+  }
+
+  /* ---------------------------------------------------------------- the contact sheet */
+
+  .sheet {
+    columns: 1;
+    column-gap: 1.5rem;
+  }
+
+  .print {
+    break-inside: avoid;
+    margin-bottom: 1.75rem;
+    transform: rotate(var(--lean, 0deg));
+    transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .print:hover,
+  .print:focus-within {
+    transform: rotate(0deg) translateY(-6px);
+  }
+
+  .print-open {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    text-align: left;
+    color: inherit;
+    cursor: zoom-in;
+  }
+
+  /* A dark mat around each print, with the depth of a print lying on a table. */
+  .print-paper {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding: 0.625rem;
+    border: 1px solid var(--glass-line);
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--night) 88%, var(--tone-mid));
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, white 8%, transparent),
+      0 3px 8px -2px color-mix(in oklab, black 45%, transparent),
+      0 28px 50px -28px var(--shadow-deep);
+    transition: box-shadow 400ms ease;
+  }
+
+  .print:hover .print-paper {
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, white 10%, transparent),
+      0 8px 16px -6px color-mix(in oklab, black 50%, transparent),
+      0 50px 80px -36px var(--shadow-deep),
+      0 0 0 1px color-mix(in oklab, var(--dot) 30%, transparent);
+  }
+
+  .print-picture {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    object-fit: cover;
+  }
+
+  .loupe {
+    position: absolute;
+    left: 0.625rem;
+    top: 0.625rem;
+    z-index: 2;
+    border: 2px solid color-mix(in oklab, var(--dot) 80%, white);
+    border-radius: 50%;
+    background-color: var(--night);
+    background-repeat: no-repeat;
+    box-shadow:
+      0 0 0 6px color-mix(in oklab, var(--night) 55%, transparent),
+      0 18px 40px -10px color-mix(in oklab, black 70%, transparent),
+      inset 0 0 24px color-mix(in oklab, black 40%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms ease;
+  }
+
+  .loupe[data-on="true"] {
+    opacity: 1;
+  }
+
+  .print-zoom {
+    position: absolute;
+    right: 1.125rem;
+    top: 1.125rem;
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--night) 70%, transparent);
+    color: var(--dot);
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .print-zoom svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .print-open:focus-visible .print-zoom {
+    opacity: 1;
+  }
+
+  .print-label {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.125rem 0.625rem;
+    padding: 0.75rem 0.25rem 0;
+  }
+
+  .print-n {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--dot);
+  }
+
+  .print-title {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .print-place {
+    width: 100%;
+    padding-left: 1.625rem;
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+  }
+
+  @media (min-width: 40rem) {
+    .sheet {
+      columns: 2;
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .sheet {
+      columns: 3;
+    }
+  }
+
+  @media (hover: none) {
+    .print-zoom {
+      opacity: 1;
+    }
+  }
+
+  .gallery-credit {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--ink-soft);
+  }
+}

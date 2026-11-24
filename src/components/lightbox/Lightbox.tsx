@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent, MouseEvent, TouchEvent } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { CaretLeftIcon, CaretRightIcon, XIcon } from "@phosphor-icons/react";
 import type { GalleryItem } from "@/data/gallery";
 
 /** The viewer's small words, from ui in site.ts. */
@@ -146,7 +146,7 @@ export default function Lightbox({ items, index, words, onClose, onGoTo }: Light
           <div className="lightbox-top">
             <p className="lightbox-count">{many ? countOf(index) : ""}</p>
             <button type="button" onClick={close} aria-label={words.closePicture} className="lightbox-button">
-              <X aria-hidden="true" className="h-5 w-5" />
+              <XIcon weight="bold" aria-hidden="true" className="h-5 w-5" />
             </button>
           </div>
 
@@ -171,7 +171,7 @@ export default function Lightbox({ items, index, words, onClose, onGoTo }: Light
                   aria-label={words.previousPicture}
                   className="lightbox-button lightbox-step lightbox-step-previous"
                 >
-                  <ChevronLeft aria-hidden="true" className="h-6 w-6" />
+                  <CaretLeftIcon weight="bold" aria-hidden="true" className="h-6 w-6" />
                 </button>
                 <button
                   type="button"
@@ -179,7 +179,7 @@ export default function Lightbox({ items, index, words, onClose, onGoTo }: Light
                   aria-label={words.nextPicture}
                   className="lightbox-button lightbox-step lightbox-step-next"
                 >
-                  <ChevronRight aria-hidden="true" className="h-6 w-6" />
+                  <CaretRightIcon weight="bold" aria-hidden="true" className="h-6 w-6" />
                 </button>
               </>
             ) : null}
