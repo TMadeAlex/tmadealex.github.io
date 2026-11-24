@@ -1,6 +1,6 @@
 import Link from "next/link";
 import StatusBar from "@/components/chrome/StatusBar";
-import WelcomeAgain from "@/components/chrome/WelcomeAgain";
+import FooterNav from "@/components/chrome/FooterNav";
 import { ByLocale } from "@/i18n/client";
 import { localizeHref } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
@@ -17,26 +17,14 @@ function EndNote({ locale }: { locale: Locale }) {
             {site.name}
             <span className="dot" aria-hidden="true" />
           </Link>
-          <ul className="footer-nav">
-            {site.nav.map((link) => (
-              <li key={link.href}>
-                <Link href={localizeHref(locale, link.href)}>{link.label}</Link>
-              </li>
-            ))}
-            <li>
-              <a href={site.source.home.href} rel="noopener noreferrer">
-                {site.source.home.label}
-              </a>
-            </li>
-            <li>
-              <a href={site.source.href} rel="noopener noreferrer">
-                {site.source.label}
-              </a>
-            </li>
-            <li>
-              <WelcomeAgain label={site.arrival.again} className="footer-welcome" />
-            </li>
-          </ul>
+          <FooterNav
+            locale={locale}
+            homeLabel={site.ui.homeWord}
+            links={site.nav}
+            github={{ home: site.source.home, source: { label: site.source.label, href: site.source.href } }}
+            risk={site.status.risk}
+            welcome={site.arrival.again}
+          />
         </div>
         <div className="footer-lines">
           {site.footer.lines.map((line) => (

@@ -58,6 +58,9 @@ export default function TerminalChart({ sessions, words }: TerminalChartProps) {
     if (!canvas || !box || !context) return;
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    /* On a phone or a touch screen the chart draws about thirty times a second instead of sixty. */
+    const gentle = window.matchMedia("(max-width: 48rem), (pointer: coarse)").matches ? 33 : 0;
+    let drawnAt = 0;
     const random = seeded(101 + tab * 977);
     let series: Candle[] = candleSeries(17 + tab * 31, SHOWN + 1);
     let formedAt = performance.now();
@@ -103,6 +106,11 @@ export default function TerminalChart({ sessions, words }: TerminalChartProps) {
     if (span <= 0) span += 1440;
 
     const draw = (now: number) => {
+      if (gentle && !still && now - drawnAt < gentle && !pointer) {
+        if (visible) frame = requestAnimationFrame(draw);
+        return;
+      }
+      drawnAt = now;
       const right = 64;
       const bottom = 26;
       const plotW = Math.max(width - right, 10);

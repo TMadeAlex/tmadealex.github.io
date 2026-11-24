@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import {
   ApertureIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
   ArrowUpRightIcon,
   CameraIcon,
   CaretDownIcon,
@@ -20,6 +22,7 @@ import {
   InstagramLogoIcon,
   LinkedinLogoIcon,
   ListIcon,
+  ShieldCheckIcon,
   StorefrontIcon,
   TranslateIcon,
   XIcon,
@@ -28,6 +31,8 @@ import {
 } from "@phosphor-icons/react";
 import type { ExternalLink, NavLink } from "@/data/site";
 import LookToggle from "@/components/chrome/LookToggle";
+import ScrollJump from "@/components/chrome/ScrollJump";
+import { openRisk } from "@/components/chrome/RiskWindow";
 import { useLocale } from "@/i18n/client";
 import { localizeHref, twinHref } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
@@ -56,6 +61,7 @@ export interface NavBundle {
   party: { heading: string; name: string; hint: string };
   languages: { heading: string; other: string; otherShort: string; otherLabel: string; otherLang: string };
   welcomeAgain: string;
+  thisPage: { heading: string; top: string; bottom: string; risk: string };
   words: { menu: string; openMenu: string; closeMenu: string; home: string };
 }
 
@@ -167,7 +173,7 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
   const pathname = usePathname();
   const here = pathname.endsWith("/") ? pathname : `${pathname}/`;
   const locale = useLocale();
-  const { name, homeLabel, explore, source, look, party, languages, welcomeAgain, words } = bundles[locale];
+  const { name, homeLabel, explore, source, look, party, languages, welcomeAgain, thisPage, words } = bundles[locale];
   const links = bundles[locale].links.map((link) => ({ ...link, href: localizeHref(locale, link.href) }));
   const homeHref = localizeHref(locale, "/");
   const twin = twinHref(here);
@@ -192,6 +198,13 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
 
   const openDrawer = () => drawerRef.current?.showModal();
   const closeDrawer = () => drawerRef.current?.close();
+
+  /* From the phone menu: close it, then go to the top or the end of the page. */
+  const jumpPage = (where: "top" | "bottom") => {
+    closeDrawer();
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: where === "top" ? 0 : document.documentElement.scrollHeight, behavior: still ? "auto" : "smooth" });
+  };
 
   return (
     <header className={scrolled ? "nav-bar nav-bar-scrolled" : "nav-bar"}>
@@ -338,7 +351,33 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
             <PartyToggle name={party.name} hint={party.hint} />
           </div>
 
+          <p className="drawer-heading drawer-sub">{thisPage.heading}</p>
           <ul className="drawer-list">
+            <li>
+              <button type="button" className="drawer-link drawer-button" onClick={() => jumpPage("top")}>
+                <ArrowUpIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                <span>{thisPage.top}</span>
+              </button>
+            </li>
+            <li>
+              <button type="button" className="drawer-link drawer-button" onClick={() => jumpPage("bottom")}>
+                <ArrowDownIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                <span>{thisPage.bottom}</span>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="drawer-link drawer-button"
+                onClick={() => {
+                  closeDrawer();
+                  openRisk();
+                }}
+              >
+                <ShieldCheckIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                <span>{thisPage.risk}</span>
+              </button>
+            </li>
             <li>
               <button
                 type="button"
@@ -368,6 +407,7 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
               </a>
             </li>
           </ul>
+          <ScrollJump labels={{ bottom: thisPage.bottom, top: thisPage.top }} />
         </div>
       </dialog>
     </header>

@@ -19,6 +19,7 @@ function bundle(locale: Locale): NavBundle {
     party: site.party,
     languages: site.languages,
     welcomeAgain: site.arrival.again,
+    thisPage: { heading: site.ui.thisPage, top: site.ui.jumpTop, bottom: site.ui.jumpBottom, risk: site.status.risk },
     words: { menu: site.ui.menu, openMenu: site.ui.openMenu, closeMenu: site.ui.closeMenu, home: site.ui.home },
   };
 }
@@ -46,8 +47,8 @@ export default function SiteHeader() {
       support={
         <SupportButton
           labels={{
-            en: { label: en.support.button, close: en.support.ui.close },
-            es: { label: es.support.button, close: es.support.ui.close },
+            en: { label: en.support.button, close: en.support.ui.close, jump: { bottom: en.site.ui.jumpBottom, top: en.site.ui.jumpTop } },
+            es: { label: es.support.button, close: es.support.ui.close, jump: { bottom: es.site.ui.jumpBottom, top: es.site.ui.jumpTop } },
           }}
           titleId={supportTitleId}
         >

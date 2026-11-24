@@ -110,6 +110,16 @@ export interface Site {
     openMenu: string;
     closeMenu: string;
     toTop: string;
+    /** The button inside a long window or panel: down to its end, or back to its top. */
+    jumpBottom: string;
+    jumpTop: string;
+    /** The phone menu's group of moves on the page itself. */
+    thisPage: string;
+    /** The risk window: opened from "Not financial advice" anywhere. */
+    riskTitle: string;
+    riskLead: string;
+    riskMore: string;
+    close: string;
     /** The cue at the bottom of the screen while a page is at its top. */
     scrollCue: string;
     scrollCueLabel: string;
@@ -353,6 +363,13 @@ export const site: Site = {
     openMenu: "Open the menu",
     closeMenu: "Close the menu",
     toTop: "Back to the top",
+    jumpBottom: "Jump to the bottom",
+    jumpTop: "Back to the top",
+    thisPage: "This page",
+    riskTitle: "Not financial advice",
+    riskLead: "Everything on this site about trading is his own public words and figures, shown for what they are. None of it is advice, and none of it is a promise.",
+    riskMore: "The trading page",
+    close: "Close",
     scrollCue: "Scroll",
     scrollCueLabel: "Scroll down the page",
     home: "TMade Alex, front page",
