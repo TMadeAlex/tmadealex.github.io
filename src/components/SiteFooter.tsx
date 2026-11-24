@@ -27,6 +27,11 @@ export default function SiteFooter() {
                 </li>
               ))}
               <li>
+                <a href={site.source.home.href} rel="noopener noreferrer">
+                  {site.source.home.label}
+                </a>
+              </li>
+              <li>
                 <a href={site.source.href} rel="noopener noreferrer">
                   {site.source.label}
                 </a>
