@@ -34,7 +34,7 @@ export interface NavLink {
 export interface ExternalLink {
   label: string;
   href: string;
-  icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github" | "code";
+  icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github" | "code" | "log";
 }
 
 /** The welcome on a first visit: three short steps, every choice kept in the visitor's own browser. */
@@ -86,8 +86,15 @@ export interface Site {
   nav: NavLink[];
   /** The Explore menu: his own pages elsewhere. */
   explore: { label: string; links: ExternalLink[] };
-  /** Where this site's own source lives on GitHub. */
-  source: { menu: string; label: string; short: string; href: string; home: ExternalLink & { short: string } };
+  /** Where this site's own source lives on GitHub, and the AstroLog: the record of every change to his home. */
+  source: {
+    menu: string;
+    label: string;
+    short: string;
+    href: string;
+    home: ExternalLink & { short: string };
+    log: ExternalLink & { short: string };
+  };
   labels: { support: string; empty: string };
   /** The fixed bar at the foot of every page. */
   status: { label: string; next: string; until: string; scheduled: string; risk: string; riskHref: string };
@@ -243,6 +250,13 @@ export const site: Site = {
     short: "Source",
     href: "https://github.com/TMadeAlex/tmadealex.github.io",
     home: { label: "TMadeAlex on GitHub", short: "TMadeAlex", href: "https://github.com/TMadeAlex", icon: "github" },
+    /* His AstroLog: everything done to this home since it was set up, in plain words, newest first. */
+    log: {
+      label: "AstroLog: every change",
+      short: "AstroLog",
+      href: "https://tmadealex.github.io/changelog-astro-public/",
+      icon: "log",
+    },
   },
 
   labels: {

@@ -77,6 +77,7 @@ export const site: Site = {
     label: "Código en GitHub",
     short: "Código",
     home: { ...en.source.home, label: "TMadeAlex en GitHub" },
+    log: { ...en.source.log, label: "AstroLog: cada cambio" },
   },
 
   labels: {

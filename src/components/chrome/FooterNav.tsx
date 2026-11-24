@@ -9,6 +9,7 @@ import {
   CodeIcon,
   GithubLogoIcon,
   HouseIcon,
+  PlanetIcon,
   ShieldCheckIcon,
 } from "@phosphor-icons/react";
 import type { NavLink } from "@/data/site";
@@ -23,15 +24,15 @@ interface FooterNavProps {
   locale: Locale;
   homeLabel: string;
   links: NavLink[];
-  github: { home: { label: string; href: string }; source: { label: string; href: string } };
+  github: { home: { label: string; href: string }; source: { label: string; href: string }; log: { short: string; href: string } };
   risk: string;
   welcome: string;
 }
 
 /**
  * The links at the very end of each page, each with its picture, the page you
- * are on lit, as the menu at the top lights it. Then his GitHub home and this
- * site's source, the risk window, and the welcome.
+ * are on lit, as the menu at the top lights it. Then his GitHub home, this
+ * site's source and his AstroLog, the risk window, and the welcome.
  */
 export default function FooterNav({ locale, homeLabel, links, github, risk, welcome }: FooterNavProps) {
   const pathname = usePathname();
@@ -65,6 +66,12 @@ export default function FooterNav({ locale, homeLabel, links, github, risk, welc
         <a href={github.source.href} rel="noopener noreferrer" className="footer-link">
           <CodeIcon weight="duotone" aria-hidden="true" />
           {github.source.label}
+        </a>
+      </li>
+      <li>
+        <a href={github.log.href} rel="noopener noreferrer" className="footer-link">
+          <PlanetIcon weight="duotone" aria-hidden="true" />
+          {github.log.short}
         </a>
       </li>
       <li>

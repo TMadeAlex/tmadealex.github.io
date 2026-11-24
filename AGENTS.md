@@ -74,6 +74,19 @@ python3 -I scripts/check-links.py
 All four must pass. Say what you ran and what it printed. If something fails, say so: do not hide it and do not
 switch a check off to make it pass. Stop a preview server when you are done with it.
 
+## Every change gets an AstroLog entry
+
+His [AstroLog](https://tmadealex.github.io/changelog-astro-public/) is the plain-words record of everything done to his
+home, newest first. Nothing writes it automatically, so every change merged here gets an entry there, written with the
+change itself.
+
+- Write the entry in the AstroLog's source repository, `TMadeAlex/changelog-astro`, following its `AGENTS.md`: one file
+  in `changelog/`, with `repo: "site"`. Until the change is live, the entry waits in `changelog/drafts/`.
+- Offer the two together, so the owner merges this change and publishes its entry in one go. If you cannot reach the
+  AstroLog's source, say so when you offer the change, so the entry is not forgotten.
+- Before rewording anything about him, check `src/data`: a phrase that looks odd may be his own words, quoted with its
+  source.
+
 ## How a change is offered
 
 - Work on a branch and open a pull request against `main`. A person merges it, with a merge commit. Do not merge your
