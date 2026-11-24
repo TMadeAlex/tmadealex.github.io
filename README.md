@@ -68,7 +68,8 @@ Only put up a picture that is fine to stay public: see *Undo a change* below.
 **In Spanish, the words are kept separately.** Every page has a Spanish twin under `/es/` (for example
 [`/es/trading/`](https://tmadealex.github.io/es/trading/)), and a switch in the menu goes between them. A visitor's
 first visit opens a short welcome that asks for the language first (English is the default), then the look, then
-where to go; it opens again from the menu (*Welcome again*), or with `?arrival=again` on any address.
+where to go; anyone can open it again with *Welcome* in the bar at the foot of every page (also in the phone menu
+and the links at the end of each page), or with `?arrival=again` on any address.
 
 - The Spanish words live in [`src/data/es/`](./src/data/es), one file beside each English one. **Changing a sentence in
   English does not change the Spanish.** After an English edit, change the same sentence in the matching file in

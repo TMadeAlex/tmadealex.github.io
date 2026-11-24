@@ -1,5 +1,6 @@
 import Link from "next/link";
 import StatusBar from "@/components/chrome/StatusBar";
+import WelcomeAgain from "@/components/chrome/WelcomeAgain";
 import { ByLocale } from "@/i18n/client";
 import { localizeHref } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
@@ -32,6 +33,9 @@ function EndNote({ locale }: { locale: Locale }) {
                 {site.source.label}
               </a>
             </li>
+            <li>
+              <WelcomeAgain label={site.arrival.again} className="footer-welcome" />
+            </li>
           </ul>
         </div>
         <div className="footer-lines">
@@ -55,6 +59,7 @@ function Bar({ locale }: { locale: Locale }) {
       posted={schedule.sessions.map((s) => `${s.short} ${s.posted}`).join("  ·  ")}
       words={{ ...site.status, in: schedule.words.in, h: schedule.words.hours, min: schedule.words.minutes }}
       source={site.source}
+      welcome={{ label: site.arrival.again, short: site.arrival.againShort }}
     />
   );
 }

@@ -56,6 +56,7 @@ export interface Arrival {
   skip: string;
   small: string;
   again: string;
+  againShort: string;
 }
 
 /** One page's preview when its link is shared (drawn by scripts/make-share-cards.py). */
@@ -284,7 +285,8 @@ export const site: Site = {
    * The welcome on a first visit, one question at a time: language first (English is the
    * default), then the look, then where to go. Every choice stays in the visitor's own browser.
    * "Pull up" is his: "Pull up, ask questions in the chat" (his stream descriptions).
-   * It opens again from the menu ("again"), or with ?arrival=again on any address.
+   * It opens again from "Welcome" in the status bar at the foot of every page, the phone menu
+   * and the end note ("again", "againShort"), or with ?arrival=again on any address.
    */
   arrival: {
     label: "Welcome",
@@ -309,6 +311,7 @@ export const site: Site = {
     skip: "Skip",
     small: "Set up as a gift by a member of his community. Nothing here is financial advice. Your choices stay in this browser.",
     again: "Welcome again",
+    againShort: "Welcome",
   },
 
   /* The holding page, shown only if ready is set back to false. */

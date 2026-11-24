@@ -141,6 +141,7 @@ export const site: Site = {
     skip: "Saltar",
     small: "Creado como regalo por un miembro de su comunidad. Nada aquí es asesoría financiera. Tus elecciones se quedan en este navegador.",
     again: "Ver la bienvenida otra vez",
+    againShort: "Bienvenida",
   },
 
   notFound: {
