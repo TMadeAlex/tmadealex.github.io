@@ -2,7 +2,7 @@ import type { Cited, Quote as QuoteData } from "@/data/sources";
 import { readOn, sources } from "@/data/sources";
 
 /** "1:00:16" or "16:24", from seconds. */
-function timecode(seconds: number) {
+export function timecode(seconds: number) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
   const s = seconds % 60;
@@ -32,15 +32,27 @@ export default function Cite({ source, at, dated = false }: CiteProps) {
   );
 }
 
+/** The same words as Cite, without the link: for a quotation inside something that is already a link. */
+export function CiteLabel({ source, at }: Cited) {
+  return (
+    <span className="cite cite-plain">
+      {sources[source].label}
+      {at !== undefined ? `, ${timecode(at)}` : ""}
+    </span>
+  );
+}
+
 interface QuoteProps {
   quote: QuoteData;
   /** "band" is the large one that stands alone. */
   size?: "band" | "large" | "normal";
   className?: string;
+  /** Inside a link already (a card that opens the video): the source is said, not linked. */
+  plain?: boolean;
 }
 
 /** His words, in curly quotation marks, with where they were said under them. */
-export function Quote({ quote, size = "normal", className = "" }: QuoteProps) {
+export function Quote({ quote, size = "normal", className = "", plain = false }: QuoteProps) {
   return (
     <figure className={`quote quote-${size} ${className}`}>
       <blockquote>
@@ -53,7 +65,7 @@ export function Quote({ quote, size = "normal", className = "" }: QuoteProps) {
         </p>
       </blockquote>
       <figcaption>
-        <Cite source={quote.source} at={quote.at} />
+        {plain ? <CiteLabel source={quote.source} at={quote.at} /> : <Cite source={quote.source} at={quote.at} />}
       </figcaption>
     </figure>
   );

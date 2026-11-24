@@ -7,9 +7,10 @@ import {
   MicrophoneStageIcon,
   PlayIcon,
   UsersThreeIcon,
+  YoutubeLogoIcon,
 } from "@phosphor-icons/react/ssr";
 import Holding from "@/components/Holding";
-import Cite, { Quote, citeHref } from "@/components/Cite";
+import Cite, { Quote, citeHref, timecode } from "@/components/Cite";
 import SessionChart from "@/components/schedule/SessionChart";
 import CandleField from "@/components/fx/CandleField";
 import Crosshair from "@/components/fx/Crosshair";
@@ -92,30 +93,64 @@ export default function HomePage() {
         <ul className="seats-list">
           {home.roles.list.map((seat) => {
             const Icon = roleIcons[seat.id];
+            const at = seat.quote.at;
             return (
-              <li key={seat.id} className={`seat seat-${seat.id}`}>
-                <span className="seat-art" aria-hidden="true">
-                  {seat.id === "trader" ? <CandleField seed={5} count={22} width={240} height={90} line={false} /> : null}
-                  {seat.id === "streamer" ? (
-                    <span className="seat-wave">
-                      {Array.from({ length: 14 }, (_, i) => (
-                        <span key={i} style={{ animationDelay: `${(i % 7) * 0.13}s` }} />
-                      ))}
+              <li key={seat.id}>
+                <a
+                  href={citeHref(seat.quote)}
+                  rel="noopener noreferrer"
+                  className={`seat seat-${seat.id}`}
+                  aria-label={`${seat.role}. ${home.roles.watch}: “${seat.quote.text}”, ${seat.video.channel}${at !== undefined ? `, ${timecode(at)}` : ""}.`}
+                >
+                  <span className="seat-media" aria-hidden="true">
+                    <span className="seat-video">
+                      {/* YouTube's own thumbnail of the video, shown from YouTube and not copied here. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`https://i.ytimg.com/vi/${seat.video.id}/${seat.video.picture}.jpg`}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="seat-thumb"
+                      />
+                      <span className="seat-scrim" />
+                      <span className="seat-channel">
+                        <YoutubeLogoIcon weight="duotone" />
+                        {seat.video.channel}
+                      </span>
+                      <span className="seat-play">
+                        <PlayIcon weight="fill" />
+                      </span>
+                      {at !== undefined ? <span className="seat-time">{timecode(at)}</span> : null}
                     </span>
-                  ) : null}
-                  {seat.id === "host" ? <span className="seat-rings" /> : null}
-                  {seat.id === "photographer" ? (
-                    <span className="seat-finder">
-                      <span />
+                    <span className="seat-art">
+                      {seat.id === "trader" ? <CandleField seed={5} count={26} width={260} height={64} line={false} /> : null}
+                      {seat.id === "streamer" ? (
+                        <span className="seat-wave">
+                          {Array.from({ length: 18 }, (_, i) => (
+                            <span key={i} style={{ animationDelay: `${(i % 7) * 0.13}s` }} />
+                          ))}
+                        </span>
+                      ) : null}
+                      {seat.id === "host" ? <span className="seat-rings" /> : null}
+                      {seat.id === "photographer" ? (
+                        <span className="seat-finder">
+                          <span />
+                        </span>
+                      ) : null}
                     </span>
-                  ) : null}
-                </span>
-                <span className="seat-icon" aria-hidden="true">
-                  <Icon weight="duotone" />
-                </span>
-                <h3 className="seat-role">{seat.role}</h3>
-                <p className="seat-line">{seat.line}</p>
-                <Quote quote={seat.quote} className="seat-quote" />
+                  </span>
+                  <span className="seat-icon" aria-hidden="true">
+                    <Icon weight="duotone" />
+                  </span>
+                  <span className="seat-role">{seat.role}</span>
+                  <span className="seat-line">{seat.line}</span>
+                  <Quote quote={seat.quote} className="seat-quote" plain />
+                  <span className="seat-go" aria-hidden="true">
+                    <PlayIcon weight="duotone" />
+                    {home.roles.watch}
+                  </span>
+                </a>
               </li>
             );
           })}
