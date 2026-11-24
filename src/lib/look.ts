@@ -5,7 +5,8 @@
  * data-party="on". A small script in the page's <head> (lookScript, below) sets
  * them before anything is drawn, from what this browser chose last time or,
  * the first time, from the device's own light or dark setting. So the page
- * never flashes the wrong look while it loads. It also marks a page under /es/
+ * never flashes the wrong look while it loads. The red pill (data-pill="red")
+ * is kept the same way. It also marks a page under /es/
  * as Spanish (lang="es") from the first moment.
  *
  * The choice is kept in this browser only (localStorage). Nothing is sent anywhere.
@@ -15,9 +16,13 @@ export type Look = "night" | "morning";
 
 const LOOK_KEY = "tmadealex-look";
 const PARTY_KEY = "tmadealex-party";
+const PILL_KEY = "tmadealex-pill";
+
+/** The red pill or the blue pill: how the trading desk's made-up chart and the rain of numbers are coloured. */
+export type Pill = "blue" | "red";
 
 /** Runs in <head>, before the page is drawn. Kept small and dependency-free on purpose. */
-export const lookScript = `(function(){var d=document.documentElement;var p=location.pathname;if(p==="/es"||p.indexOf("/es/")===0)d.lang="es";try{var s=localStorage.getItem("${LOOK_KEY}");d.dataset.theme=s==="morning"||s==="night"?s:(window.matchMedia("(prefers-color-scheme: light)").matches?"morning":"night");if(localStorage.getItem("${PARTY_KEY}")==="on")d.dataset.party="on";}catch(e){d.dataset.theme="night";}})();`;
+export const lookScript = `(function(){var d=document.documentElement;var p=location.pathname;if(p==="/es"||p.indexOf("/es/")===0)d.lang="es";try{var s=localStorage.getItem("${LOOK_KEY}");d.dataset.theme=s==="morning"||s==="night"?s:(window.matchMedia("(prefers-color-scheme: light)").matches?"morning":"night");if(localStorage.getItem("${PARTY_KEY}")==="on")d.dataset.party="on";if(localStorage.getItem("${PILL_KEY}")==="red")d.dataset.pill="red";}catch(e){d.dataset.theme="night";}})();`;
 
 function remember(key: string, value: string | null) {
   try {
@@ -60,9 +65,19 @@ export function setParty(on: boolean) {
   remember(PARTY_KEY, on ? "on" : null);
 }
 
-/** For useSyncExternalStore: calls back whenever the look or PARTY_MODE changes. */
+export function readPill(): Pill {
+  return document.documentElement.dataset.pill === "red" ? "red" : "blue";
+}
+
+export function setPill(pill: Pill) {
+  if (pill === "red") document.documentElement.dataset.pill = "red";
+  else delete document.documentElement.dataset.pill;
+  remember(PILL_KEY, pill === "red" ? "red" : null);
+}
+
+/** For useSyncExternalStore: calls back whenever the look, PARTY_MODE or the pill changes. */
 export function subscribeLook(onChange: () => void) {
   const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "data-party"] });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "data-party", "data-pill"] });
   return () => observer.disconnect();
 }

@@ -45,6 +45,18 @@ export const trading: typeof en = {
     sessionsTitle: "Sesiones",
     riskTitle: "Riesgo",
     tape: "Sus palabras",
+    approach: {
+      title: "Llegando al escritorio",
+      lines: ["NQ + ES", "NY AM 9:30–11:30 ET · Asia 8–10 p. m. ET", "Gráficos, nombres, cifras"],
+      ready: "Listo",
+    },
+    pills: {
+      label: "Elige una pastilla",
+      blue: "Pastilla azul",
+      red: "Pastilla roja",
+      blueLine: "Sus colores: cian sobre noche",
+      redLine: "Los del mercado: verde y rojo",
+    },
   },
 
   intro: {

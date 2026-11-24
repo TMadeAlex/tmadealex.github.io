@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Candle } from "@/lib/candles";
 import { candleSeries, nextCandle, seeded } from "@/lib/candles";
-import { readParty, subscribeLook } from "@/lib/look";
+import { readParty, readPill, subscribeLook } from "@/lib/look";
 
 interface ChartSession {
   id: string;
@@ -72,6 +72,7 @@ export default function TerminalChart({ sessions, words }: TerminalChartProps) {
     let colours: Record<string, string> = {};
     let font = "ui-monospace, monospace";
     let party = readParty();
+    let red = readPill() === "red";
 
     const readColours = () => {
       const style = getComputedStyle(box);
@@ -88,6 +89,7 @@ export default function TerminalChart({ sessions, words }: TerminalChartProps) {
       };
       font = style.fontFamily || font;
       party = readParty();
+      red = readPill() === "red";
     };
 
     const size = () => {
@@ -217,6 +219,9 @@ export default function TerminalChart({ sessions, words }: TerminalChartProps) {
           }
           context.fillRect(cx - body / 2, top, body, h);
           context.shadowBlur = 0;
+        } else if (red) {
+          /* Red pill: the market's own candles, down ones filled too. */
+          context.fillRect(cx - body / 2, top, body, h);
         } else {
           context.strokeRect(cx - body / 2 + 0.5, top + 0.5, body - 1, h - 1);
         }

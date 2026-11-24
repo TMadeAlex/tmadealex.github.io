@@ -178,15 +178,54 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
   const homeHref = localizeHref(locale, "/");
   const twin = twinHref(here);
   const [scrolled, setScrolled] = useState(false);
-  const drawerRef = useRef<HTMLDialogElement>(null);
+  /* The panel is open on the page it was opened on; moving to another page closes it by itself. */
+  const [openOn, setOpenOn] = useState<string | null>(null);
+  const drawerOpen = openOn === pathname;
+  const panelRef = useRef<HTMLDivElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
 
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
-  /* A new page closes the panel. */
+  /*
+   * While the panel is open: the page behind holds still, the keyboard starts on its first link,
+   * Escape closes it, and Tab goes round inside it. On closing, the keyboard returns to the menu button.
+   */
   useEffect(() => {
-    drawerRef.current?.close();
-  }, [pathname]);
+    if (!drawerOpen) return;
+    const panel = panelRef.current;
+    document.documentElement.classList.add("drawer-open");
+    const focusables = () =>
+      Array.from(panel?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ?? []).filter((el) => el.offsetParent !== null);
+    const first = window.setTimeout(() => focusables()[1]?.focus({ preventScroll: true }), 60);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpenOn(null);
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = focusables();
+      if (items.length === 0) return;
+      const firstItem = items[0];
+      const lastItem = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === firstItem) {
+        event.preventDefault();
+        lastItem.focus();
+      } else if (!event.shiftKey && document.activeElement === lastItem) {
+        event.preventDefault();
+        firstItem.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const burger = burgerRef.current;
+    return () => {
+      window.clearTimeout(first);
+      document.removeEventListener("keydown", onKey);
+      document.documentElement.classList.remove("drawer-open");
+      burger?.focus({ preventScroll: true });
+    };
+  }, [drawerOpen]);
 
   const onHome = (event: MouseEvent) => {
     if (here === homeHref) {
@@ -196,8 +235,8 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
     }
   };
 
-  const openDrawer = () => drawerRef.current?.showModal();
-  const closeDrawer = () => drawerRef.current?.close();
+  const openDrawer = () => setOpenOn(pathname);
+  const closeDrawer = () => setOpenOn(null);
 
   /* From the phone menu: close it, then go to the top or the end of the page. */
   const jumpPage = (where: "top" | "bottom") => {
@@ -270,21 +309,28 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
             <PartyToggle name={party.name} hint={party.hint} />
           </span>
           {support}
-          <button type="button" className="nav-burger" onClick={openDrawer} aria-label={words.openMenu} aria-haspopup="dialog">
+          <button
+            ref={burgerRef}
+            type="button"
+            className="nav-burger"
+            onClick={openDrawer}
+            aria-label={words.openMenu}
+            aria-haspopup="dialog"
+            aria-expanded={drawerOpen}
+            aria-controls="nav-drawer"
+          >
             <ListIcon weight="duotone" aria-hidden="true" />
           </button>
         </div>
       </div>
 
-      <dialog
-        ref={drawerRef}
-        className="drawer"
-        aria-label={words.menu}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) closeDrawer();
-        }}
-      >
-        <div className="drawer-panel glass">
+      {/*
+        * The panel waits just off the right edge of the screen and slides in from there. It is not
+        * the browser's dialog: some phones drew that from the left for a moment before moving it.
+        */}
+      <div id="nav-drawer" className={drawerOpen ? "drawer drawer-open" : "drawer"} inert={!drawerOpen}>
+        <div className="drawer-scrim" onClick={closeDrawer} aria-hidden="true" />
+        <div ref={panelRef} className="drawer-panel glass" role="dialog" aria-modal="true" aria-label={words.menu}>
           <div className="drawer-head">
             <span className="drawer-heading">{words.menu}</span>
             <button type="button" className="drawer-close" onClick={closeDrawer} aria-label={words.closeMenu}>
@@ -409,7 +455,7 @@ export default function SiteNav({ bundles, support }: SiteNavProps) {
           </ul>
           <ScrollJump labels={{ bottom: thisPage.bottom, top: thisPage.top }} />
         </div>
-      </dialog>
+      </div>
     </header>
   );
 }
