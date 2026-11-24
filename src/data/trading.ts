@@ -103,9 +103,9 @@ export const trading = {
     title: "On the other side of the desk",
     text: "He hosts too, on Meet the Trader, talking with other traders about their road.",
     quote: {
-      text: "Hey man, you ain't a real trader in the prop firm space if you haven't cried, bro. Let's just be honest.",
+      text: "All right, fam, welcome to the show. Welcome to Meet the Traders.",
       source: "meetTheTrader",
-      at: 1022,
+      at: 28,
     } as Quote,
   },
 
