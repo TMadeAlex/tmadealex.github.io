@@ -1,11 +1,11 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import Link from "next/link";
 import { CodeIcon, GithubLogoIcon, ShieldCheckIcon } from "@phosphor-icons/react";
 import type { Session } from "@/data/schedule";
 import { occurrences } from "@/lib/sessions";
 import WelcomeAgain from "@/components/chrome/WelcomeAgain";
+import { openRisk } from "@/components/chrome/RiskWindow";
 import { useLocale } from "@/i18n/client";
 
 interface StatusBarProps {
@@ -66,10 +66,10 @@ export default function StatusBar({ sessions, days, zone, posted, words, source,
         <span className="status-session-text">{line}</span>
       </p>
       <WelcomeAgain label={welcome.label} short={welcome.short} className="status-link status-welcome" />
-      <Link href={words.riskHref} className="status-link status-risk">
+      <button type="button" className="status-link status-risk" onClick={openRisk} aria-label={words.risk} title={words.risk}>
         <ShieldCheckIcon weight="duotone" aria-hidden="true" />
-        <span>{words.risk}</span>
-      </Link>
+        <span className="status-risk-word">{words.risk}</span>
+      </button>
       <a href={source.home.href} rel="noopener noreferrer" className="status-link" title={source.home.label} aria-label={source.home.label}>
         <GithubLogoIcon weight="duotone" aria-hidden="true" />
         <span className="status-source-word">{source.home.short}</span>

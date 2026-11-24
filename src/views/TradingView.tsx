@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import Holding from "@/components/Holding";
 import PageTitle from "@/components/PageTitle";
+import MatrixRain from "@/components/fx/MatrixRain";
 import Section from "@/components/Section";
 import Cite, { Quote, Translation } from "@/components/Cite";
 import SessionChart from "@/components/schedule/SessionChart";
@@ -37,6 +38,8 @@ export default function TradingView({ locale }: { locale: Locale }) {
   return (
     <div lang={locale === "es" ? "es" : undefined} className="page-lang">
       <PageTitle
+        className="trading-title"
+        backdrop={<MatrixRain />}
         title={trading.title}
         lead={
           <>

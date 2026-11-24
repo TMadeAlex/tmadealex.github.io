@@ -4,11 +4,12 @@ import { useRef } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { HandHeartIcon, XIcon } from "@phosphor-icons/react";
 import { useLocale } from "@/i18n/client";
+import ScrollJump from "@/components/chrome/ScrollJump";
 import type { Locale } from "@/i18n/config";
 
 interface SupportButtonProps {
   /** The button's word ("Support") and the close button's word, in each language. */
-  labels: Record<Locale, { label: string; close: string }>;
+  labels: Record<Locale, { label: string; close: string; jump: { bottom: string; top: string } }>;
   /** The id of the window's title, so a screen reader names the window by it. */
   titleId: string;
   /** What the window holds (SupportWindow), drawn on the server. */
@@ -22,7 +23,7 @@ interface SupportButtonProps {
  * dimmed page around it closes it too.
  */
 export default function SupportButton({ labels, titleId, children }: SupportButtonProps) {
-  const { label, close: closeLabel } = labels[useLocale()];
+  const { label, close: closeLabel, jump } = labels[useLocale()];
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const open = () => dialogRef.current?.showModal();
@@ -46,6 +47,7 @@ export default function SupportButton({ labels, titleId, children }: SupportButt
           </button>
           {children}
         </div>
+        <ScrollJump labels={jump} />
       </dialog>
     </>
   );

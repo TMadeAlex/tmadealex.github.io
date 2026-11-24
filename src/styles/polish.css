@@ -1,0 +1,331 @@
+/*
+ * The last word. These rules sit outside the cascade layers on purpose, so they win over the
+ * shared ones they adjust (the glass, the page titles, the end note): the phone panel, the jump
+ * buttons, the risk window, the end note's pictures, centred heroes on phones, the trading
+ * page's opening, and a lighter site on phones.
+ */
+
+/* ---------------------------------------------------------------- the phone panel */
+
+.drawer-panel.glass {
+  background: color-mix(in oklab, var(--ground) 96%, transparent);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+html:has(dialog.drawer[open]),
+html:has(dialog.risk-window[open]) {
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------- the jump button in long windows */
+
+.jump-dock {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: flex-end;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.jump-button {
+  position: relative;
+  bottom: 3.75rem;
+  right: 0.875rem;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid color-mix(in oklab, var(--dot) 55%, transparent);
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--ground) 92%, transparent);
+  color: var(--dot);
+  box-shadow: var(--shadow-2);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.jump-button:hover {
+  transform: translateY(-2px);
+}
+
+.jump-button svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+/* In the phone menu the rows keep their switches on the right, so the jump button rides on the left. */
+.drawer-panel .jump-dock {
+  justify-content: flex-start;
+}
+
+.drawer-panel .jump-button {
+  bottom: 4rem;
+  right: auto;
+  left: 0.25rem;
+}
+
+/* ---------------------------------------------------------------- the risk window */
+
+.risk-window-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 0.875rem;
+  place-items: center;
+  border-radius: 14px;
+  background: color-mix(in oklab, var(--dot) 14%, transparent);
+  color: var(--dot);
+}
+
+.risk-window-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.risk-window-body {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding: 1.125rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background:
+    repeating-linear-gradient(-45deg, color-mix(in oklab, var(--dot) 4%, transparent) 0 10px, transparent 10px 20px),
+    color-mix(in oklab, var(--ground) 80%, transparent);
+}
+
+.risk-window-body .quote-normal blockquote p {
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.risk-window-more {
+  margin-top: 1.25rem;
+}
+
+/* ---------------------------------------------------------------- the status bar on phones */
+
+.status-bar .status-risk {
+  display: inline-flex;
+}
+
+.status-risk-word {
+  display: none;
+}
+
+.status-bar button.status-link {
+  cursor: pointer;
+}
+
+@media (min-width: 56rem) {
+  .status-risk-word {
+    display: inline;
+  }
+}
+
+/* ---------------------------------------------------------------- the end note's links */
+
+.footer-nav {
+  gap: 0.375rem 0.5rem;
+}
+
+.footer-link {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.footer-link svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: none;
+  color: var(--dot);
+}
+
+.footer-link:hover {
+  color: var(--ink);
+  background: color-mix(in oklab, var(--ink) 6%, transparent);
+}
+
+/* The page you are on stays lit, as in the menu at the top. */
+.footer-link[aria-current="page"] {
+  border-color: color-mix(in oklab, var(--dot) 40%, transparent);
+  background: color-mix(in oklab, var(--dot) 12%, transparent);
+  color: var(--ink);
+}
+
+.footer-welcome {
+  padding: 0 0.6rem;
+}
+
+/* ---------------------------------------------------------------- page titles: centred */
+
+.page-title {
+  text-align: center;
+}
+
+.page-title .page-lead-big,
+.page-title .page-lead {
+  margin-inline: auto;
+}
+
+.page-title .translation,
+.iris-words .translation {
+  max-width: 30em;
+  margin-inline: auto;
+  padding-left: 0;
+  border-left: 0;
+  text-align: center;
+}
+
+.page-title .inline-links {
+  justify-content: center;
+}
+
+/* The front page's first screen and the photography lens: centred on phones, where they are one column. */
+@media (max-width: 61.99rem) {
+  .hero-words,
+  .iris-words {
+    text-align: center;
+  }
+
+  .hero-words .hero-lead,
+  .hero-words .hero-second,
+  .iris-words .page-lead-big {
+    margin-inline: auto;
+  }
+
+  .hero-actions,
+  .iris-words .inline-links {
+    justify-content: center;
+  }
+
+  .hero-turning {
+    display: flex;
+    justify-content: center;
+  }
+
+  .iris-words .translation {
+    text-align: center;
+  }
+}
+
+/* ---------------------------------------------------------------- the trading page's opening */
+
+/* Less air above the desk, so the screen is in sight sooner; the rain of numbers fills what is left. */
+.trading-title {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(2rem, 5vw, 3.75rem) clamp(1.25rem, 3vw, 2rem);
+}
+
+.trading-title + .desk {
+  margin-top: -0.5rem;
+}
+
+.matrix-rain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mask-image: radial-gradient(70% 90% at 50% 40%, black, transparent 85%);
+  opacity: 0.5;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------- a lighter site on phones and touch screens */
+
+/*
+ * Frosted glass and always-moving decoration cost a phone a lot: every blurred layer is redrawn
+ * as the page scrolls. On small or touch screens the glass turns solid, the drifting glows and
+ * the grain stand still, and the slow breathing of decorations stops. What answers a touch
+ * (opening, choosing, the trading chart) keeps moving.
+ */
+@media (max-width: 48rem), (pointer: coarse) {
+  .glass,
+  .nav-bar,
+  .status-bar,
+  .hero-pane,
+  .hero-kicker,
+  .seat,
+  .seat-icon,
+  .seat-channel,
+  .scroll-top,
+  .scroll-cue,
+  .button-glass,
+  .nav-menu,
+  .support::backdrop,
+  .arrival::backdrop,
+  .drawer::backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .glass,
+  .seat,
+  .hero-pane {
+    background: color-mix(in oklab, var(--ground) 90%, var(--tone-mid) 4%) !important;
+  }
+
+  .nav-bar,
+  .nav-bar-scrolled {
+    background: color-mix(in oklab, var(--ground) 94%, transparent);
+  }
+
+  .status-bar {
+    background: color-mix(in oklab, var(--ground) 96%, transparent);
+  }
+
+  .backdrop-glow,
+  .backdrop-grain,
+  .hero-candles .candle,
+  .seat-wave span,
+  .seat-rings,
+  .seat-art .candle,
+  .seat-play,
+  .finder-focus,
+  .finder-needle,
+  .scroll-line-tip,
+  .arrival-mark {
+    animation: none !important;
+  }
+
+  .backdrop-glow {
+    filter: blur(40px);
+  }
+
+  .backdrop-grain {
+    display: none;
+  }
+
+  .tilt-glare {
+    display: none;
+  }
+}
+
+/* The phone menu's header stays at the top as the menu scrolls, on a solid back, so links never show through it. */
+.drawer-head {
+  z-index: 2;
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  background: color-mix(in oklab, var(--ground) 98%, transparent);
+}

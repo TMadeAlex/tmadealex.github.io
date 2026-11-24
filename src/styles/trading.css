@@ -13,8 +13,9 @@
     perspective: 1600px;
   }
 
+  /* Hinged at its top edge, so the screen tips toward you without leaving a gap above it. */
   .desk-tilt {
-    transform-origin: 50% 100%;
+    transform-origin: 50% 0%;
     will-change: transform;
   }
 

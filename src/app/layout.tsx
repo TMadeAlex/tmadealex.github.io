@@ -8,6 +8,9 @@ import Providers from "@/components/chrome/Providers";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
 import CursorCandles from "@/components/fx/CursorCandles";
 import ArrivalKit from "@/components/chrome/ArrivalKit";
+import RiskWindow from "@/components/chrome/RiskWindow";
+import type { RiskWords } from "@/components/chrome/RiskWindow";
+import type { Locale } from "@/i18n/config";
 import { ByLocale, HtmlLang } from "@/i18n/client";
 import { content } from "@/data";
 import { lookScript } from "@/lib/look";
@@ -75,6 +78,22 @@ export const viewport: Viewport = {
 /* The Spanish words of the parts every page shares (src/data/es/site.ts). */
 const es = content("es").site;
 
+/* What the risk window says, in one language: his disclaimer and his rule, the site's plain note, the footer's line. */
+function riskWords(locale: Locale): RiskWords {
+  const { site: words, trading } = content(locale);
+  return {
+    title: words.ui.riskTitle,
+    lead: words.ui.riskLead,
+    his: trading.risk.his,
+    plain: trading.risk.plain,
+    rule: trading.risk.rule,
+    line: words.footer.lines[1],
+    more: words.ui.riskMore,
+    close: words.ui.close,
+    jump: { bottom: words.ui.jumpBottom, top: words.ui.jumpTop },
+  };
+}
+
 /* The colour family, handed to the stylesheet as six values. */
 const tone = {
   "--tone-primary": site.tone.primary,
@@ -135,6 +154,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           <SiteFooter />
           {site.ready ? <CursorCandles /> : null}
           {site.ready ? <ArrivalKit words={{ en: site.arrival, es: es.arrival }} /> : null}
+          {site.ready ? <RiskWindow words={{ en: riskWords("en"), es: riskWords("es") }} /> : null}
         </Providers>
       </body>
     </html>

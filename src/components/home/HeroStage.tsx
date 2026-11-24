@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import type { PointerEvent, ReactNode } from "react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
-import { useStill } from "@/lib/use-media";
+import { useMedia, useStill } from "@/lib/use-media";
 
 interface HeroStageProps {
   /** The faint candles behind everything (CandleField, drawn on the server). */
@@ -24,7 +24,10 @@ interface HeroStageProps {
  */
 export default function HeroStage({ field, children, aside, labelledBy }: HeroStageProps) {
   const ref = useRef<HTMLElement>(null);
-  const still = useStill();
+  /* On a phone the layers stay put: the first screen scrolls as one, lightly. */
+  const reduced = useStill();
+  const small = useMedia("(max-width: 48rem), (pointer: coarse)");
+  const still = reduced || small;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 
   const pointerX = useMotionValue(0);
