@@ -1,0 +1,375 @@
+/*
+ * What moves by itself, and PARTY_MODE.
+ *
+ * Breathing: the glows, the cyan dot, the focus box and the status light rise
+ * and fall slowly, about once every six seconds, as if the page breathes.
+ * Moments: the iris opens once, prints develop once, the tape runs.
+ *
+ * Everything that moves on its own is inside the no-preference block below,
+ * so anyone whose device asks for less motion sees the page standing still.
+ * Nothing flashes: PARTY_MODE's colours drift slowly round the wheel.
+ */
+
+/* The hue PARTY_MODE turns through. Registered, so it can be animated smoothly. */
+@property --party-hue {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 190;
+}
+
+/* PARTY_MODE: the cyan of his colours turns slowly through every colour, everywhere at once. */
+:root[data-party="on"],
+:root[data-party="on"] .on-dark {
+  --dot: oklch(0.8 0.17 var(--party-hue));
+  --accent: oklch(0.84 0.14 calc(var(--party-hue) + 30));
+  --candle-up: oklch(0.8 0.18 var(--party-hue));
+  --candle-down: oklch(0.78 0.14 calc(var(--party-hue) + 150));
+  --candle-line: oklch(0.7 0.16 calc(var(--party-hue) + 80));
+  --glow: color-mix(in oklab, var(--ground) 55%, oklch(0.55 0.2 var(--party-hue)));
+}
+
+:root[data-party="on"] .backdrop-glow-b {
+  background: radial-gradient(closest-side, oklch(0.6 0.22 calc(var(--party-hue) + 140) / 0.5), transparent);
+  opacity: 0.8;
+}
+
+:root[data-party="on"] .hero-name {
+  background-image: linear-gradient(
+    100deg,
+    oklch(0.9 0.12 var(--party-hue)),
+    oklch(0.85 0.17 calc(var(--party-hue) + 90)),
+    oklch(0.88 0.15 calc(var(--party-hue) + 180))
+  );
+}
+
+/* The iris that opens the new look from the switch, where the browser can draw it. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-party="on"] {
+    animation: party-hue 9s linear infinite;
+  }
+
+  :root[data-party="on"] .dot-breathe {
+    animation: party-bounce 900ms cubic-bezier(0.3, 1.6, 0.5, 1) infinite alternate;
+  }
+
+  ::view-transition-new(root) {
+    animation: look-iris 720ms cubic-bezier(0.6, 0.05, 0.2, 1) both;
+  }
+
+  /* ------------------------------------------------ breathing */
+
+  .backdrop-glow-a {
+    animation: breathe-glow 11s ease-in-out infinite;
+  }
+
+  .backdrop-glow-b {
+    animation: breathe-glow 14s ease-in-out -5s infinite;
+  }
+
+  .backdrop-grain {
+    animation: grain 1.6s steps(5) infinite;
+  }
+
+  .dot-breathe,
+  .kicker-dot,
+  .status-dot-now,
+  .finder-needle {
+    animation: breathe 5.5s ease-in-out infinite;
+  }
+
+  .finder-focus {
+    animation: focus-hunt 6s ease-in-out infinite;
+  }
+
+  .hero-candles .candle {
+    animation: candle-breathe 6s ease-in-out infinite;
+  }
+
+  .seat-wave span {
+    animation: wave 1.4s ease-in-out infinite alternate;
+  }
+
+  .seat-rings {
+    animation: breathe 4.5s ease-in-out infinite;
+  }
+
+  .seat-photographer:hover .seat-finder {
+    animation: focus-hunt 1.2s ease-in-out;
+  }
+
+  .scroll-line-tip {
+    animation: breathe 3s ease-in-out infinite;
+  }
+
+  /* ------------------------------------------------ moments */
+
+  .dot-hero {
+    animation: dot-land 700ms cubic-bezier(0.3, 1.5, 0.5, 1) 200ms both;
+  }
+
+  .hero-title {
+    animation: title-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .iris-blades {
+    animation: iris-open 1700ms cubic-bezier(0.65, 0, 0.25, 1) 250ms both;
+  }
+
+  .iris-af {
+    animation: af-lock 900ms ease-out 1700ms both;
+  }
+
+  .iris-glass .finder-corner {
+    animation: corners-in 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 1300ms both;
+  }
+
+  /* Prints come up the way they do in the developing tray: dark and warm first, then the picture. */
+  .sheet[data-develop] .print .print-picture {
+    filter: brightness(0.12) sepia(1) saturate(3.5) hue-rotate(-38deg) blur(3px);
+    transition: filter 2200ms cubic-bezier(0.3, 0, 0.2, 1);
+    transition-delay: calc(var(--i, 0) % 3 * 140ms);
+  }
+
+  .sheet[data-develop] .print[data-developed="true"] .print-picture {
+    filter: none;
+  }
+
+  .tape-track {
+    animation: tape 60s linear infinite;
+  }
+
+  .term-tape:hover .tape-track {
+    animation-play-state: paused;
+  }
+
+  .drawer[open] .drawer-panel {
+    animation: drawer-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .drawer[open]::backdrop {
+    animation: fade-in 220ms ease-out both;
+  }
+
+  .lightbox[open] .lightbox-picture {
+    animation: shutter 520ms cubic-bezier(0.7, 0, 0.2, 1) both;
+  }
+
+  @keyframes party-hue {
+    from {
+      --party-hue: 190;
+    }
+    to {
+      --party-hue: 550;
+    }
+  }
+
+  @keyframes party-bounce {
+    from {
+      transform: translateY(0) scale(1);
+    }
+    to {
+      transform: translateY(-0.35em) scale(1.35);
+    }
+  }
+
+  @keyframes look-iris {
+    from {
+      clip-path: circle(0 at var(--iris-x, 90%) var(--iris-y, 2rem));
+    }
+    to {
+      clip-path: circle(150vmax at var(--iris-x, 90%) var(--iris-y, 2rem));
+    }
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      opacity: 0.7;
+      transform: scale(0.92);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes breathe-glow {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 0.75;
+    }
+    50% {
+      transform: translate3d(3rem, 1.5rem, 0) scale(1.08);
+      opacity: 1;
+    }
+  }
+
+  @keyframes grain {
+    0% {
+      transform: translate(0, 0);
+    }
+    20% {
+      transform: translate(-6%, 4%);
+    }
+    40% {
+      transform: translate(5%, -7%);
+    }
+    60% {
+      transform: translate(-3%, 8%);
+    }
+    80% {
+      transform: translate(7%, 2%);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes focus-hunt {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    40% {
+      transform: scale(1.12);
+      opacity: 0.45;
+    }
+    55% {
+      transform: scale(0.96);
+      opacity: 1;
+    }
+  }
+
+  @keyframes candle-breathe {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes wave {
+    from {
+      height: 18%;
+    }
+    to {
+      height: 92%;
+    }
+  }
+
+  @keyframes title-rise {
+    from {
+      opacity: 0;
+      transform: translateY(0.35em);
+      filter: blur(10px);
+      letter-spacing: 0.02em;
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+
+  @keyframes iris-open {
+    from {
+      opacity: 1;
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    }
+    70% {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: translate(-50%, -50%) rotate(60deg) scale(2.6);
+    }
+  }
+
+  @keyframes af-lock {
+    0% {
+      opacity: 0;
+      transform: scale(1.6);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(0.94);
+    }
+    80% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes corners-in {
+    from {
+      margin: 2.75rem;
+      opacity: 0;
+    }
+    to {
+      margin: 1rem;
+      opacity: 0.85;
+    }
+  }
+
+  @keyframes tape {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes drawer-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  @keyframes shutter {
+    from {
+      clip-path: inset(50% 0 50% 0);
+      filter: brightness(1.8);
+    }
+    60% {
+      filter: brightness(1.15);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+      filter: none;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Without motion, PARTY_MODE still changes the colours, to one fixed hue, with nothing moving. */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-party="on"] {
+    --party-hue: 320;
+  }
+}

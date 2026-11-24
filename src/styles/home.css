@@ -1,0 +1,817 @@
+/*
+ * The front page: the first screen in layers (faint candles, a viewfinder, his
+ * name and the schedule on glass), the four seats, where to watch, the
+ * quotation band and the two doors. Also the made-up candle drawings and the
+ * viewfinder corners, which other pages use too.
+ */
+@layer components {
+  /* ---------------------------------------------------------------- made-up candles (decoration) */
+
+  .candle-field {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .candle-grid line {
+    stroke: var(--chart-grid);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .candle-wick {
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .candle-up .candle-wick {
+    stroke: var(--candle-up);
+  }
+
+  .candle-up .candle-body {
+    fill: var(--candle-up);
+  }
+
+  .candle-down .candle-wick {
+    stroke: var(--candle-down);
+  }
+
+  .candle-down .candle-body {
+    fill: transparent;
+    stroke: var(--candle-down);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .candle-line {
+    fill: none;
+    stroke: var(--candle-line);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* ---------------------------------------------------------------- viewfinder corners (shared) */
+
+  .finder-corner {
+    position: absolute;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-color: var(--dot);
+    border-style: solid;
+    border-width: 0;
+    opacity: 0.85;
+    transition:
+      inset 380ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      opacity 300ms ease;
+  }
+
+  .finder-tl {
+    top: 0;
+    left: 0;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+
+  .finder-tr {
+    top: 0;
+    right: 0;
+    border-top-width: 2px;
+    border-right-width: 2px;
+  }
+
+  .finder-bl {
+    bottom: 0;
+    left: 0;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+  }
+
+  .finder-br {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+
+  /* ---------------------------------------------------------------- the first screen */
+
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    display: flex;
+    min-height: calc(100svh - var(--nav-h) - var(--status-h) - 2.5rem);
+    align-items: center;
+    padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .hero-field {
+    position: absolute;
+    inset: 4% -6% 0;
+    z-index: -2;
+    opacity: 0.5;
+    mask-image: radial-gradient(90% 75% at 55% 45%, black 20%, transparent 78%);
+  }
+
+  .hero-candles .candle-body,
+  .hero-candles .candle-wick {
+    opacity: 0.6;
+  }
+
+  .hero-finder {
+    position: absolute;
+    inset: clamp(0.75rem, 3vw, 2rem) clamp(0.75rem, 3vw, 2.5rem);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .finder-focus {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: 4.5rem;
+    height: 3rem;
+    margin: -1.5rem 0 0 -2.25rem;
+    border: 1px solid color-mix(in oklab, var(--dot) 50%, transparent);
+    border-radius: 4px;
+  }
+
+  .finder-focus::before,
+  .finder-focus::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: color-mix(in oklab, var(--dot) 60%, transparent);
+  }
+
+  .finder-focus::before {
+    width: 0.75rem;
+    height: 1px;
+    margin-left: -0.375rem;
+  }
+
+  .finder-focus::after {
+    width: 1px;
+    height: 0.75rem;
+    margin-top: -0.375rem;
+  }
+
+  .finder-meter {
+    position: absolute;
+    left: 50%;
+    bottom: 0.75rem;
+    width: min(20rem, 60%);
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--ink-faint);
+  }
+
+  .finder-meter-scale {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .finder-needle {
+    position: absolute;
+    top: -0.625rem;
+    width: 2px;
+    height: 0.5rem;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: var(--dot);
+    box-shadow: 0 0 8px var(--dot);
+  }
+
+  .hero-grid {
+    display: grid;
+    width: 100%;
+    gap: clamp(2.5rem, 6vw, 4rem);
+    align-items: center;
+  }
+
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.375rem 0.875rem 0.375rem 0.625rem;
+    border: 1px solid var(--glass-line);
+    border-radius: 999px;
+    background: var(--glass);
+    box-shadow: var(--shadow-1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    letter-spacing: 0.18em;
+  }
+
+  .kicker-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--dot);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--dot) 20%, transparent);
+  }
+
+  .hero-title {
+    margin-top: 1.25rem;
+    font-size: clamp(3.5rem, 12.5vw, 9.5rem);
+    line-height: 0.88;
+    text-shadow: 0 24px 60px var(--shadow-deep);
+  }
+
+  .hero-name {
+    background: linear-gradient(180deg, var(--ink) 30%, color-mix(in oklab, var(--ink) 62%, var(--dot)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-turning {
+    margin-top: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.875rem, 1.6vw, 1.0625rem);
+    letter-spacing: 0.04em;
+    color: var(--accent);
+  }
+
+  .turning-window {
+    position: relative;
+    display: inline-flex;
+    height: 1.6em;
+    align-items: center;
+    gap: 0.625rem;
+    overflow: hidden;
+    padding-right: 0.25rem;
+  }
+
+  .turning-caret {
+    font-size: 0.7em;
+    color: var(--dot);
+  }
+
+  .turning-word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .hero-lead {
+    max-width: 22em;
+    margin-top: 1.5rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.625rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .hero-second {
+    max-width: 26em;
+    margin-top: 0.5rem;
+    font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
+    font-weight: 300;
+    color: var(--ink-soft);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .chart-title {
+    margin-bottom: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+  }
+
+  .tilt {
+    position: relative;
+    transform-style: preserve-3d;
+    border-radius: 18px;
+  }
+
+  .tilt-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+
+  .hero-pane {
+    padding: 1rem;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: var(--shadow-2);
+  }
+
+  @media (min-width: 62rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    }
+  }
+
+  /* ---------------------------------------------------------------- four seats */
+
+  .seats {
+    padding-block: clamp(3rem, 8vw, 6rem) clamp(2rem, 5vw, 3rem);
+  }
+
+  .seats-head {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 44rem;
+    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  }
+
+  .seats-title {
+    font-size: clamp(1.875rem, 4.2vw, 3rem);
+  }
+
+  .seats-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .seat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    overflow: hidden;
+    padding: 1.375rem 1.375rem 1.5rem;
+    border: 1px solid var(--glass-line);
+    border-radius: 22px;
+    background: var(--glass);
+    box-shadow: var(--shadow-1);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+      transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 300ms ease,
+      border-color 250ms ease;
+  }
+
+  .seat:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in oklab, var(--dot) 40%, transparent);
+    box-shadow: var(--shadow-2);
+  }
+
+  .seat-art {
+    position: relative;
+    display: block;
+    height: 5.5rem;
+    margin: -0.375rem -0.375rem 0.25rem;
+    overflow: hidden;
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--ink) 6%, transparent);
+    box-shadow: inset 0 0 0 1px var(--glass-line);
+  }
+
+  .seat-art .candle-field {
+    position: absolute;
+    inset: 0.5rem;
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+  }
+
+  .seat-wave {
+    position: absolute;
+    inset: 1.25rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .seat-wave span {
+    width: 4px;
+    height: 30%;
+    border-radius: 2px;
+    background: var(--dot);
+    opacity: 0.85;
+  }
+
+  .seat-rings {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: -1.25rem 0 0 -1.25rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in oklab, var(--dot) 70%, transparent);
+    box-shadow:
+      0 0 0 0.9rem color-mix(in oklab, var(--dot) 10%, transparent),
+      0 0 0 1.8rem color-mix(in oklab, var(--dot) 6%, transparent),
+      0 0 0 2.7rem color-mix(in oklab, var(--dot) 3%, transparent);
+  }
+
+  .seat-finder {
+    position: absolute;
+    inset: 0.875rem 25%;
+    border: 1px dashed color-mix(in oklab, var(--dot) 45%, transparent);
+    border-radius: 4px;
+  }
+
+  .seat-finder span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin: -0.375rem 0 0 -0.375rem;
+    border: 2px solid var(--dot);
+    border-radius: 50%;
+  }
+
+  .seat-icon {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border-radius: 12px;
+    background: color-mix(in oklab, var(--dot) 14%, transparent);
+    color: var(--dot);
+    box-shadow: inset 0 1px 0 var(--glass-edge);
+  }
+
+  .seat-icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .seat-role {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .seat-line {
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+  }
+
+  .seat-quote {
+    margin-top: auto;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--glass-line);
+  }
+
+  @media (min-width: 40rem) {
+    .seats-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .seats-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+  }
+
+  /* ---------------------------------------------------------------- where to watch */
+
+  .where {
+    padding-block: clamp(2rem, 5vw, 3rem) clamp(3rem, 8vw, 5rem);
+  }
+
+  .where-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .where-block {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(1.375rem, 3vw, 2rem);
+    border-radius: 22px;
+  }
+
+  .where-icon {
+    position: absolute;
+    right: 1.25rem;
+    top: 1.25rem;
+    color: color-mix(in oklab, var(--dot) 70%, transparent);
+  }
+
+  .where-icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .where-title {
+    padding-right: 3rem;
+    font-size: clamp(1.375rem, 2.6vw, 1.875rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .where-text {
+    color: var(--ink-soft);
+  }
+
+  .where-link {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .where-link-icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 200ms ease;
+  }
+
+  .where-link:hover .where-link-icon {
+    transform: translateX(4px);
+  }
+
+  @media (min-width: 52rem) {
+    .where-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---------------------------------------------------------------- the quotation band */
+
+  .band {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(4.5rem, 12vw, 9rem);
+    background:
+      radial-gradient(60rem 30rem at 15% 0%, color-mix(in oklab, var(--tone-mid) 26%, transparent), transparent 70%),
+      var(--night);
+    box-shadow:
+      inset 0 1px 0 var(--line),
+      inset 0 -1px 0 var(--line);
+  }
+
+  .band-candles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.22;
+    mask-image: linear-gradient(to right, transparent, black 30%, black 70%, transparent);
+  }
+
+  .reveal-word {
+    display: inline;
+  }
+
+  /* ---------------------------------------------------------------- the two doors */
+
+  .doors {
+    display: grid;
+    gap: 1rem;
+    padding-block: clamp(3rem, 8vw, 5.5rem) 0;
+  }
+
+  .door {
+    position: relative;
+    display: flex;
+    min-height: 22rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow: hidden;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background:
+      radial-gradient(40rem 20rem at 0% 0%, color-mix(in oklab, var(--tone-mid) 22%, transparent), transparent 70%),
+      var(--panel);
+    box-shadow: var(--shadow-1);
+    transition:
+      transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 320ms ease,
+      border-color 250ms ease;
+  }
+
+  .door:hover,
+  .door:focus-visible {
+    transform: translateY(-6px);
+    border-color: color-mix(in oklab, var(--dot) 45%, transparent);
+    box-shadow: var(--shadow-2);
+  }
+
+  .door-screen,
+  .door-lens {
+    position: relative;
+    display: block;
+    height: 13rem;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .door-screen {
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--night) 70%, transparent);
+  }
+
+  .door-tabs {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.625rem;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+  }
+
+  .door-tab {
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--ink-soft);
+  }
+
+  .door-tab-on {
+    border-color: color-mix(in oklab, var(--dot) 55%, transparent);
+    color: var(--dot);
+  }
+
+  .door-tab-note {
+    color: var(--ink-faint);
+  }
+
+  .door-candles {
+    position: absolute;
+    inset: 2.25rem 0.75rem 0.75rem;
+    width: calc(100% - 1.5rem);
+    height: calc(100% - 3rem);
+  }
+
+  .door-lens {
+    background: var(--night);
+  }
+
+  /* The photograph waits a little out of focus and darker, and pulls into focus when the door is pointed at. */
+  .door-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(5px) brightness(0.62) saturate(0.85);
+    transform: scale(1.08);
+    transition:
+      filter 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 900ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .door-photography:hover .door-cover,
+  .door-photography:focus-visible .door-cover {
+    filter: none;
+    transform: scale(1.02);
+  }
+
+  .door-lens .finder-corner {
+    margin: 0.875rem;
+  }
+
+  .door-photography:hover .door-lens .finder-corner,
+  .door-photography:focus-visible .door-lens .finder-corner {
+    margin: 1.75rem;
+  }
+
+  .door-af {
+    position: absolute;
+    right: 1.25rem;
+    bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--night) 70%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+  }
+
+  .door-af-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--ink-faint);
+    transition: background-color 300ms ease 300ms;
+  }
+
+  .door-photography:hover .door-af-dot,
+  .door-photography:focus-visible .door-af-dot {
+    background: var(--dot);
+    box-shadow: 0 0 10px var(--dot);
+  }
+
+  .door-title {
+    font-size: clamp(2rem, 4.6vw, 3.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .door-text {
+    max-width: 30em;
+    color: var(--ink-soft);
+  }
+
+  .door-go {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .door-go svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 300ms ease;
+  }
+
+  .door:hover .door-go svg {
+    transform: rotate(-12deg) scale(1.15);
+  }
+
+  /* ---------------------------------------------------------------- the crosshair (shared) */
+
+  .crosshair {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .crosshair[data-on] {
+    opacity: 1;
+  }
+
+  .crosshair-x,
+  .crosshair-y {
+    position: absolute;
+    border: 0 dashed color-mix(in oklab, var(--ink) 40%, transparent);
+  }
+
+  .crosshair-x {
+    left: 0;
+    right: 0;
+    top: var(--cy, 50%);
+    border-top-width: 1px;
+  }
+
+  .crosshair-y {
+    top: 0;
+    bottom: 0;
+    left: var(--cx, 50%);
+    border-left-width: 1px;
+  }
+
+  .crosshair-dot {
+    position: absolute;
+    left: var(--cx, 50%);
+    top: var(--cy, 50%);
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    border-radius: 50%;
+    background: var(--dot);
+    box-shadow: 0 0 10px var(--dot);
+  }
+
+  @media (min-width: 52rem) {
+    .doors {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { ArrowUpRight, Coins, MonitorPlay, ShieldCheck, Tag, UsersRound } from "lucide-react";
+import { ArrowUpRightIcon, CoinsIcon, MonitorPlayIcon, ShieldCheckIcon, TagIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
 import Cite from "@/components/Cite";
 import SupportPanel from "@/components/SupportPanel";
 import CopyCode from "@/components/support/CopyCode";
@@ -9,7 +9,7 @@ import type { SupportWay } from "@/data/support";
 /** The id the window's title carries, so the dialog is named by it. */
 export const supportTitleId = "support-title";
 
-const icons = { watch: MonitorPlay, join: UsersRound, code: Tag };
+const icons = { watch: MonitorPlayIcon, join: UsersThreeIcon, code: TagIcon };
 
 function Way({ way }: { way: SupportWay }) {
   const Icon = icons[way.icon];
@@ -18,7 +18,7 @@ function Way({ way }: { way: SupportWay }) {
   return (
     <li className="support-way">
       <span className="support-icon" aria-hidden="true">
-        <Icon strokeWidth={1.75} />
+        <Icon weight="duotone" />
       </span>
       <div>
         <p className="support-place">{way.place}</p>
@@ -37,7 +37,7 @@ function Way({ way }: { way: SupportWay }) {
         {action.kind === "link" ? (
           <a href={action.href} rel="noopener noreferrer" className="button button-line support-action">
             {action.label}
-            <ArrowUpRight aria-hidden="true" className="button-icon" />
+            <ArrowUpRightIcon aria-hidden="true" className="button-icon" />
           </a>
         ) : (
           <CopyCode code={action.code} copyLabel={support.ui.copyCode} copiedLabel={support.ui.codeCopied} />
@@ -72,7 +72,7 @@ export default function SupportWindow() {
         ))}
         <li className="support-way support-way-crypto">
           <span className="support-icon" aria-hidden="true">
-            <Coins strokeWidth={1.75} />
+            <CoinsIcon weight="duotone" />
           </span>
           <div>
             <p className="support-place">{support.crypto.place}</p>
@@ -94,7 +94,7 @@ export default function SupportWindow() {
       </ul>
 
       <p className="support-foot">
-        <ShieldCheck aria-hidden="true" strokeWidth={1.75} />
+        <ShieldCheckIcon weight="duotone" aria-hidden="true" />
         <span>{support.foot}</span>
       </p>
     </>

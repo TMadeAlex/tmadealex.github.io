@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import type { MouseEvent, ReactNode } from "react";
-import { HandHeart, X } from "lucide-react";
+import { HandHeartIcon, XIcon } from "@phosphor-icons/react";
 
 interface SupportButtonProps {
   /** The button's word ("Support"). */
@@ -34,14 +34,14 @@ export default function SupportButton({ label, closeLabel, titleId, children }: 
 
   return (
     <>
-      <button type="button" onClick={open} aria-haspopup="dialog" className="support-open">
-        <HandHeart aria-hidden="true" className="support-open-icon" strokeWidth={1.75} />
-        {label}
+      <button type="button" onClick={open} aria-haspopup="dialog" className="support-open" aria-label={label}>
+        <HandHeartIcon weight="duotone" aria-hidden="true" className="support-open-icon" />
+        <span className="support-open-word">{label}</span>
       </button>
       <dialog ref={dialogRef} aria-labelledby={titleId} onClick={onDialogClick} className="support">
-        <div className="support-card">
+        <div className="support-card glass">
           <button type="button" onClick={close} aria-label={closeLabel} className="support-close">
-            <X aria-hidden="true" className="h-5 w-5" />
+            <XIcon weight="bold" aria-hidden="true" className="h-5 w-5" />
           </button>
           {children}
         </div>

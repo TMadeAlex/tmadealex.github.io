@@ -1,4 +1,4 @@
-import { Gift } from "lucide-react";
+import { GiftIcon } from "@phosphor-icons/react/ssr";
 import { site } from "@/data/site";
 
 interface GiftWordsProps {
@@ -34,7 +34,7 @@ export default function GiftLine() {
   return (
     <aside className="gift-line" aria-label="About this site">
       <div className="frame gift-line-inner">
-        <Gift aria-hidden="true" className="gift-icon" strokeWidth={1.75} />
+        <GiftIcon weight="duotone" aria-hidden="true" className="gift-icon" />
         <p>
           <GiftWords line={site.gift.line} by={site.gift.by} linkClass="gift-link" />
         </p>

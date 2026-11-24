@@ -22,16 +22,22 @@ This repository is a person's own small website. It is served by GitHub Pages. T
   files and nothing else.
 - Leave the pages, the components, the styles, the workflow and the scripts alone unless you are asked to change them
   by name. If a request seems to need it, say what you would change and why, before you change it.
-- Pictures are files in `public/gallery/`. Never link a picture from another website.
-- On `main` there is no image of the owner's. His photographs and art live on the local branch `with-his-art`, which
-  is never pushed until he says yes.
+- His photographs are shown from his own photography site's picture host (`images.squarespace-cdn.com`), as `<img>`
+  only, each listed in `PROVENANCE.md`; emptying `src/data/gallery.ts` takes them all off. Any other picture is a file
+  in `public/gallery/`. Never link a picture from any other website. His TRADERMADE art stays off `main` until he says yes.
 
 ## Never add these
 
-- No tracking of any kind: no analytics, no pixels, no fingerprinting, no cookies, no local storage.
+- No tracking of any kind: no analytics, no pixels, no fingerprinting, no cookies. The one thing kept in a visitor's
+  browser (localStorage) is their own choice of look: night or morning, and PARTY_MODE. It is never sent anywhere.
 - No forms. The contact page is a list of links.
 - No third-party scripts, fonts, pictures or frames. A visitor's browser asks this site for files and no other.
-  Fonts are built in when the site is built. Icons come from the `lucide-react` package.
+  Fonts are built in when the site is built. Icons come from the `@phosphor-icons/react` package (duotone), and motion
+  from the `motion` package; both are part of the site's own code.
+- Nothing moves for a visitor whose device asks for less motion: no cursor candles, no parallax, no breathing, no iris.
+  PARTY_MODE then changes colour only. Nothing flashes, in PARTY_MODE or anywhere.
+- The candles drawn on the pages (the front page, the trading desk, the cursor) are made up and say so where it
+  matters. They are never presented as market data or as anyone's trades.
 - No wallet connection, no custody, no checkout and no minting. The support panel shows the owner's own address and
   a button that copies it. That is all it will ever do.
 - No new package without saying which one, why, and what it loads.

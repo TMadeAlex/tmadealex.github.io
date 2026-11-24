@@ -36,6 +36,31 @@ export const trading = {
   title: "Trading",
   lead: { text: "Trade futures with confidence.", source: "youtube" } as Quote,
 
+  /*
+   * The trading screen at the top of the page: his desk, as a picture. The
+   * chart on it is made up by the site and moves for show. It is not market
+   * data and not his trades, and the screen says so where the chart is.
+   */
+  desk: {
+    label: "His desk, drawn as a trading screen",
+    brand: "TMADE",
+    eastern: "New York",
+    yours: "Your time",
+    chartLabel: "Chart",
+    illustration: "Illustration",
+    illustrationLong:
+      "A made-up price chart drawn by this page for decoration: moving candles and an average line over his posted session window. It is not market data and not his trades.",
+    axis: "Change since the window opens, made up",
+    average: "VWAP",
+    namesTitle: "On his stream",
+    namesNote: "Named here only. How each works is taught live.",
+    taught: "Taught live on YouTube and in TRADERMADE",
+    figuresTitle: "As he states it",
+    sessionsTitle: "Sessions",
+    riskTitle: "Risk",
+    tape: "His words",
+  },
+
   intro: {
     title: "The trader",
     text: "He trades NQ and ES futures live, Monday to Friday. In his own words, the kind of trader he is:",

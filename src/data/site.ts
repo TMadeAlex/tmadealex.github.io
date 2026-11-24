@@ -24,6 +24,19 @@ export interface Tone {
   onDarkSoft: string;
 }
 
+/** The menu's pages. `icon` names one of the menu's pictures (see SiteNav.tsx). */
+export interface NavLink {
+  href: string;
+  label: string;
+  icon: "trading" | "photography" | "contact";
+}
+
+export interface ExternalLink {
+  label: string;
+  href: string;
+  icon?: "youtube" | "whop" | "x" | "instagram" | "camera" | "linkedin" | "github";
+}
+
 export interface Site {
   name: string;
   organisation: string;
@@ -37,8 +50,16 @@ export interface Site {
   supportNote: string;
   /** The one line near the top of every page saying who set the site up. */
   gift: { line: string; by?: { name: string; handle?: string; href: string } };
-  nav: { href: string; label: string }[];
+  nav: NavLink[];
+  /** The Explore menu: his own pages elsewhere. */
+  explore: { label: string; links: ExternalLink[] };
+  /** Where this site's own source lives on GitHub. */
+  source: { label: string; short: string; href: string; home: ExternalLink };
   labels: { support: string; empty: string };
+  /** The fixed bar at the foot of every page. */
+  status: { label: string; next: string; until: string; scheduled: string; risk: string; riskHref: string };
+  look: { night: string; morning: string; toNight: string; toMorning: string; heading: string };
+  party: { name: string; on: string; off: string; hint: string; heading: string };
   holding: {
     title: string;
     lines: string[];
@@ -49,6 +70,10 @@ export interface Site {
   ui: {
     skip: string;
     menu: string;
+    homeWord: string;
+    openMenu: string;
+    closeMenu: string;
+    toTop: string;
     home: string;
     seeIt: string;
     openPicture: string;
@@ -109,14 +134,62 @@ export const site: Site = {
 
   /* The menu. The name at the top left always goes to the front page. */
   nav: [
-    { href: "/trading/", label: "Trading" },
-    { href: "/photography/", label: "Photography" },
-    { href: "/contact/", label: "Contact" },
+    { href: "/trading/", label: "Trading", icon: "trading" },
+    { href: "/photography/", label: "Photography", icon: "photography" },
+    { href: "/contact/", label: "Contact", icon: "contact" },
   ],
+
+  /* The Explore menu at the top: his own pages elsewhere. Each opens his page, not this site. */
+  explore: {
+    label: "Explore",
+    links: [
+      { label: "YouTube @TMadeAlex", href: "https://www.youtube.com/@TMadeAlex", icon: "youtube" },
+      { label: "TRADERMADE on Whop", href: "https://whop.com/tradermade/", icon: "whop" },
+      { label: "X @TMadeAlex", href: "https://x.com/tmadealex", icon: "x" },
+      { label: "Instagram @tmadealex", href: "https://www.instagram.com/tmadealex/", icon: "instagram" },
+      { label: "alexandersaladrigas.com", href: "https://www.alexandersaladrigas.com/", icon: "camera" },
+    ],
+  },
+
+  /* This site's own source, on GitHub, where Alex can change any word of it. */
+  source: {
+    label: "Source on GitHub",
+    short: "Source",
+    href: "https://github.com/TMadeAlex/tmadealex.github.io",
+    home: { label: "TMadeAlex on GitHub", href: "https://github.com/TMadeAlex", icon: "github" },
+  },
 
   labels: {
     support: "Support",
     empty: "Nothing is here yet.",
+  },
+
+  /* The thin bar fixed at the foot of every page. It shows his schedule, never whether a stream is live. */
+  status: {
+    label: "Schedule and source",
+    next: "Next scheduled",
+    until: "until",
+    scheduled: "Scheduled now",
+    risk: "Not financial advice",
+    riskHref: "/trading/#risk",
+  },
+
+  /* The two looks. Night is the first design; morning is the same colours in daylight. */
+  look: {
+    heading: "Look",
+    night: "Night",
+    morning: "Morning",
+    toNight: "Switch to the night look",
+    toMorning: "Switch to the morning look",
+  },
+
+  /* PARTY_MODE: colour, confetti candles and a livelier cursor. Shift + P turns it on and off too. */
+  party: {
+    heading: "For fun",
+    name: "PARTY_MODE",
+    on: "PARTY_MODE is on",
+    off: "PARTY_MODE is off",
+    hint: "Shift + P",
   },
 
   /* The holding page, shown only if ready is set back to false. */
@@ -143,7 +216,7 @@ export const site: Site = {
     lines: [
       "Every figure and quotation here is TMade Alex's own, from his public pages, read on 23 November 2026, and links to where it was read. Quotations from videos are as YouTube's automatic captions print them.",
       "Nothing on this site is financial advice. Trading futures involves substantial risk of loss.",
-      "No cookies, no forms, no tracking. Search engines are asked not to list it.",
+      "No cookies, no forms, no tracking. The look you choose is remembered by your own browser, and nothing is sent anywhere. Search engines are asked not to list it.",
     ],
   },
 
@@ -154,6 +227,10 @@ export const site: Site = {
   ui: {
     skip: "Skip to the page",
     menu: "Pages",
+    homeWord: "Home",
+    openMenu: "Open the menu",
+    closeMenu: "Close the menu",
+    toTop: "Back to the top",
     home: "TMade Alex, front page",
     seeIt: "See it",
     openPicture: "Open the picture",

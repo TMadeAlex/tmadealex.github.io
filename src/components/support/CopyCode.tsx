@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 
 interface CopyCodeProps {
   code: string;
@@ -41,9 +41,9 @@ export default function CopyCode({ code, copyLabel, copiedLabel }: CopyCodeProps
       </code>
       <button type="button" onClick={copy} className="button button-line support-action">
         {copied ? (
-          <Check aria-hidden="true" className="button-icon" />
+          <CheckIcon weight="bold" aria-hidden="true" className="button-icon" />
         ) : (
-          <Copy aria-hidden="true" className="button-icon" />
+          <CopyIcon weight="duotone" aria-hidden="true" className="button-icon" />
         )}
         <span aria-live="polite">{copied ? copiedLabel : copyLabel}</span>
       </button>
