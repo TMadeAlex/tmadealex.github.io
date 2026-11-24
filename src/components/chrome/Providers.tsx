@@ -5,10 +5,12 @@ import type { ReactNode } from "react";
 import { MotionConfig } from "motion/react";
 import { readParty, setParty } from "@/lib/look";
 import PartyBurst from "@/components/fx/PartyBurst";
+import { useLocale } from "@/i18n/client";
+import type { Locale } from "@/i18n/config";
 
 interface ProvidersProps {
-  /** The two lines said when PARTY_MODE goes on or off (party in site.ts). */
-  partyWords: { on: string; off: string };
+  /** The two lines said when PARTY_MODE goes on or off (party in site.ts), in each language. */
+  partyWords: Record<Locale, { on: string; off: string }>;
   children: ReactNode;
 }
 
@@ -35,8 +37,9 @@ export function toggleParty(from?: { x: number; y: number }) {
  * device asks for less motion gets the site without the moving parts. Shift + P
  * switches PARTY_MODE from anywhere, and a short note says it changed.
  */
-export default function Providers({ partyWords, children }: ProvidersProps) {
+export default function Providers({ partyWords: allWords, children }: ProvidersProps) {
   const [note, setNote] = useState("");
+  const partyWords = allWords[useLocale()];
   const timer = useRef<number | undefined>(undefined);
 
   useEffect(() => {

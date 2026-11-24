@@ -1,25 +1,15 @@
 import type { Metadata } from "next";
-import Holding from "@/components/Holding";
-import PageTitle from "@/components/PageTitle";
-import Contact from "@/components/sections/Contact";
-import Support from "@/components/sections/Support";
-import { site } from "@/data/site";
-import { shareMetadata } from "@/lib/share";
-import { contact } from "@/data/contact";
+import ContactView from "@/views/ContactView";
+import { content } from "@/data";
+import { languageMetadata, shareMetadata } from "@/lib/share";
+
+const { site, contact } = content("en");
 
 export const metadata: Metadata = site.ready
-  ? { title: contact.title, ...shareMetadata("contact", `${contact.title} | ${site.name}`) }
+  ? { title: contact.title, ...shareMetadata("contact", `${contact.title} | ${site.name}`), ...languageMetadata("en", "/contact") }
   : {};
 
-/* Links only. There is no form on this page, or anywhere on the site, and no email address. */
+/* Contact in English. Its Spanish twin is src/app/es/contact/page.tsx; both draw src/views/ContactView.tsx. */
 export default function ContactPage() {
-  if (!site.ready) return <Holding />;
-
-  return (
-    <>
-      <PageTitle title={contact.title} lead={<p className="page-lead-big">{contact.lead}</p>} />
-      <Contact />
-      <Support />
-    </>
-  );
+  return <ContactView locale="en" />;
 }

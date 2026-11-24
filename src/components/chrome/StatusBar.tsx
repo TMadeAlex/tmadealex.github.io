@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CodeIcon, GithubLogoIcon, ShieldCheckIcon } from "@phosphor-icons/react";
 import type { Session } from "@/data/schedule";
 import { occurrences } from "@/lib/sessions";
+import { useLocale } from "@/i18n/client";
 
 interface StatusBarProps {
   sessions: Session[];
@@ -32,12 +33,14 @@ const serverNow = () => null;
  */
 export default function StatusBar({ sessions, days, zone, posted, words, source }: StatusBarProps) {
   const now = useSyncExternalStore(subscribe, clientNow, serverNow);
+  /* Days and times in the page's language: Spanish on /es/, the visitor's own otherwise. */
+  const dateLocale = useLocale() === "es" ? "es" : undefined;
 
   let line = posted;
   let current = false;
   if (now !== null) {
-    const time = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" });
-    const weekday = new Intl.DateTimeFormat(undefined, { weekday: "short" });
+    const time = new Intl.DateTimeFormat(dateLocale, { hour: "2-digit", minute: "2-digit" });
+    const weekday = new Intl.DateTimeFormat(dateLocale, { weekday: "short" });
     const all = occurrences(now, sessions, days, zone);
     const during = all.find((o) => o.start <= now && o.end > now);
     const coming = all.find((o) => o.start > now);

@@ -38,6 +38,7 @@ Every word and every setting lives in one folder, [`src/data`](./src/data). Noth
 | The pictures in the photography gallery (the files themselves go in [`public/gallery/`](./public/gallery)) | [`src/data/gallery.ts`](./src/data/gallery.ts) |
 | The contact page: links only | [`src/data/contact.ts`](./src/data/contact.ts) |
 | Where every figure and quotation was read | [`src/data/sources.ts`](./src/data/sources.ts) |
+| Everything above, in Spanish (see *In Spanish* below) | [`src/data/es/`](./src/data/es) |
 
 Three settings in [`site.ts`](./src/data/site.ts) decide what the world sees:
 
@@ -63,6 +64,24 @@ Three settings in [`site.ts`](./src/data/site.ts) decide what the world sees:
 3. Open [`src/data/gallery.ts`](./src/data/gallery.ts) with the pencil, copy the example, remove its two slashes, and fill it in: `src`, `thumb`, the full picture's `width` and `height` in pixels, `alt` (what the picture shows, for someone who cannot see it) and `credit`.
 
 Only put up a picture that is fine to stay public: see *Undo a change* below.
+
+**In Spanish, the words are kept separately.** Every page has a Spanish twin under `/es/` (for example
+[`/es/trading/`](https://tmadealex.github.io/es/trading/)), and a switch in the menu goes between them. A visitor's
+first visit opens a short welcome that asks for the language first (English is the default), then the look, then
+where to go; it opens again from the menu (*Welcome again*), or with `?arrival=again` on any address.
+
+- The Spanish words live in [`src/data/es/`](./src/data/es), one file beside each English one. **Changing a sentence in
+  English does not change the Spanish.** After an English edit, change the same sentence in the matching file in
+  `src/data/es/` too, or ask a helper to.
+- What carries over by itself: links, pictures, times, and his own words in quotation marks, which stay in his
+  English on the Spanish pages with a translation under them. What does not: every translated sentence, and those
+  translations. If his payouts figure changes, the Spanish page shows the new figure but the old translation under it
+  until `src/data/es/trading.ts` is changed too.
+- The Spanish pages say at the top that the translation was made with an AI helper and has not been reviewed by
+  TMade Alex. When he (or someone he trusts) has read it, empty `note` under `languages` in
+  [`src/data/es/site.ts`](./src/data/es/site.ts) and that line goes away.
+- The pictures a shared link shows are drawn in both languages: after changing words, run `npm run build` and then
+  `npm run share-cards`, and commit the new pictures in [`public/social/`](./public/social).
 
 ## <img src="assets/icons/layers.svg" width="24" height="24" alt=""> His photographs: shown from his own site, never copied here
 

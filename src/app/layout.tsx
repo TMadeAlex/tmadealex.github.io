@@ -7,6 +7,9 @@ import SiteFooter from "@/components/SiteFooter";
 import Providers from "@/components/chrome/Providers";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
 import CursorCandles from "@/components/fx/CursorCandles";
+import ArrivalKit from "@/components/chrome/ArrivalKit";
+import { ByLocale, HtmlLang } from "@/i18n/client";
+import { content } from "@/data";
 import { lookScript } from "@/lib/look";
 import { shareMetadata } from "@/lib/share";
 import { site } from "@/data/site";
@@ -69,6 +72,9 @@ export const viewport: Viewport = {
   ],
 };
 
+/* The Spanish words of the parts every page shares (src/data/es/site.ts). */
+const es = content("es").site;
+
 /* The colour family, handed to the stylesheet as six values. */
 const tone = {
   "--tone-primary": site.tone.primary,
@@ -101,15 +107,34 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
           <span className="backdrop-glow backdrop-glow-b" />
           <span className="backdrop-grain" />
         </div>
-        <Providers partyWords={{ on: site.party.on, off: site.party.off }}>
+        <Providers partyWords={{ en: site.party, es: es.party }}>
+          <HtmlLang en={site.language} />
           <SiteHeader />
-          {site.ready ? <ScrollProgress label={site.ui.toTop} cue={{ word: site.ui.scrollCue, label: site.ui.scrollCueLabel }} /> : null}
+          {site.ready ? (
+            <ByLocale
+              en={<ScrollProgress label={site.ui.toTop} cue={{ word: site.ui.scrollCue, label: site.ui.scrollCueLabel }} />}
+              es={<ScrollProgress label={es.ui.toTop} cue={{ word: es.ui.scrollCue, label: es.ui.scrollCueLabel }} />}
+            />
+          ) : null}
           <main id="main" className="site-main" tabIndex={-1}>
-            {site.ready ? <GiftLine /> : null}
+            {site.ready ? (
+              <ByLocale
+                en={<GiftLine locale="en" />}
+                es={
+                  <>
+                    <GiftLine locale="es" />
+                    <p className="frame translation-note" lang="es">
+                      {es.languages.note}
+                    </p>
+                  </>
+                }
+              />
+            ) : null}
             {children}
           </main>
           <SiteFooter />
           {site.ready ? <CursorCandles /> : null}
+          {site.ready ? <ArrivalKit words={{ en: site.arrival, es: es.arrival }} /> : null}
         </Providers>
       </body>
     </html>

@@ -15,17 +15,22 @@ import {
   ChatsCircleIcon,
   CompassIcon,
   GithubLogoIcon,
+  HandWavingIcon,
   HouseIcon,
   InstagramLogoIcon,
   LinkedinLogoIcon,
   ListIcon,
   StorefrontIcon,
+  TranslateIcon,
   XIcon,
   XLogoIcon,
   YoutubeLogoIcon,
 } from "@phosphor-icons/react";
 import type { ExternalLink, NavLink } from "@/data/site";
 import LookToggle from "@/components/chrome/LookToggle";
+import { useLocale } from "@/i18n/client";
+import { localizeHref, twinHref } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 import PartyToggle from "@/components/chrome/PartyToggle";
 
 const pageIcons = { trading: ChartLineUpIcon, photography: ApertureIcon, contact: ChatsCircleIcon };
@@ -40,7 +45,8 @@ const placeIcons = {
   code: CodeIcon,
 };
 
-interface SiteNavProps {
+/** The menu's words in one language. */
+export interface NavBundle {
   name: string;
   homeLabel: string;
   links: NavLink[];
@@ -48,7 +54,14 @@ interface SiteNavProps {
   source: { menu: string; label: string; short: string; href: string; home: ExternalLink & { short: string } };
   look: { heading: string; night: string; morning: string; toNight: string; toMorning: string };
   party: { heading: string; name: string; hint: string };
+  languages: { heading: string; other: string; otherShort: string; otherLabel: string; otherLang: string };
+  welcomeAgain: string;
   words: { menu: string; openMenu: string; closeMenu: string; home: string };
+}
+
+interface SiteNavProps {
+  /** The menu's words in English and in Spanish; the page's address picks one. */
+  bundles: Record<Locale, NavBundle>;
   /** The Support button and its window, drawn on the server. */
   support: ReactNode;
 }
@@ -150,9 +163,14 @@ function NavDropdown({ id, label, icon: Icon, links, labelClass }: NavDropdownPr
  * the right. That panel is the browser's own modal dialog, so Tab stays inside
  * it and Escape closes it.
  */
-export default function SiteNav({ name, homeLabel, links, explore, source, look, party, words, support }: SiteNavProps) {
+export default function SiteNav({ bundles, support }: SiteNavProps) {
   const pathname = usePathname();
   const here = pathname.endsWith("/") ? pathname : `${pathname}/`;
+  const locale = useLocale();
+  const { name, homeLabel, explore, source, look, party, languages, welcomeAgain, words } = bundles[locale];
+  const links = bundles[locale].links.map((link) => ({ ...link, href: localizeHref(locale, link.href) }));
+  const homeHref = localizeHref(locale, "/");
+  const twin = twinHref(here);
   const [scrolled, setScrolled] = useState(false);
   const drawerRef = useRef<HTMLDialogElement>(null);
 
@@ -165,7 +183,7 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
   }, [pathname]);
 
   const onHome = (event: MouseEvent) => {
-    if (here === "/") {
+    if (here === homeHref) {
       event.preventDefault();
       const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top: 0, behavior: still ? "auto" : "smooth" });
@@ -178,14 +196,14 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
   return (
     <header className={scrolled ? "nav-bar nav-bar-scrolled" : "nav-bar"}>
       <div className="frame nav-inner">
-        <Link href="/" className="brand nav-brand" aria-label={words.home} onClick={onHome}>
+        <Link href={homeHref} className="brand nav-brand" aria-label={words.home} onClick={onHome}>
           <span className="nav-brand-word">
             {name}
             <span className="dot dot-breathe" aria-hidden="true" />
           </span>
           <HouseIcon weight="duotone" aria-hidden="true" className="nav-brand-home" />
           <span className="nav-brand-here" aria-hidden="true">
-            {here === "/" ? homeLabel : links.find((l) => l.href === here)?.label ?? ""}
+            {here === homeHref ? homeLabel : links.find((l) => l.href === here)?.label ?? ""}
           </span>
         </Link>
 
@@ -221,6 +239,19 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
         </nav>
 
         <div className="nav-tools">
+          {twin !== here ? (
+            <Link
+              href={twin}
+              hrefLang={languages.otherLang}
+              lang={languages.otherLang}
+              className="tool-button lang-toggle"
+              aria-label={languages.otherLabel}
+              title={languages.otherLabel}
+            >
+              <TranslateIcon weight="duotone" aria-hidden="true" />
+              <span className="lang-word">{languages.otherShort}</span>
+            </Link>
+          ) : null}
           <LookToggle words={look} />
           <span className="nav-party-wide">
             <PartyToggle name={party.name} hint={party.hint} />
@@ -250,7 +281,7 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
 
           <ul className="drawer-list">
             <li>
-              <Link href="/" className="drawer-link" aria-current={here === "/" ? "page" : undefined} onClick={onHome}>
+              <Link href={homeHref} className="drawer-link" aria-current={here === homeHref ? "page" : undefined} onClick={onHome}>
                 <HouseIcon weight="duotone" aria-hidden="true" className="nav-icon" />
                 <span>{homeLabel}</span>
               </Link>
@@ -281,6 +312,20 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
             ))}
           </ul>
 
+          {twin !== here ? (
+            <>
+              <p className="drawer-heading drawer-sub">{languages.heading}</p>
+              <ul className="drawer-list">
+                <li>
+                  <Link href={twin} hrefLang={languages.otherLang} lang={languages.otherLang} className="drawer-link">
+                    <TranslateIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                    <span>{languages.other}</span>
+                  </Link>
+                </li>
+              </ul>
+            </>
+          ) : null}
+
           <p className="drawer-heading drawer-sub">{look.heading}</p>
           <div className="drawer-row">
             <span>
@@ -292,6 +337,22 @@ export default function SiteNav({ name, homeLabel, links, explore, source, look,
             <span>{party.heading}</span>
             <PartyToggle name={party.name} hint={party.hint} />
           </div>
+
+          <ul className="drawer-list">
+            <li>
+              <button
+                type="button"
+                className="drawer-link drawer-button"
+                onClick={() => {
+                  closeDrawer();
+                  window.dispatchEvent(new Event("tmade:arrival"));
+                }}
+              >
+                <HandWavingIcon weight="duotone" aria-hidden="true" className="nav-icon" />
+                <span>{welcomeAgain}</span>
+              </button>
+            </li>
+          </ul>
 
           <ul className="drawer-list drawer-foot">
             <li>

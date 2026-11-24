@@ -18,6 +18,8 @@ export interface StreamName {
   heard: string;
   /** The line it comes from, his or his channel's. */
   line: string;
+  /** On the Spanish pages: a translation of the line, shown under it. */
+  translation?: string;
   cite: Cited;
 }
 
@@ -27,6 +29,8 @@ export interface Figure {
   label: string;
   /** The figure or the words, exactly as published. */
   value: string;
+  /** On the Spanish pages: a translation of the value, which stays in his own words. */
+  translation?: string;
   /** Optional: one plain sentence under it. */
   note?: string;
   cites: Cited[];
@@ -149,7 +153,7 @@ export const trading = {
         value: "Upgrade to a paid plan for full trading insights and exclusive content.",
         cite: { source: "whopFreeTier" } as Cited,
       },
-    ],
+    ] as { label: string; value: string; translation?: string; cite: Cited }[],
     note: "Joining, plans and payment all happen on Whop. This site sells nothing.",
     action: { label: "TRADERMADE on Whop", href: "https://whop.com/tradermade/" },
   },

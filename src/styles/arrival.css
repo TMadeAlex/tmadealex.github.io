@@ -1,0 +1,412 @@
+/*
+ * The two languages and the arrival: the translation under his words on the
+ * Spanish pages, the note at the top of those pages, the EN/ES switch in the
+ * menu, and the welcome on a first visit.
+ */
+@layer components {
+  /* ---------------------------------------------------------------- translations */
+
+  .translation {
+    margin-top: 0.5rem;
+    padding-left: 0.75rem;
+    border-left: 2px solid color-mix(in oklab, var(--dot) 45%, transparent);
+    font-size: 0.9em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .translation-label {
+    display: block;
+    margin-bottom: 0.125rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .quote-band .translation {
+    max-width: 40em;
+    margin-top: 1.25rem;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 300;
+  }
+
+  .quote-large .translation {
+    font-size: 1rem;
+  }
+
+  .translation-note {
+    padding-block: 0 0.25rem;
+    padding-left: calc(clamp(1rem, 5vw, 4rem) + 1.625rem);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--ink-faint);
+  }
+
+  /* A page's wrapper that only says its language; it takes no room of its own. */
+  .page-lang {
+    display: contents;
+  }
+
+  /* ---------------------------------------------------------------- the EN / ES switch */
+
+  .lang-toggle {
+    padding: 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .lang-word {
+    color: var(--ink);
+  }
+
+  .drawer-button {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  /* ---------------------------------------------------------------- the arrival */
+
+  .arrival {
+    width: min(34rem, calc(100vw - 2rem));
+    max-width: none;
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    overflow: visible;
+  }
+
+  .arrival::backdrop {
+    background:
+      radial-gradient(60rem 40rem at 50% 30%, color-mix(in oklab, var(--tone-mid) 22%, transparent), transparent 70%),
+      color-mix(in oklab, var(--night) 72%, transparent);
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+  }
+
+  .arrival-card.glass {
+    position: relative;
+    display: flex;
+    max-height: calc(100dvh - 2rem);
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+    padding: clamp(1.25rem, 4vw, 2rem);
+    border-radius: 26px;
+    background: color-mix(in oklab, var(--ground) 92%, transparent);
+    box-shadow:
+      var(--shadow-2),
+      0 0 120px -40px color-mix(in oklab, var(--dot) 60%, transparent);
+  }
+
+  .arrival-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* His ring and cyan dot. */
+  .arrival-mark {
+    position: relative;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: none;
+    place-items: center;
+    border: 1.5px solid var(--tone-mid);
+    border-radius: 50%;
+    background: var(--tone-deep);
+    box-shadow: 0 0 28px -6px color-mix(in oklab, var(--dot) 70%, transparent);
+  }
+
+  .arrival-mark span {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--tone-primary);
+    box-shadow: 0 0 12px var(--tone-primary);
+  }
+
+  .arrival-steps {
+    display: flex;
+    flex: 1;
+    gap: 0.375rem;
+  }
+
+  .arrival-steps li {
+    height: 4px;
+    flex: 1;
+    border-radius: 2px;
+    background: var(--line-strong);
+    transition: background-color 300ms ease;
+  }
+
+  .arrival-steps li[data-state="done"],
+  .arrival-steps li[data-state="now"] {
+    background: var(--dot);
+  }
+
+  .arrival-steps li[data-state="now"] {
+    box-shadow: 0 0 10px var(--dot);
+  }
+
+  .arrival-skip {
+    padding: 0.375rem 0.625rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    color: var(--ink-faint);
+    cursor: pointer;
+  }
+
+  .arrival-skip:hover {
+    color: var(--ink);
+    background: color-mix(in oklab, var(--ink) 7%, transparent);
+  }
+
+  .arrival-title {
+    font-size: clamp(2rem, 7vw, 2.875rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    outline: none;
+  }
+
+  .arrival-sub {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+  }
+
+  .arrival-choices {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    border: 0;
+    padding: 0;
+  }
+
+  .arrival-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .arrival-choice,
+  .arrival-door,
+  .arrival-switch {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem;
+    border: 1px solid var(--glass-line);
+    border-radius: 18px;
+    background: color-mix(in oklab, var(--ink) 4%, transparent);
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition:
+      transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 200ms ease,
+      background-color 200ms ease,
+      box-shadow 220ms ease;
+  }
+
+  .arrival-choice:hover,
+  .arrival-door:hover,
+  .arrival-switch:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--dot) 45%, transparent);
+  }
+
+  .arrival-choice:has(input:checked) {
+    border-color: var(--dot);
+    background: color-mix(in oklab, var(--dot) 12%, transparent);
+    box-shadow: var(--glow-dot);
+  }
+
+  .arrival-choice:has(input:focus-visible),
+  .arrival-switch:has(input:focus-visible) {
+    outline: 2px solid var(--dot);
+    outline-offset: 3px;
+  }
+
+  .arrival-badge {
+    display: inline-grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    margin-bottom: 0.375rem;
+    border-radius: 10px;
+    background: color-mix(in oklab, var(--dot) 16%, transparent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--dot);
+  }
+
+  .arrival-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-bottom: 0.25rem;
+    color: var(--dot);
+  }
+
+  .arrival-name {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .arrival-mono {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.06em;
+  }
+
+  .arrival-line {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+
+  .arrival-switch {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .arrival-switch .arrival-icon {
+    margin: 0;
+  }
+
+  .arrival-toggle {
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    margin-left: auto;
+    border-radius: 999px;
+    background: var(--line-strong);
+    transition: background-color 200ms ease;
+  }
+
+  .arrival-toggle span {
+    position: absolute;
+    left: 0.1875rem;
+    top: 0.1875rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background: var(--ink);
+    transition: transform 220ms cubic-bezier(0.3, 1.4, 0.5, 1);
+  }
+
+  .arrival-switch:has(input:checked) .arrival-toggle {
+    background: var(--dot);
+  }
+
+  .arrival-switch:has(input:checked) .arrival-toggle span {
+    transform: translateX(1.25rem);
+    background: var(--tone-deep);
+  }
+
+  .arrival-doors {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .arrival-door {
+    width: 100%;
+  }
+
+  .arrival-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .arrival-small {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--ink-faint);
+  }
+
+  @media (min-width: 30rem) {
+    .arrival-doors {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .arrival[open] .arrival-card {
+      animation: arrival-rise 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .arrival[open]::backdrop {
+      animation: arrival-fade 300ms ease-out both;
+    }
+
+    .arrival-stage {
+      animation: arrival-step 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+
+    .arrival-mark {
+      animation: arrival-breathe 5s ease-in-out infinite;
+    }
+
+    @keyframes arrival-rise {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+        filter: blur(6px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+
+    @keyframes arrival-fade {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes arrival-step {
+      from {
+        opacity: 0;
+        transform: translateX(14px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes arrival-breathe {
+      0%,
+      100% {
+        box-shadow: 0 0 28px -6px color-mix(in oklab, var(--dot) 70%, transparent);
+      }
+      50% {
+        box-shadow: 0 0 40px -2px color-mix(in oklab, var(--dot) 90%, transparent);
+      }
+    }
+  }
+}
+
+html:has(dialog.arrival[open]) {
+  overflow: hidden;
+}
