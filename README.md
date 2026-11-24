@@ -19,7 +19,7 @@
 ## <img src="assets/icons/compass.svg" width="24" height="24" alt=""> TL;DR
 
 1. <img src="assets/icons/sprout.svg" width="16" height="16" alt=""> **What this is.** A small website at [tmadealex.github.io](https://tmadealex.github.io/), in TMade Alex's TRADERMADE colours. Four pages: the front page (who he is, when he trades live in each visitor's own time, where to watch free and where the community is), trading, photography and contact.
-2. <img src="assets/icons/users-round.svg" width="16" height="16" alt=""> **Who it is for.** TMade Alex. Christopher W ([@drasticstatic](https://github.com/drasticstatic)), a member of his community, set it up as a gift. Every page says so near its top, and says that Alex decides what stays.
+2. <img src="assets/icons/users-round.svg" width="16" height="16" alt=""> **Who it is for.** TMade Alex. A member of his community set it up as a gift. Every page says so near its top, and says that Alex decides what stays.
 3. <img src="assets/icons/footprints.svg" width="16" height="16" alt=""> **Do this first.** Nothing. Everything below is how the site works and who holds the keys. None of it needs doing.
 
 Every figure and quotation on the site is Alex's own, from his public pages, read on 23 November 2026, and links to where it was read. Search engines are asked not to list the site until Alex says otherwise.
@@ -93,7 +93,7 @@ A helper with the repository on a computer can do the same with `git revert <com
 
 The TMadeAlex organisation on GitHub, and everything in it, is kept for TMade Alex, and it is his to own. An owner can change anything, add or remove people, and delete all of it.
 
-Christopher W ([@drasticstatic](https://github.com/drasticstatic)) set it up and is a second owner, with his helpers Alfred (Claude Code) and Littlebird. Christopher is a Littlebird ambassador; there is no link to Littlebird on the site, and no link on the site earns him anything. He is a spare key, so the place never depends on one person.
+The member of his community who set it up (`drasticstatic` on GitHub) is a second owner, with his helpers Alfred (Claude Code) and Littlebird. He is a Littlebird ambassador; there is no link to Littlebird on the site, and no link on the site earns him anything. He is a spare key, so the place never depends on one person.
 
 ## <img src="assets/icons/user-round.svg" width="24" height="24" alt=""> Remove the second owner
 
