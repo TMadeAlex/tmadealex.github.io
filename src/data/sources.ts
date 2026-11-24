@@ -39,7 +39,6 @@ export const sources = {
   meetTheTrader: { label: "Meet the Trader", href: "https://www.youtube.com/watch?v=DjtViPPtE7c" },
   instagramRoad: { label: "His Instagram, 9 Aug 2026", href: "https://www.instagram.com/p/Db1C49cxWXk/" },
   instagramPo3: { label: "His Instagram, 13 Nov 2026", href: "https://instagram.com/p/DfqWxOfxXGo" },
-  whopBanner: { label: "His TRADERMADE banner on Whop", href: "https://whop.com/tradermade/" },
   whopFreeTier: {
     label: "TMADE Free Tier on Whop",
     href: "https://whop.com/tradermade/products/tradermade-free-tier/",

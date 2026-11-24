@@ -18,7 +18,7 @@ export default function HomePage() {
     <>
       <section className="frame hero" aria-labelledby="hero-title">
         <p className="kicker hero-kicker">
-          <a href={citeHref(home.kicker)} rel="noopener noreferrer" title="The words on his TRADERMADE banner">
+          <a href={citeHref(home.kicker)} rel="noopener noreferrer" title="In his words, from his YouTube channel">
             {home.kicker.text}
           </a>
         </p>
@@ -32,7 +32,7 @@ export default function HomePage() {
             <p className="hero-lead">{home.lead}</p>
             <p className="hero-second">{home.second}</p>
             <p className="cite-line">
-              <Cite {...home.leadSource} dated />
+              <Cite {...home.leadSource} dated /> · <Cite {...home.secondSource} dated />
             </p>
             <div className="hero-actions">
               <a href={home.watch.action.href} rel="noopener noreferrer" className="button button-solid">

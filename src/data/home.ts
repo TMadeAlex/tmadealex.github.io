@@ -7,13 +7,15 @@
 import type { Cited, Quote } from "./sources";
 
 export const home = {
-  /* The small line above his name: the words on his own TRADERMADE banner. */
-  kicker: { text: "Live trading · NQ + ES · M–F", source: "whopBanner" } as Cited & { text: string },
+  /* The small line above his name: the words of his YouTube About. */
+  kicker: { text: "Live streams Monday-Friday.", source: "youtube" } as Cited & { text: string },
 
-  /* The lines under his name. */
-  lead: "Futures trader, live streamer and host of TMade.",
+  /* The lines under his name: the first is his Instagram bio ("Futures Trader | Streamer and Host of TMade"),
+     the second what he says in the ALPHAS interview ("I'm a fashion photographer based in New York."). */
+  lead: "Futures trader, streamer and host of TMade.",
   second: "Behind the camera, a fashion photographer in New York.",
   leadSource: { source: "instagramBio" } as Cited,
+  secondSource: { source: "alphas", at: 95 } as Cited,
 
   watch: {
     title: "Watch him trade, free",

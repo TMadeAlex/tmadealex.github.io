@@ -15,16 +15,16 @@ export interface Work {
 
 export const photography = {
   title: "Photography",
-  /* The name his photography is published under, and his site's own line. */
+  /* The name his photography is published under, and his own line from the ALPHAS interview. */
   byline: "Alexander Saladrigas",
-  lead: { text: "New York based Fashion Photographer", source: "photoInfo" } as Quote,
+  lead: { text: "I'm a fashion photographer based in New York.", source: "alphas", at: 95 } as Quote,
 
   story: {
     title: "In his words",
     text: "Before the charts, the camera. He told the story in the ALPHAS interview.",
     quotes: [
       {
-        text: "I'm a fashion photographer based in New York. I originally come from Miami, but I moved here about a little over a decade ago",
+        text: "I originally come from Miami, but I moved here about a little over a decade ago",
         source: "alphas",
         at: 95,
       },

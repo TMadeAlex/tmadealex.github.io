@@ -22,7 +22,7 @@ export default function PhotographyPage() {
           <>
             <p className="page-lead-big">{photography.lead.text}</p>
             <p className="cite-line">
-              <Cite source={photography.lead.source} dated />
+              <Cite source={photography.lead.source} at={photography.lead.at} dated />
             </p>
             <ul className="inline-links">
               {photography.links.map((link) => (

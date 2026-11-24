@@ -72,7 +72,7 @@ export const site: Site = {
 
   /* What a search result or a shared link would say. */
   description:
-    "TMade Alex: futures trader, live streamer and host of TMade, and a fashion photographer in New York. Set up as a gift by a member of his community.",
+    "TMade Alex: futures trader, streamer and host of TMade, and a fashion photographer in New York. Set up as a gift by a member of his community.",
 
   /* His colours, sampled from his TRADERMADE art. The whole site is drawn from these six values. */
   tone: {
